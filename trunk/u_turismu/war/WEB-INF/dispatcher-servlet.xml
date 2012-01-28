@@ -12,9 +12,9 @@
 
 	<!-- Permette a Spring di utilizzare le annotazioni e ricercare i bean nei 
 		package specificati -->
-	<context:component-scan base-package="spitter.dao" />
-	<context:component-scan base-package="spitter.service" />
-	<context:component-scan base-package="spitter.controller" />
+	<context:component-scan base-package="uturismu.dao" />
+	<context:component-scan base-package="uturismu.service" />
+	<context:component-scan base-package="uturismu.controller" />
 
 	<!-- Transazioni gestite mediante AOP, con l'utilizzo delle annotazioni -->
 	<tx:annotation-driven />
