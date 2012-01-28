@@ -2,6 +2,8 @@ package uturismu.dto;
 
 import java.sql.Date;
 
+import uturismu.dto.util.TransportType;
+
 public class Transport extends Service {
 
 	private static final long serialVersionUID = 5499793625458647910L;
@@ -9,7 +11,7 @@ public class Transport extends Service {
 	private Date departureDate;
 	private Date returnDate;
 	private Boolean oneWay;
-	private String company;
+	private TransportType type;
 	private Station departureStation;
 	private Station arrivalStation;
 
