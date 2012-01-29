@@ -55,9 +55,12 @@ public class HolidayPackage implements Serializable {
 	private Long id;
 	private String name;
 	private String description;
+	private Integer guestNumber;
 	private TourOperator tourOperator;
 	private Set<Booking> bookings;
 	private Set<Service> services;
+	
+	
 	
 	
 	@Id
@@ -96,6 +99,11 @@ public class HolidayPackage implements Serializable {
 		return Collections.unmodifiableSet(services);
 	}
 	
+	@Column(nullable=false)
+	public Integer getGuestNumber() {
+		return guestNumber;
+	}
+	
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -105,6 +113,10 @@ public class HolidayPackage implements Serializable {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public void setGuestNumber(Integer guestNumber) {
+		this.guestNumber = guestNumber;
 	}
 	
 	public void setTourOperator(TourOperator tourOperator) {
