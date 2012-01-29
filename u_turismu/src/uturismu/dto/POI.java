@@ -23,9 +23,16 @@
 package uturismu.dto;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -45,20 +52,29 @@ public class POI implements Serializable {
 	private Address address;
 	private Set<BookingService> bookingServices;
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
+	
+	@Column(nullable=false)
 	public String getName() {
 		return name;
 	}
+	
 	public String getDescription() {
 		return description;
 	}
+	
+	@Embedded
 	public Address getAddress() {
 		return address;
 	}
+	
+	@OneToMany(mappedBy="pointOfInterest")
 	public Set<BookingService> getBookingServices() {
-		return bookingServices;
+		return Collections.unmodifiableSet(bookingServices);
 	}
 	public void setId(Long id) {
 		this.id = id;
@@ -72,9 +88,18 @@ public class POI implements Serializable {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	public void setBookingServices(Set<BookingService> bookingServices) {
+	protected void setBookingServices(Set<BookingService> bookingServices) {
 		this.bookingServices = bookingServices;
 	}
+	
+	public boolean addBockingService(BookingService bookingService){
+		return this.bookingServices.add(bookingService);
+	}
+	
+	public boolean removeBookingService(BookingService bookingService){
+		return this.bookingServices.remove(bookingService);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
