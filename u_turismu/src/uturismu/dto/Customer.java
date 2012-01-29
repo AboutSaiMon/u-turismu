@@ -23,27 +23,30 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javassist.SerialVersionUID;
+
+import uturismu.dto.util.Gender;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- * 
+ *
  */
-@Entity
-@Table(uniqueConstraints =
-	@UniqueConstraint(columnNames = { "bookingDate", "customer", "holidayPackage" }))
-public class Booking implements Serializable {
-
-	private static final long serialVersionUID = 7295908518751530161L;
-	private Long id;
-	private Date bookingTimestamp;
+public class Customer implements Serializable{
+	
+	private static final long serialVersionUID = -6323910189513397033L;
+	private String taxCode;
+	private String firstName;
+	private String lastName;
+	private Date birthDate;
+	private City birthPlace;
+	private Gender gender;
+	private Address livingPlace;
 	private User user;
-	private HolidayPackage holidayPackage;
-	private Set<Customer> customers;
+	private Set<Booking> bookings;
+	
+	
 
 }
