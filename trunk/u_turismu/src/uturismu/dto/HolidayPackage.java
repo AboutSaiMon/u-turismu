@@ -23,7 +23,6 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
@@ -33,7 +32,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -45,10 +43,10 @@ import org.hibernate.annotations.ForeignKey;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"name","tourOperator"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "name", "tourOperator" }))
 public class HolidayPackage implements Serializable {
 
 	private static final long serialVersionUID = -138153679026481915L;
@@ -59,46 +57,43 @@ public class HolidayPackage implements Serializable {
 	private TourOperator tourOperator;
 	private Set<Booking> bookings;
 	private Set<Service> services;
-	
-	
+
 	
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	public String getName() {
 		return name;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
-	
+
 	@ManyToOne()
-	@JoinColumn(name="id_tour_operator")
-	@ForeignKey(name="FK_HOLIDAYPACKAGE_TOUROPERATOR")
+	@JoinColumn(name = "id_tour_operator")
+	@ForeignKey(name = "FK_HOLIDAYPACKAGE_TOUROPERATOR")
 	public TourOperator getTourOperator() {
 		return tourOperator;
 	}
-	
-	@OneToMany(mappedBy="holidayPackage")
+
+	@OneToMany(mappedBy = "holidayPackage")
 	public Set<Booking> getBookings() {
 		return Collections.unmodifiableSet(bookings);
 	}
-	
+
 	@ManyToMany()
-	@JoinTable(	name="CATALOG", 
-				joinColumns=@JoinColumn(name="id_holiday_package"),
-				inverseJoinColumns=@JoinColumn(name="id_service"))
-	@ForeignKey(name="FK_CATALOG_HOLIDAYPACKAGE" , inverseName="FK_CATALOG_SERVICE")
+	@JoinTable(name = "CATALOG", joinColumns = @JoinColumn(name = "id_holiday_package"), inverseJoinColumns = @JoinColumn(name = "id_service"))
+	@ForeignKey(name = "FK_CATALOG_HOLIDAYPACKAGE", inverseName = "FK_CATALOG_SERVICE")
 	public Set<Service> getServices() {
 		return Collections.unmodifiableSet(services);
 	}
-	
+
 	@Column(nullable=false)
 	public Integer getGuestNumber() {
 		return guestNumber;
@@ -107,14 +102,15 @@ public class HolidayPackage implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	public void setGuestNumber(Integer guestNumber) {
 		this.guestNumber = guestNumber;
 	}
@@ -122,44 +118,43 @@ public class HolidayPackage implements Serializable {
 	public void setTourOperator(TourOperator tourOperator) {
 		this.tourOperator = tourOperator;
 	}
+
 	protected void setBookings(Set<Booking> bookings) {
 		this.bookings = bookings;
 	}
+
 	protected void setServices(Set<Service> services) {
 		this.services = services;
 	}
-	
-	public boolean addBooking(Booking booking){
+
+	public boolean addBooking(Booking booking) {
 		return bookings.add(booking);
 	}
-	
-	public boolean addService(Service service){
+
+	public boolean addService(Service service) {
 		return services.add(service);
 	}
-	
-	public boolean removeBooking(Booking booking){
+
+	public boolean removeBooking(Booking booking) {
 		return bookings.remove(booking);
 	}
-	
-	public boolean removeService(Service service){
+
+	public boolean removeService(Service service) {
 		return services.remove(service);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((bookings == null) ? 0 : bookings.hashCode());
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((bookings == null) ? 0 : bookings.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((services == null) ? 0 : services.hashCode());
-		result = prime * result
-				+ ((tourOperator == null) ? 0 : tourOperator.hashCode());
+		result = prime * result + ((services == null) ? 0 : services.hashCode());
+		result = prime * result + ((tourOperator == null) ? 0 : tourOperator.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -196,6 +191,7 @@ public class HolidayPackage implements Serializable {
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -214,9 +210,5 @@ public class HolidayPackage implements Serializable {
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
 
-	
-	
 }
