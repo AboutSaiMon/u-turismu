@@ -30,8 +30,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Type;
 
 import uturismu.dto.util.AccountType;
 
@@ -89,18 +92,22 @@ public class Account implements Serializable {
 		return lastAccessTimestamp;
 	}
 
+	@Type(type = "yes_no")
 	public Boolean isActive() {
 		return active;
 	}
 
+	@Column(nullable = false)
 	public AccountType getType() {
 		return type;
 	}
 
+	@OneToOne(mappedBy = "account")
 	public TourOperator getTourOperator() {
 		return tourOperator;
 	}
 
+	@OneToOne(mappedBy = "customer")
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -143,6 +150,89 @@ public class Account implements Serializable {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((active == null) ? 0 : active.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result
+				+ ((lastAccessTimestamp == null) ? 0 : lastAccessTimestamp.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result
+				+ ((registrationTimestamp == null) ? 0 : registrationTimestamp.hashCode());
+		result = prime * result + ((salt == null) ? 0 : salt.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Account other = (Account) obj;
+		if (active == null) {
+			if (other.active != null)
+				return false;
+		} else if (!active.equals(other.active))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (lastAccessTimestamp == null) {
+			if (other.lastAccessTimestamp != null)
+				return false;
+		} else if (!lastAccessTimestamp.equals(other.lastAccessTimestamp))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (registrationTimestamp == null) {
+			if (other.registrationTimestamp != null)
+				return false;
+		} else if (!registrationTimestamp.equals(other.registrationTimestamp))
+			return false;
+		if (salt == null) {
+			if (other.salt != null)
+				return false;
+		} else if (!salt.equals(other.salt))
+			return false;
+		if (type != other.type)
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Account [id=");
+		builder.append(id);
+		builder.append(", email=");
+		builder.append(email);
+		builder.append(", password=");
+		builder.append(password);
+		builder.append(", salt=");
+		builder.append(salt);
+		builder.append(", registrationTimestamp=");
+		builder.append(registrationTimestamp);
+		builder.append(", lastAccessTimestamp=");
+		builder.append(lastAccessTimestamp);
+		builder.append(", active=");
+		builder.append(active);
+		builder.append(", type=");
+		builder.append(type);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

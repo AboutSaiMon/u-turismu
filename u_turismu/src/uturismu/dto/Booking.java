@@ -26,18 +26,22 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
 @Entity
+@Table(uniqueConstraints =
+	@UniqueConstraint(columnNames = { "bookingDate", "customer", "holidayPackage" }))
 public class Booking implements Serializable {
 
 	private static final long serialVersionUID = 7295908518751530161L;
 	private Long id;
-	private Date bookingDate; // unique
-	private Customer customer; // unique
+	private Date bookingDate;
+	private Customer customer;
 	private HolidayPackage holidayPackage;
 
 }
