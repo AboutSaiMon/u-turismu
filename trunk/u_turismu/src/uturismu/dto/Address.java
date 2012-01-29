@@ -24,7 +24,10 @@ package uturismu.dto;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -37,5 +40,85 @@ public class Address implements Serializable {
 	private String street;
 	private City city;
 	private String zipCode;
+
+	public Address() {
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "id_city")
+	public City getCity() {
+		return city;
+	}
+
+	@Column(name = "zip_code")
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + ((street == null) ? 0 : street.hashCode());
+		result = prime * result + ((zipCode == null) ? 0 : zipCode.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Address other = (Address) obj;
+		if (city == null) {
+			if (other.city != null)
+				return false;
+		} else if (!city.equals(other.city))
+			return false;
+		if (street == null) {
+			if (other.street != null)
+				return false;
+		} else if (!street.equals(other.street))
+			return false;
+		if (zipCode == null) {
+			if (other.zipCode != null)
+				return false;
+		} else if (!zipCode.equals(other.zipCode))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Address [street=");
+		builder.append(street);
+		builder.append(", city=");
+		builder.append(city);
+		builder.append(", zipCode=");
+		builder.append(zipCode);
+		builder.append("]");
+		return builder.toString();
+	}
 
 }
