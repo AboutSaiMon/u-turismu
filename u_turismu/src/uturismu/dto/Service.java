@@ -26,17 +26,89 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  *
  */
 @Entity
+
 public abstract class Service implements Serializable {
 
 	private static final long serialVersionUID = 3469323821178357386L;
 	private Long id;
 	private Double price;
 	private Set<HolidayPackage> holidayPackages;
+	
+	public Long getId() {
+		return id;
+	}
+	public Double getPrice() {
+		return price;
+	}
+	
+	@ManyToMany(mappedBy="services")
+	public Set<HolidayPackage> getHolidayPackages() {
+		return holidayPackages;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	public void setHolidayPackages(Set<HolidayPackage> holidayPackages) {
+		this.holidayPackages = holidayPackages;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((holidayPackages == null) ? 0 : holidayPackages.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Service))
+			return false;
+		Service other = (Service) obj;
+		if (holidayPackages == null) {
+			if (other.holidayPackages != null)
+				return false;
+		} else if (!holidayPackages.equals(other.holidayPackages))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
+			return false;
+		return true;
+	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Service [id=");
+		builder.append(id);
+		builder.append(", price=");
+		builder.append(price);
+		builder.append("]");
+		return builder.toString();
+	}
 
+	
+	
 }
