@@ -24,7 +24,13 @@ package uturismu.dto;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import uturismu.dto.util.ServiceType;
 
@@ -39,8 +45,115 @@ public class OvernightStay extends Service {
 	private Long id;
 	private Date arrivalDate;
 	private Date leavingDate;
-	private Integer guestsNumber;
 	private ServiceType serviceType;
 	private Accommodation accomodation;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public Long getId() {
+		return id;
+	}
+	
+	@Column(name="arrival_date",nullable=false)
+	@Temporal(TemporalType.DATE)
+	public Date getArrivalDate() {
+		return arrivalDate;
+	}
+	
+	@Column(name="leaving_date",nullable=false )
+	@Temporal(TemporalType.DATE)
+	public Date getLeavingDate() {
+		return leavingDate;
+	}
 
+	@Column(name="service_type", nullable=false)
+	public ServiceType getServiceType() {
+		return serviceType;
+	}
+	
+	@Column(nullable=false)
+	public Accommodation getAccomodation() {
+		return accomodation;
+	}
+	
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public void setArrivalDate(Date arrivalDate) {
+		this.arrivalDate = arrivalDate;
+	}
+	public void setLeavingDate(Date leavingDate) {
+		this.leavingDate = leavingDate;
+	}
+	
+	public void setServiceType(ServiceType serviceType) {
+		this.serviceType = serviceType;
+	}
+	public void setAccomodation(Accommodation accomodation) {
+		this.accomodation = accomodation;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((accomodation == null) ? 0 : accomodation.hashCode());
+		result = prime * result
+				+ ((arrivalDate == null) ? 0 : arrivalDate.hashCode());
+		result = prime * result
+				+ ((leavingDate == null) ? 0 : leavingDate.hashCode());
+		result = prime * result
+				+ ((serviceType == null) ? 0 : serviceType.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (!(obj instanceof OvernightStay))
+			return false;
+		OvernightStay other = (OvernightStay) obj;
+		if (accomodation == null) {
+			if (other.accomodation != null)
+				return false;
+		} else if (!accomodation.equals(other.accomodation))
+			return false;
+		if (arrivalDate == null) {
+			if (other.arrivalDate != null)
+				return false;
+		} else if (!arrivalDate.equals(other.arrivalDate))
+			return false;
+		if (leavingDate == null) {
+			if (other.leavingDate != null)
+				return false;
+		} else if (!leavingDate.equals(other.leavingDate))
+			return false;
+		if (serviceType != other.serviceType)
+			return false;
+		return true;
+	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("OvernightStay [id=");
+		builder.append(id);
+		builder.append(", arrivalDate=");
+		builder.append(arrivalDate);
+		builder.append(", leavingDate=");
+		builder.append(leavingDate);
+		builder.append(", serviceType=");
+		builder.append(serviceType);
+		builder.append(", accomodation=");
+		builder.append(accomodation);
+		builder.append(", toString()=");
+		builder.append(super.toString());
+		builder.append("]");
+		return builder.toString();
+	}
+
+	
+	
 }

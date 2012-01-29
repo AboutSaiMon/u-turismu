@@ -26,19 +26,93 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  *
  */
 @Entity
+@Table(uniqueConstraints=@UniqueConstraint(columnNames="name"))
 public class POI implements Serializable {
 
 	private static final long serialVersionUID = -1860221631532674110L;
+
 	private Long id;
 	private String name;
 	private String description;
 	private Address address;
 	private Set<BookingService> bookingServices;
+	
+	public Long getId() {
+		return id;
+	}
+	public String getName() {
+		return name;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public Address getAddress() {
+		return address;
+	}
+	public Set<BookingService> getBookingServices() {
+		return bookingServices;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	public void setBookingServices(Set<BookingService> bookingServices) {
+		this.bookingServices = bookingServices;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		POI other = (POI) obj;
+		if (address == null) {
+			if (other.address != null)
+				return false;
+		} else if (!address.equals(other.address))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+	
+	
+	
 
 }

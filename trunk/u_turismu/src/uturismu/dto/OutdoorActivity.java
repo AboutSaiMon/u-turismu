@@ -22,7 +22,13 @@
  */
 package uturismu.dto;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import uturismu.dto.util.ActivityType;
 
@@ -31,12 +37,107 @@ import uturismu.dto.util.ActivityType;
  *
  */
 @Entity
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={ "name","activityType"}))
 public class OutdoorActivity extends Service {
 
 	private static final long serialVersionUID = -5512888246149101861L;
 	private Long id;
 	private String description;
+	private String name;
 	private ActivityType activityType;
 	private City city;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public Long getId() {
+		return id;
+	}
+	
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	@Column(nullable=false, name="activity_type")
+	public ActivityType getActivityType() {
+		return activityType;
+	}
+	@Column(nullable=false,name="city")
+	public City getCity() {
+		return city;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public void setName(String name){
+		this.name=name;
+	}
+	
+	public void setActivityType(ActivityType activityType) {
+		this.activityType = activityType;
+	}
+	public void setCity(City city) {
+		this.city = city;
+	}
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((activityType == null) ? 0 : activityType.hashCode());
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OutdoorActivity other = (OutdoorActivity) obj;
+		if (activityType != other.activityType)
+			return false;
+		if (city == null) {
+			if (other.city != null)
+				return false;
+		} else if (!city.equals(other.city))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		return true;
+	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("OutdoorActivity [id=");
+		builder.append(id);
+		builder.append(", description=");
+		builder.append(description);
+		builder.append(", activityType=");
+		builder.append(activityType);
+		builder.append(", city=");
+		builder.append(city);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
 
 }
