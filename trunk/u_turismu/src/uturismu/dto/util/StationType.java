@@ -28,6 +28,32 @@ package uturismu.dto.util;
  */
 public enum StationType {
 
-	TRAIN_STATION, AIRPORT, COACH_STATION, HARBOUR
+	TRAIN_STATION {
+		@Override
+		public String toString() {
+			return "train station";
+		}
+	},
+
+	AIRPORT {
+		@Override
+		public String toString() {
+			return "airport";
+		}
+	},
+
+	COACH_STATION {
+		@Override
+		public String toString() {
+			return "coach station";
+		}
+	},
+
+	HARBOUR {
+		@Override
+		public String toString() {
+			return "harbour";
+		}
+	}
 
 }

@@ -28,6 +28,25 @@ package uturismu.dto.util;
  */
 public enum AccommodationType {
 
-	HOSTEL, HOTEL, BED_AND_BREAKFAST
+	HOSTEL {
+		@Override
+		public String toString() {
+			return "hostel";
+		}
+	}, 
+	
+	HOTEL {
+		@Override
+		public String toString() {
+			return "hotel";
+		}
+	},
+	
+	BED_AND_BREAKFAST {
+		@Override
+		public String toString() {
+			return "b&b";
+		}
+	}
 
 }

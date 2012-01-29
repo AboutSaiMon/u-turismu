@@ -28,6 +28,25 @@ package uturismu.dto.util;
  */
 public enum AccountType {
 
-	CUSTOMER, TOUR_OPERATOR, ADMINISTRATOR
+	CUSTOMER {
+		@Override
+		public String toString() {
+			return "customer";
+		}
+	},
+	
+	TOUR_OPERATOR {
+		@Override
+		public String toString() {
+			return "tour operator";
+		}
+	},
+	
+	ADMINISTRATOR {
+		@Override
+		public String toString() {
+			return "administrator";
+		}
+	}
 
 }

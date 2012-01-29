@@ -28,6 +28,39 @@ package uturismu.dto.util;
  */
 public enum TransportType {
 
-	COACH, AIRPLANE, TRAIN, FERRY, SHIP
+	COACH {
+		@Override
+		public String toString() {
+			return "coach";
+		}
+	},
+	
+	AIRPLANE {
+		@Override
+		public String toString() {
+			return "airplane";
+		}
+	},
+	
+	TRAIN {
+		@Override
+		public String toString() {
+			return "train";
+		}
+	},
+	
+	FERRY {
+		@Override
+		public String toString() {
+			return "ferry";
+		}
+	},
+	
+	SHIP {
+		@Override
+		public String toString() {
+			return "ship";
+		}
+	}
 
 }

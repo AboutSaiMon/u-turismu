@@ -28,6 +28,32 @@ package uturismu.dto.util;
  */
 public enum ServiceType {
 
-	FULL_SERVICE, HALF_SERVICE, ONLY_BREAKFAST, NO_SERVICE_INCLUDED
+	FULL_SERVICE {
+		@Override
+		public String toString() {
+			return "full service";
+		}
+	},
+
+	HALF_SERVICE {
+		@Override
+		public String toString() {
+			return "half service";
+		}
+	},
+
+	ONLY_BREAKFAST {
+		@Override
+		public String toString() {
+			return "only breakfast";
+		}
+	},
+
+	NO_SERVICE_INCLUDED {
+		@Override
+		public String toString() {
+			return "no service included";
+		}
+	}
 
 }
