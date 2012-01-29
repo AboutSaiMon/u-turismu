@@ -38,8 +38,6 @@ public class Transport extends Service {
 	private static final long serialVersionUID = 5499793625458647910L;
 	private Long id;
 	private Date departureTimestamp;
-	private Date returnTimestamp;
-	private Boolean oneWay;
 	private TransportType type;
 	private Station departureStation;
 	private Station arrivalStation;
