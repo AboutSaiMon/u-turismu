@@ -35,7 +35,7 @@ import uturismu.dto.util.Gender;
  *
  */
 @Entity
-public class Customer implements Serializable {
+public class User implements Serializable {
 
 	private static final long serialVersionUID = -4043855751210103797L;
 	private Long id;
