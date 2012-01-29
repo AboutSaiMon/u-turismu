@@ -28,6 +28,32 @@ package uturismu.dto.util;
  */
 public enum EventType {
 
-	FESTIVAL, CONCERT, RELIGIOUS, SPORTING
+	FESTIVAL {
+		@Override
+		public String toString() {
+			return "festival";
+		}
+	}, 
+	
+	CONCERT {
+		@Override
+		public String toString() {
+			return "concert";
+		}
+	},
+	
+	RELIGIOUS {
+		@Override
+		public String toString() {
+			return "religious";
+		}
+	},
+	
+	SPORTING {
+		@Override
+		public String toString() {
+			return "sporting";
+		}
+	}
 
 }

@@ -28,6 +28,46 @@ package uturismu.dto.util;
  */
 public enum ActivityType {
 
-	TREKKING, RAFTING, BIRD_WATCHING, SKYDIVING, DIVING, PARAGLIDING, BUNGEE_JUMPING, FUNGING
+	TREKKING {
+		@Override
+		public String toString() {
+			return "trekking";
+		}
+	},
+	
+	RAFTING {
+		@Override
+		public String toString() {
+			return "rafting";
+		}
+	},
+	
+	BIRD_WATCHING {
+		@Override
+		public String toString() {
+			return super.toString();
+		}
+	}, 
+	
+	SKYDIVING {
+		@Override
+		public String toString() {
+			return "sky diving";
+		}
+	}, 
+	
+	DIVING {
+		@Override
+		public String toString() {
+			return "diving";
+		}
+	},
+	
+	BUNGEE_JUMPING {
+		@Override
+		public String toString() {
+			return "bungee jumping";
+		}
+	}
 
 }

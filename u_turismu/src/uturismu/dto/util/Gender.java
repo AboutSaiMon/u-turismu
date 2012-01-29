@@ -28,6 +28,25 @@ package uturismu.dto.util;
  */
 public enum Gender {
 
-	MALE, FEMALE, NONE
+	MALE {
+		@Override
+		public String toString() {
+			return "male";
+		}
+	}, 
+	
+	FEMALE {
+		@Override
+		public String toString() {
+			return "female";
+		}
+	},
+	
+	NOT_SPECIFIED {
+		@Override
+		public String toString() {
+			return "not specified";
+		}
+	}
 
 }

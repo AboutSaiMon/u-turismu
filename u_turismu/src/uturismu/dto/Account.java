@@ -25,7 +25,13 @@ package uturismu.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import uturismu.dto.util.AccountType;
 
@@ -38,11 +44,11 @@ public class Account implements Serializable {
 
 	private static final long serialVersionUID = 1902321524953220029L;
 	private Long id;
-	private String email; // unique
+	private String email;
 	private String password;
 	private String salt;
-	private Date registrationDate;
-	private Date lastAccessDate;
+	private Date registrationTimestamp;
+	private Date lastAccessTimestamp;
 	private Boolean active;
 	private AccountType type;
 	private TourOperator tourOperator;
@@ -51,14 +57,18 @@ public class Account implements Serializable {
 	public Account() {
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
+	@Column(nullable = false, unique = true)
 	public String getEmail() {
 		return email;
 	}
 
+	@Column(nullable = false)
 	public String getPassword() {
 		return password;
 	}
@@ -67,15 +77,19 @@ public class Account implements Serializable {
 		return salt;
 	}
 
-	public Date getRegistrationDate() {
-		return registrationDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "registration_timestamp")
+	public Date getRegistrationTimestamp() {
+		return registrationTimestamp;
 	}
 
-	public Date getLastAccessDate() {
-		return lastAccessDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "last_access_timestamp")
+	public Date getLastAccessTimestamp() {
+		return lastAccessTimestamp;
 	}
 
-	public Boolean getActive() {
+	public Boolean isActive() {
 		return active;
 	}
 
@@ -107,12 +121,12 @@ public class Account implements Serializable {
 		this.salt = salt;
 	}
 
-	public void setRegistrationDate(Date registrationDate) {
-		this.registrationDate = registrationDate;
+	public void setRegistrationTimestamp(Date registrationTimestamp) {
+		this.registrationTimestamp = registrationTimestamp;
 	}
 
-	public void setLastAccessDate(Date lastAccessDate) {
-		this.lastAccessDate = lastAccessDate;
+	public void setLastAccessTimestamp(Date lastAccessTimestamp) {
+		this.lastAccessTimestamp = lastAccessTimestamp;
 	}
 
 	public void setActive(Boolean active) {
@@ -129,76 +143,6 @@ public class Account implements Serializable {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((active == null) ? 0 : active.hashCode());
-		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((lastAccessDate == null) ? 0 : lastAccessDate.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((registrationDate == null) ? 0 : registrationDate.hashCode());
-		result = prime * result + ((salt == null) ? 0 : salt.hashCode());
-		result = prime * result + ((tourOperator == null) ? 0 : tourOperator.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Account other = (Account) obj;
-		if (active == null) {
-			if (other.active != null)
-				return false;
-		} else if (!active.equals(other.active))
-			return false;
-		if (customer == null) {
-			if (other.customer != null)
-				return false;
-		} else if (!customer.equals(other.customer))
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (lastAccessDate == null) {
-			if (other.lastAccessDate != null)
-				return false;
-		} else if (!lastAccessDate.equals(other.lastAccessDate))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (registrationDate == null) {
-			if (other.registrationDate != null)
-				return false;
-		} else if (!registrationDate.equals(other.registrationDate))
-			return false;
-		if (salt == null) {
-			if (other.salt != null)
-				return false;
-		} else if (!salt.equals(other.salt))
-			return false;
-		if (tourOperator == null) {
-			if (other.tourOperator != null)
-				return false;
-		} else if (!tourOperator.equals(other.tourOperator))
-			return false;
-		if (type != other.type)
-			return false;
-		return true;
 	}
 
 }
