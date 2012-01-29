@@ -1,12 +1,38 @@
+/*
+ * This file is part of "U Turismu" project. 
+ * 
+ * U Turismu is an enterprise application in support of calabrian tour operators.
+ * This system aims to promote tourist services provided by the operators
+ * and to develop and improve tourism in Calabria.
+ *
+ * Copyright (C) 2012 "LagrecaSpaccarotella" team.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package uturismu.dto;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import org.hibernate.annotations.Entity;
+import javax.persistence.Entity;
 
 import uturismu.dto.util.AccountType;
 
+/**
+ * @author "LagrecaSpaccarotella" team.
+ * 
+ */
 @Entity
 public class Account implements Serializable {
 
@@ -21,7 +47,7 @@ public class Account implements Serializable {
 	private AccountType type;
 	private TourOperator tourOperator;
 	private Customer customer;
-	
+
 	public Account() {
 	}
 
@@ -110,19 +136,13 @@ public class Account implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((active == null) ? 0 : active.hashCode());
-		result = prime * result
-				+ ((customer == null) ? 0 : customer.hashCode());
+		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result
-				+ ((lastAccessDate == null) ? 0 : lastAccessDate.hashCode());
-		result = prime * result
-				+ ((password == null) ? 0 : password.hashCode());
-		result = prime
-				* result
-				+ ((registrationDate == null) ? 0 : registrationDate.hashCode());
+		result = prime * result + ((lastAccessDate == null) ? 0 : lastAccessDate.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((registrationDate == null) ? 0 : registrationDate.hashCode());
 		result = prime * result + ((salt == null) ? 0 : salt.hashCode());
-		result = prime * result
-				+ ((tourOperator == null) ? 0 : tourOperator.hashCode());
+		result = prime * result + ((tourOperator == null) ? 0 : tourOperator.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
