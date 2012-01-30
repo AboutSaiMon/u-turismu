@@ -28,12 +28,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
-@Entity
+@Entity(name="CITY")
 public class City implements Serializable {
 
 	private static final long serialVersionUID = -5177619158328836473L;
@@ -41,11 +45,13 @@ public class City implements Serializable {
 	private String name;
 	private String province;
 	private Set<Event> events;
-	
+
 	public City() {
 		events = new HashSet<Event>();
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
@@ -58,6 +64,7 @@ public class City implements Serializable {
 		return province;
 	}
 
+	@OneToMany(mappedBy = "city")
 	public Set<Event> getEvents() {
 		return Collections.unmodifiableSet(events);
 	}
@@ -77,11 +84,11 @@ public class City implements Serializable {
 	protected void setEvents(Set<Event> events) {
 		this.events = events;
 	}
-	
+
 	public boolean addEvent(Event event) {
 		return events.add(event);
 	}
-	
+
 	public boolean removeEvent(Event event) {
 		return events.remove(event);
 	}

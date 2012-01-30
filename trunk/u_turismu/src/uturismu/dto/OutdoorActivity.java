@@ -27,8 +27,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.ForeignKey;
 
 import uturismu.dto.util.ActivityType;
 
@@ -36,7 +40,7 @@ import uturismu.dto.util.ActivityType;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity
+@Entity(name="OUTDOOR_ACTIVITY")
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "name", "activityType" }))
 public class OutdoorActivity extends Service {
 
@@ -61,7 +65,9 @@ public class OutdoorActivity extends Service {
 		return activityType;
 	}
 
-	@Column(nullable = false, name = "city")
+	@ManyToOne
+	@JoinColumn(name="id_city")
+	@ForeignKey(name="FK_OUTDOORACTIVITY_CITY")
 	public City getCity() {
 		return city;
 	}

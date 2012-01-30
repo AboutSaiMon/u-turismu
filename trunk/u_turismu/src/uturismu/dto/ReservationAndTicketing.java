@@ -24,13 +24,23 @@ package uturismu.dto;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity
+@Entity(name="RESERVATION_AND_TICKETING")
 public class ReservationAndTicketing extends Service {
 
 	private static final long serialVersionUID = -1401386687925117984L;
@@ -41,14 +51,21 @@ public class ReservationAndTicketing extends Service {
 	public ReservationAndTicketing() {
 	}
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="time_and_date")
 	public Date getTimeAndDate() {
 		return timeAndDate;
 	}
 
+	@ManyToOne
+	@JoinColumn(name="id_poi")
+	@ForeignKey(name="FK_RESERVATIONANDTICKETING_POI")
 	public POI getPointOfInterest() {
 		return pointOfInterest;
 	}

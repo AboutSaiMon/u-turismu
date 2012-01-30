@@ -23,11 +23,12 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 import uturismu.dto.util.StationType;
 
@@ -35,7 +36,7 @@ import uturismu.dto.util.StationType;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity
+@Entity(name = "STATION")
 public class Station implements Serializable {
 
 	private static final long serialVersionUID = 259910721548074249L;
@@ -43,12 +44,12 @@ public class Station implements Serializable {
 	private String name;
 	private Address address;
 	private StationType type;
-	private Set<Transport> transports;
 
 	public Station() {
-		transports = new HashSet<Transport>();
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
@@ -57,16 +58,13 @@ public class Station implements Serializable {
 		return name;
 	}
 
+	@Embedded
 	public Address getAddress() {
 		return address;
 	}
 
 	public StationType getType() {
 		return type;
-	}
-
-	public Set<Transport> getTransports() {
-		return Collections.unmodifiableSet(transports);
 	}
 
 	public void setId(Long id) {
@@ -83,18 +81,6 @@ public class Station implements Serializable {
 
 	public void setType(StationType type) {
 		this.type = type;
-	}
-
-	protected void setTransports(Set<Transport> transports) {
-		this.transports = transports;
-	}
-
-	public boolean addTransport(Transport transport) {
-		return transports.add(transport);
-	}
-
-	public boolean removeTransport(Transport transport) {
-		return transports.remove(transport);
 	}
 
 	@Override

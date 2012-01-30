@@ -25,12 +25,19 @@ package uturismu.dto;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity
+@Entity(name="HOLIDAY_CLASSIFICATION")
 public class HolidayClassification implements Serializable {
 
 	private static final long serialVersionUID = -3330068729315050006L;
@@ -41,14 +48,22 @@ public class HolidayClassification implements Serializable {
 	public HolidayClassification() {
 	}
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
+	@ManyToOne
+	@JoinColumn(name="id_holiday_package", nullable=false)
+	@ForeignKey(name="FK_HOLIDAYCLASSIFICATION_HOLIDAYPACKAGE")
 	public HolidayPackage getHolidayPackage() {
 		return holidayPackage;
 	}
 
+	@ManyToOne
+	@JoinColumn(name="id_holiday_tag", nullable=false)
+	@ForeignKey(name="FK_HOLIDAYCLASSIFICATION_HOLIDAYTAG")
 	public HolidayTag getHolidayTag() {
 		return holidayTag;
 	}

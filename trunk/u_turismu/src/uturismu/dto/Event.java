@@ -25,6 +25,13 @@ package uturismu.dto;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.ForeignKey;
 
 import uturismu.dto.util.EventType;
 
@@ -32,7 +39,7 @@ import uturismu.dto.util.EventType;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity
+@Entity(name="EVENT")
 public class Event implements Serializable {
 
 	private static final long serialVersionUID = 3918383512779462245L;
@@ -45,6 +52,8 @@ public class Event implements Serializable {
 	public Event() {
 	}
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
@@ -61,6 +70,9 @@ public class Event implements Serializable {
 		return description;
 	}
 
+	@ManyToOne
+	@JoinColumn(name="id_city", nullable=false)
+	@ForeignKey(name="FK_EVENT_CITY")
 	public City getCity() {
 		return city;
 	}

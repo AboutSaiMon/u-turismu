@@ -27,13 +27,23 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity
+@Entity(name="TOUR_OPERATOR")
 public class TourOperator implements Serializable {
 
 	private static final long serialVersionUID = 4132492228184160094L;
@@ -41,7 +51,6 @@ public class TourOperator implements Serializable {
 	private String vatNumber; // unique
 	private String name;
 	private String holderName;
-	private String holderSurname;
 	private Address headOffice;
 	private Account account;
 	private Set<HolidayPackage> holidayPackages;
@@ -50,10 +59,13 @@ public class TourOperator implements Serializable {
 		holidayPackages = new HashSet<HolidayPackage>();
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
+	@Column(unique = true)
 	public String getVatNumber() {
 		return vatNumber;
 	}
@@ -62,22 +74,25 @@ public class TourOperator implements Serializable {
 		return name;
 	}
 
+	@Column(name = "holder_name")
 	public String getHolderName() {
 		return holderName;
 	}
 
-	public String getHolderSurname() {
-		return holderSurname;
-	}
-
+	@Embedded
+	@Column(name = "head_office")
 	public Address getHeadOffice() {
 		return headOffice;
 	}
 
+	@OneToOne
+	@JoinColumn(name = "id_account")
+	@ForeignKey(name = "FK_TOUROPERATOR_ACCOUNT")
 	public Account getAccount() {
 		return account;
 	}
 
+	@OneToMany(mappedBy="tourOperator")
 	public Set<HolidayPackage> getHolidayPackages() {
 		return Collections.unmodifiableSet(holidayPackages);
 	}
@@ -96,10 +111,6 @@ public class TourOperator implements Serializable {
 
 	public void setHolderName(String holderName) {
 		this.holderName = holderName;
-	}
-
-	public void setHolderSurname(String holderSurname) {
-		this.holderSurname = holderSurname;
 	}
 
 	public void setHeadOffice(Address headOffice) {
@@ -129,7 +140,6 @@ public class TourOperator implements Serializable {
 		result = prime * result + ((account == null) ? 0 : account.hashCode());
 		result = prime * result + ((headOffice == null) ? 0 : headOffice.hashCode());
 		result = prime * result + ((holderName == null) ? 0 : holderName.hashCode());
-		result = prime * result + ((holderSurname == null) ? 0 : holderSurname.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((vatNumber == null) ? 0 : vatNumber.hashCode());
 		return result;
@@ -158,11 +168,6 @@ public class TourOperator implements Serializable {
 			if (other.holderName != null)
 				return false;
 		} else if (!holderName.equals(other.holderName))
-			return false;
-		if (holderSurname == null) {
-			if (other.holderSurname != null)
-				return false;
-		} else if (!holderSurname.equals(other.holderSurname))
 			return false;
 		if (name == null) {
 			if (other.name != null)

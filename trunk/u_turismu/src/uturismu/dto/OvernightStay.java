@@ -29,8 +29,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.ForeignKey;
 
 import uturismu.dto.util.ServiceType;
 
@@ -38,7 +42,7 @@ import uturismu.dto.util.ServiceType;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity
+@Entity(name="OVERNIGHT_STAY")
 public class OvernightStay extends Service {
 
 	private static final long serialVersionUID = 1066966536889642801L;
@@ -71,6 +75,9 @@ public class OvernightStay extends Service {
 		return serviceType;
 	}
 
+	@ManyToOne
+	@JoinColumn(name="id_accomodation")
+	@ForeignKey(name="FK_OVERNIGHTSTAY_ACCOMODATION")
 	public Accommodation getAccommodation() {
 		return accommodation;
 	}

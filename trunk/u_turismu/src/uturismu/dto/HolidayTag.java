@@ -27,13 +27,18 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity
+@Entity(name="HOLIDAY_TAG")
 public class HolidayTag implements Serializable {
 
 	private static final long serialVersionUID = -7833352862425542082L;
@@ -46,18 +51,23 @@ public class HolidayTag implements Serializable {
 		holidayClassifications = new HashSet<HolidayClassification>();
 	}
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
+	@Column(nullable=false)
 	public String getName() {
 		return name;
 	}
 
+	@Column(nullable=false)
 	public String getDescription() {
 		return description;
 	}
 
+	@OneToMany(mappedBy="holidayTag")
 	public Set<HolidayClassification> getHolidayClassifications() {
 		return Collections.unmodifiableSet(holidayClassifications);
 	}
