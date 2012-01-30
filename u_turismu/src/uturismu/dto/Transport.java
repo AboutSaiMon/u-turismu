@@ -30,7 +30,7 @@ import uturismu.dto.util.TransportType;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
 @Entity
 public class Transport extends Service {
@@ -42,5 +42,103 @@ public class Transport extends Service {
 	private TransportType type;
 	private Station departureStation;
 	private Station arrivalStation;
+
+	public Transport() {
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public Date getDepartureTimeAndDate() {
+		return departureTimeAndDate;
+	}
+
+	public Date getArrivalTimeAndDate() {
+		return arrivalTimeAndDate;
+	}
+
+	public TransportType getType() {
+		return type;
+	}
+
+	public Station getDepartureStation() {
+		return departureStation;
+	}
+
+	public Station getArrivalStation() {
+		return arrivalStation;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setDepartureTimeAndDate(Date departureTimeAndDate) {
+		this.departureTimeAndDate = departureTimeAndDate;
+	}
+
+	public void setArrivalTimeAndDate(Date arrivalTimeAndDate) {
+		this.arrivalTimeAndDate = arrivalTimeAndDate;
+	}
+
+	public void setType(TransportType type) {
+		this.type = type;
+	}
+
+	public void setDepartureStation(Station departureStation) {
+		this.departureStation = departureStation;
+	}
+
+	public void setArrivalStation(Station arrivalStation) {
+		this.arrivalStation = arrivalStation;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((arrivalStation == null) ? 0 : arrivalStation.hashCode());
+		result = prime * result + ((arrivalTimeAndDate == null) ? 0 : arrivalTimeAndDate.hashCode());
+		result = prime * result + ((departureStation == null) ? 0 : departureStation.hashCode());
+		result = prime * result
+				+ ((departureTimeAndDate == null) ? 0 : departureTimeAndDate.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Transport other = (Transport) obj;
+		if (arrivalStation == null) {
+			if (other.arrivalStation != null)
+				return false;
+		} else if (!arrivalStation.equals(other.arrivalStation))
+			return false;
+		if (arrivalTimeAndDate == null) {
+			if (other.arrivalTimeAndDate != null)
+				return false;
+		} else if (!arrivalTimeAndDate.equals(other.arrivalTimeAndDate))
+			return false;
+		if (departureStation == null) {
+			if (other.departureStation != null)
+				return false;
+		} else if (!departureStation.equals(other.departureStation))
+			return false;
+		if (departureTimeAndDate == null) {
+			if (other.departureTimeAndDate != null)
+				return false;
+		} else if (!departureTimeAndDate.equals(other.departureTimeAndDate))
+			return false;
+		if (type != other.type)
+			return false;
+		return true;
+	}
 
 }

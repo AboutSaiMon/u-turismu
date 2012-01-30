@@ -23,7 +23,9 @@
 package uturismu.dto;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -41,5 +43,100 @@ public class Booking implements Serializable {
 	private Booker booker;
 	private HolidayPackage holidayPackage;
 	private Set<Customer> customers;
+
+	public Booking() {
+		customers = new HashSet<Customer>();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public Date getBookingTimeAndDate() {
+		return bookingTimeAndDate;
+	}
+
+	public Booker getBooker() {
+		return booker;
+	}
+
+	public HolidayPackage getHolidayPackage() {
+		return holidayPackage;
+	}
+
+	public Set<Customer> getCustomers() {
+		return Collections.unmodifiableSet(customers);
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setBookingTimeAndDate(Date bookingTimeAndDate) {
+		this.bookingTimeAndDate = bookingTimeAndDate;
+	}
+
+	public void setBooker(Booker booker) {
+		this.booker = booker;
+	}
+
+	public void setHolidayPackage(HolidayPackage holidayPackage) {
+		this.holidayPackage = holidayPackage;
+	}
+
+	protected void setCustomers(Set<Customer> customers) {
+		this.customers = customers;
+	}
+
+	public boolean addCustomer(Customer customer) {
+		return customers.add(customer);
+	}
+
+	public boolean removeCustomer(Customer customer) {
+		return customers.remove(customer);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((booker == null) ? 0 : booker.hashCode());
+		result = prime * result + ((bookingTimeAndDate == null) ? 0 : bookingTimeAndDate.hashCode());
+		result = prime * result + ((customers == null) ? 0 : customers.hashCode());
+		result = prime * result + ((holidayPackage == null) ? 0 : holidayPackage.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Booking other = (Booking) obj;
+		if (booker == null) {
+			if (other.booker != null)
+				return false;
+		} else if (!booker.equals(other.booker))
+			return false;
+		if (bookingTimeAndDate == null) {
+			if (other.bookingTimeAndDate != null)
+				return false;
+		} else if (!bookingTimeAndDate.equals(other.bookingTimeAndDate))
+			return false;
+		if (customers == null) {
+			if (other.customers != null)
+				return false;
+		} else if (!customers.equals(other.customers))
+			return false;
+		if (holidayPackage == null) {
+			if (other.holidayPackage != null)
+				return false;
+		} else if (!holidayPackage.equals(other.holidayPackage))
+			return false;
+		return true;
+	}
 
 }

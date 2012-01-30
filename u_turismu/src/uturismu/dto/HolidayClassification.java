@@ -38,4 +38,62 @@ public class HolidayClassification implements Serializable {
 	private HolidayPackage holidayPackage;
 	private HolidayTag holidayTag;
 
+	public HolidayClassification() {
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public HolidayPackage getHolidayPackage() {
+		return holidayPackage;
+	}
+
+	public HolidayTag getHolidayTag() {
+		return holidayTag;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setHolidayPackage(HolidayPackage holidayPackage) {
+		this.holidayPackage = holidayPackage;
+	}
+
+	public void setHolidayTag(HolidayTag holidayTag) {
+		this.holidayTag = holidayTag;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((holidayPackage == null) ? 0 : holidayPackage.hashCode());
+		result = prime * result + ((holidayTag == null) ? 0 : holidayTag.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		HolidayClassification other = (HolidayClassification) obj;
+		if (holidayPackage == null) {
+			if (other.holidayPackage != null)
+				return false;
+		} else if (!holidayPackage.equals(other.holidayPackage))
+			return false;
+		if (holidayTag == null) {
+			if (other.holidayTag != null)
+				return false;
+		} else if (!holidayTag.equals(other.holidayTag))
+			return false;
+		return true;
+	}
+
 }

@@ -27,19 +27,13 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import uturismu.dto.util.StationType;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
 @Entity
 public class Station implements Serializable {
@@ -49,50 +43,32 @@ public class Station implements Serializable {
 	private String name;
 	private Address address;
 	private StationType type;
-	//TO CHECK : GESTIONE  delle doppie stazioni e doppi trasporti
-	private Set<Transport> departureTransports;
-	private Set<Transport> arrivalTransports;
-	
+	private Set<Transport> transports;
+
 	public Station() {
-		
-		name="";
-		address=new Address();
-		departureTransports=new HashSet<Transport>();
-		arrivalTransports=new HashSet<Transport>();
+		transports = new HashSet<Transport>();
 	}
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
-	@Column(nullable=false)
 	public String getName() {
 		return name;
 	}
-	
-	@Embedded
+
 	public Address getAddress() {
 		return address;
 	}
 
-	@Column(nullable=false)
 	public StationType getType() {
 		return type;
 	}
 
-	@OneToMany(mappedBy="departureStation")
-	public Set<Transport> getDepartureTransports() {
-		return Collections.unmodifiableSet(departureTransports);
+	public Set<Transport> getTransports() {
+		return Collections.unmodifiableSet(transports);
 	}
 
-	@OneToMany(mappedBy="arrivalStation")
-	public Set<Transport> getArrivalTransports() {
-		return Collections.unmodifiableSet(arrivalTransports);
-	}
-	
-	
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -109,26 +85,16 @@ public class Station implements Serializable {
 		this.type = type;
 	}
 
-	protected void setDepartureTransports(Set<Transport> departureTransports) {
-		this.departureTransports = departureTransports;
+	protected void setTransports(Set<Transport> transports) {
+		this.transports = transports;
 	}
 
-	protected void setArrivalTransports(Set<Transport> arrivalTransports) {
-		this.arrivalTransports = arrivalTransports;
+	public boolean addTransport(Transport transport) {
+		return transports.add(transport);
 	}
 
-	public boolean addDepartureTransport(Transport transport){
-		return this.departureTransports.add(transport);
-	}
-	public boolean removeDepartureTransport(Transport transport){
-		return this.departureTransports.remove(transport);
-	}
-	
-	public boolean addArrivalTransport(Transport transport){
-		return this.arrivalTransports.add(transport);
-	}
-	public boolean removeArrivalTransport(Transport transport){
-		return this.arrivalTransports.remove(transport);
+	public boolean removeTransport(Transport transport) {
+		return transports.remove(transport);
 	}
 
 	@Override
@@ -165,23 +131,4 @@ public class Station implements Serializable {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Station [id=");
-		builder.append(id);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", address=");
-		builder.append(address);
-		builder.append(", type=");
-		builder.append(type);
-		builder.append("]");
-		return builder.toString();
-	}
-
-	
-	
-	
-	
 }
