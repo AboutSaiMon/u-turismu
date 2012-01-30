@@ -38,4 +38,62 @@ public class ReservationAndTicketing extends Service {
 	private Date timeAndDate;
 	private POI pointOfInterest;
 
+	public ReservationAndTicketing() {
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public Date getTimeAndDate() {
+		return timeAndDate;
+	}
+
+	public POI getPointOfInterest() {
+		return pointOfInterest;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setTimeAndDate(Date timeAndDate) {
+		this.timeAndDate = timeAndDate;
+	}
+
+	public void setPointOfInterest(POI pointOfInterest) {
+		this.pointOfInterest = pointOfInterest;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((pointOfInterest == null) ? 0 : pointOfInterest.hashCode());
+		result = prime * result + ((timeAndDate == null) ? 0 : timeAndDate.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ReservationAndTicketing other = (ReservationAndTicketing) obj;
+		if (pointOfInterest == null) {
+			if (other.pointOfInterest != null)
+				return false;
+		} else if (!pointOfInterest.equals(other.pointOfInterest))
+			return false;
+		if (timeAndDate == null) {
+			if (other.timeAndDate != null)
+				return false;
+		} else if (!timeAndDate.equals(other.timeAndDate))
+			return false;
+		return true;
+	}
+
 }

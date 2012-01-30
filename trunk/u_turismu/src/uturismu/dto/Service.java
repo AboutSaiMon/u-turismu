@@ -23,10 +23,11 @@
 package uturismu.dto;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -41,6 +42,10 @@ public abstract class Service implements Serializable {
 	private String description;
 	private Set<HolidayPackage> holidayPackages;
 
+	public Service() {
+		holidayPackages = new HashSet<HolidayPackage>();
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -49,9 +54,12 @@ public abstract class Service implements Serializable {
 		return price;
 	}
 
-	@ManyToMany(mappedBy = "services")
+	public String getDescription() {
+		return description;
+	}
+
 	public Set<HolidayPackage> getHolidayPackages() {
-		return holidayPackages;
+		return Collections.unmodifiableSet(holidayPackages);
 	}
 
 	public void setId(Long id) {
@@ -62,16 +70,27 @@ public abstract class Service implements Serializable {
 		this.price = price;
 	}
 
-	public void setHolidayPackages(Set<HolidayPackage> holidayPackages) {
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	protected void setHolidayPackages(Set<HolidayPackage> holidayPackages) {
 		this.holidayPackages = holidayPackages;
+	}
+
+	public boolean addHolidayPackage(HolidayPackage holidayPackage) {
+		return holidayPackages.add(holidayPackage);
+	}
+
+	public boolean removeHolidayPackage(HolidayPackage holidayPackage) {
+		return holidayPackages.remove(holidayPackage);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((holidayPackages == null) ? 0 : holidayPackages.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		return result;
 	}
@@ -85,15 +104,10 @@ public abstract class Service implements Serializable {
 		if (!(obj instanceof Service))
 			return false;
 		Service other = (Service) obj;
-		if (holidayPackages == null) {
-			if (other.holidayPackages != null)
+		if (description == null) {
+			if (other.description != null)
 				return false;
-		} else if (!holidayPackages.equals(other.holidayPackages))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
+		} else if (!description.equals(other.description))
 			return false;
 		if (price == null) {
 			if (other.price != null)
@@ -101,17 +115,6 @@ public abstract class Service implements Serializable {
 		} else if (!price.equals(other.price))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Service [id=");
-		builder.append(id);
-		builder.append(", price=");
-		builder.append(price);
-		builder.append("]");
-		return builder.toString();
 	}
 
 }

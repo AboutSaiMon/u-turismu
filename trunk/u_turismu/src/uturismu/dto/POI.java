@@ -38,10 +38,10 @@ import javax.persistence.UniqueConstraint;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames="name"))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class POI implements Serializable {
 
 	private static final long serialVersionUID = -1860221631532674110L;
@@ -50,65 +50,70 @@ public class POI implements Serializable {
 	private String description;
 	private Address address;
 	private Set<ReservationAndTicketing> reservations;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	public String getName() {
 		return name;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
-	
+
 	@Embedded
 	public Address getAddress() {
 		return address;
 	}
-	
-	@OneToMany(mappedBy="pointOfInterest")
+
+	@OneToMany(mappedBy = "pointOfInterest")
 	public Set<ReservationAndTicketing> getReservations() {
 		return Collections.unmodifiableSet(reservations);
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+
 	protected void setReservations(Set<ReservationAndTicketing> reservations) {
 		this.reservations = reservations;
 	}
-	
-	public boolean addReservation(ReservationAndTicketing reservation){
+
+	public boolean addReservation(ReservationAndTicketing reservation) {
 		return this.reservations.add(reservation);
 	}
-	
-	public boolean removeReservation(ReservationAndTicketing reservation){
+
+	public boolean removeReservation(ReservationAndTicketing reservation) {
 		return this.reservations.remove(reservation);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -135,8 +140,5 @@ public class POI implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
 
 }

@@ -23,6 +23,8 @@
 package uturismu.dto;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -39,5 +41,80 @@ public class City implements Serializable {
 	private String name;
 	private String province;
 	private Set<Event> events;
+	
+	public City() {
+		events = new HashSet<Event>();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public Set<Event> getEvents() {
+		return Collections.unmodifiableSet(events);
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	protected void setEvents(Set<Event> events) {
+		this.events = events;
+	}
+	
+	public boolean addEvent(Event event) {
+		return events.add(event);
+	}
+	
+	public boolean removeEvent(Event event) {
+		return events.remove(event);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((province == null) ? 0 : province.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		City other = (City) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (province == null) {
+			if (other.province != null)
+				return false;
+		} else if (!province.equals(other.province))
+			return false;
+		return true;
+	}
 
 }

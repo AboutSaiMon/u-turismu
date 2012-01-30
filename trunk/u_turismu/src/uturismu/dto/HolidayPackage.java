@@ -23,9 +23,7 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -34,7 +32,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -44,13 +41,12 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.ForeignKey;
 
-import uturismu.dto.util.HolidayType;
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"name","tourOperator"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "name", "tourOperator" }))
 public class HolidayPackage implements Serializable {
 
 	private static final long serialVersionUID = -138153679026481915L;
@@ -62,113 +58,118 @@ public class HolidayPackage implements Serializable {
 	private Set<Booking> bookings;
 	private Set<Service> services;
 	private Set<HolidayClassification> classifications;
-	
-	public HolidayPackage() {
-		name="";
-		description="";
-		guestNumber=1;
-		tourOperator=new TourOperator();
-		bookings=new HashSet<Booking>();
-		services=new HashSet<Service>();
-	}
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	public String getName() {
 		return name;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
-	
-	@ManyToOne()
-	@JoinColumn(name="id_tour_operator")
-	@ForeignKey(name="FK_HOLIDAYPACKAGE_TOUROPERATOR")
-	public TourOperator getTourOperator() {
-		return tourOperator;
-	}
-	
-	@OneToMany(mappedBy="holidayPackage")
-	public Set<Booking> getBookings() {
-		return Collections.unmodifiableSet(bookings);
-	}
-	
-	@ManyToMany()
-	@JoinTable(	name="CATALOG", 
-				joinColumns=@JoinColumn(name="id_holiday_package"),
-				inverseJoinColumns=@JoinColumn(name="id_service"))
-	@ForeignKey(name="FK_CATALOG_HOLIDAYPACKAGE" , inverseName="FK_CATALOG_SERVICE")
-	public Set<Service> getServices() {
-		return Collections.unmodifiableSet(services);
-	}
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	public Integer getGuestNumber() {
 		return guestNumber;
 	}
-	
+
+	@ManyToOne()
+	@JoinColumn(name = "id_tour_operator")
+	@ForeignKey(name = "FK_HOLIDAYPACKAGE_TOUROPERATOR")
+	public TourOperator getTourOperator() {
+		return tourOperator;
+	}
+
+	@OneToMany(mappedBy = "holidayPackage")
+	public Set<Booking> getBookings() {
+		return Collections.unmodifiableSet(bookings);
+	}
+
+	@ManyToMany()
+	@JoinTable(name = "CATALOG", joinColumns = @JoinColumn(name = "id_holiday_package"), inverseJoinColumns = @JoinColumn(name = "id_service"))
+	@ForeignKey(name = "FK_CATALOG_HOLIDAYPACKAGE", inverseName = "FK_CATALOG_SERVICE")
+	public Set<Service> getServices() {
+		return Collections.unmodifiableSet(services);
+	}
+
+	public Set<HolidayClassification> getClassifications() {
+		return classifications;
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	public void setGuestNumber(Integer guestNumber) {
 		this.guestNumber = guestNumber;
 	}
-	
+
 	public void setTourOperator(TourOperator tourOperator) {
 		this.tourOperator = tourOperator;
 	}
+
 	protected void setBookings(Set<Booking> bookings) {
 		this.bookings = bookings;
 	}
+
+	protected void setClassifications(Set<HolidayClassification> classifications) {
+		this.classifications = classifications;
+	}
+
 	protected void setServices(Set<Service> services) {
 		this.services = services;
 	}
-	
-	public boolean addBooking(Booking booking){
+
+	public boolean addBooking(Booking booking) {
 		return bookings.add(booking);
 	}
-	
-	public boolean addService(Service service){
+
+	public boolean addService(Service service) {
 		return services.add(service);
 	}
-	
-	public boolean removeBooking(Booking booking){
+
+	public boolean addClassification(HolidayClassification classification) {
+		return classifications.add(classification);
+	}
+
+	public boolean removeClassification(HolidayClassification classification) {
+		return classifications.remove(classification);
+	}
+
+	public boolean removeBooking(Booking booking) {
 		return bookings.remove(booking);
 	}
-	
-	public boolean removeService(Service service){
+
+	public boolean removeService(Service service) {
 		return services.remove(service);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((bookings == null) ? 0 : bookings.hashCode());
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((guestNumber == null) ? 0 : guestNumber.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((services == null) ? 0 : services.hashCode());
-		result = prime * result
-				+ ((tourOperator == null) ? 0 : tourOperator.hashCode());
+		result = prime * result + ((services == null) ? 0 : services.hashCode());
+		result = prime * result + ((tourOperator == null) ? 0 : tourOperator.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -178,15 +179,15 @@ public class HolidayPackage implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		HolidayPackage other = (HolidayPackage) obj;
-		if (bookings == null) {
-			if (other.bookings != null)
-				return false;
-		} else if (!bookings.equals(other.bookings))
-			return false;
 		if (description == null) {
 			if (other.description != null)
 				return false;
 		} else if (!description.equals(other.description))
+			return false;
+		if (guestNumber == null) {
+			if (other.guestNumber != null)
+				return false;
+		} else if (!guestNumber.equals(other.guestNumber))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -205,27 +206,5 @@ public class HolidayPackage implements Serializable {
 			return false;
 		return true;
 	}
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("HolidayPackage [id=");
-		builder.append(id);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", description=");
-		builder.append(description);
-		builder.append(", tourOperator=");
-		builder.append(tourOperator);
-		builder.append(", bookings=");
-		builder.append(bookings);
-		builder.append(", services=");
-		builder.append(services);
-		builder.append("]");
-		return builder.toString();
-	}
-	
-	
 
-	
-	
 }

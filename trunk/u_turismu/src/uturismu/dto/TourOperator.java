@@ -27,68 +27,57 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames="vatNumber"))
 public class TourOperator implements Serializable {
 
 	private static final long serialVersionUID = 4132492228184160094L;
 	private Long id;
 	private String vatNumber; // unique
 	private String name;
+	private String holderName;
+	private String holderSurname;
 	private Address headOffice;
 	private Account account;
 	private Set<HolidayPackage> holidayPackages;
-	
+
 	public TourOperator() {
-		vatNumber="";
-		name="";
-		headOffice=new Address();
-		account=new Account();
-		holidayPackages=new HashSet<HolidayPackage>();
+		holidayPackages = new HashSet<HolidayPackage>();
 	}
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
-	@Column(name="vat_number",nullable=false)
 	public String getVatNumber() {
 		return vatNumber;
 	}
 
-	@Column(nullable=false)
 	public String getName() {
 		return name;
 	}
 
-	@Embedded
+	public String getHolderName() {
+		return holderName;
+	}
+
+	public String getHolderSurname() {
+		return holderSurname;
+	}
+
 	public Address getHeadOffice() {
 		return headOffice;
 	}
-	
-	@OneToOne(mappedBy="tourOperator")
+
 	public Account getAccount() {
 		return account;
 	}
 
-	@OneToMany(mappedBy="tourOperator")
 	public Set<HolidayPackage> getHolidayPackages() {
 		return Collections.unmodifiableSet(holidayPackages);
 	}
@@ -105,6 +94,14 @@ public class TourOperator implements Serializable {
 		this.name = name;
 	}
 
+	public void setHolderName(String holderName) {
+		this.holderName = holderName;
+	}
+
+	public void setHolderSurname(String holderSurname) {
+		this.holderSurname = holderSurname;
+	}
+
 	public void setHeadOffice(Address headOffice) {
 		this.headOffice = headOffice;
 	}
@@ -116,26 +113,25 @@ public class TourOperator implements Serializable {
 	protected void setHolidayPackages(Set<HolidayPackage> holidayPackages) {
 		this.holidayPackages = holidayPackages;
 	}
-	
-	public boolean addHolidayPackage(HolidayPackage holidayPackage){
-		return this.holidayPackages.add(holidayPackage);
+
+	public boolean addHolidayPackage(HolidayPackage holidayPackage) {
+		return holidayPackages.add(holidayPackage);
 	}
 
-	public boolean removeHolidayPackage(HolidayPackage holidayPackage){
-		return this.holidayPackages.remove(holidayPackage);
+	public boolean removeHolidayPackage(HolidayPackage holidayPackage) {
+		return holidayPackages.remove(holidayPackage);
 	}
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((account == null) ? 0 : account.hashCode());
-		result = prime * result
-				+ ((headOffice == null) ? 0 : headOffice.hashCode());
+		result = prime * result + ((headOffice == null) ? 0 : headOffice.hashCode());
+		result = prime * result + ((holderName == null) ? 0 : holderName.hashCode());
+		result = prime * result + ((holderSurname == null) ? 0 : holderSurname.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((vatNumber == null) ? 0 : vatNumber.hashCode());
+		result = prime * result + ((vatNumber == null) ? 0 : vatNumber.hashCode());
 		return result;
 	}
 
@@ -158,6 +154,16 @@ public class TourOperator implements Serializable {
 				return false;
 		} else if (!headOffice.equals(other.headOffice))
 			return false;
+		if (holderName == null) {
+			if (other.holderName != null)
+				return false;
+		} else if (!holderName.equals(other.holderName))
+			return false;
+		if (holderSurname == null) {
+			if (other.holderSurname != null)
+				return false;
+		} else if (!holderSurname.equals(other.holderSurname))
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -170,25 +176,5 @@ public class TourOperator implements Serializable {
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("TourOperator [id=");
-		builder.append(id);
-		builder.append(", vatNumber=");
-		builder.append(vatNumber);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", headOffice=");
-		builder.append(headOffice);
-		builder.append(", account=");
-		builder.append(account);
-		builder.append("]");
-		return builder.toString();
-	}
-	
-	
-	
 
 }

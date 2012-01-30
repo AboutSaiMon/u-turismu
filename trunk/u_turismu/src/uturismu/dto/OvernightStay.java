@@ -36,7 +36,7 @@ import uturismu.dto.util.ServiceType;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
 @Entity
 public class OvernightStay extends Service {
@@ -47,66 +47,65 @@ public class OvernightStay extends Service {
 	private Date leavingDate;
 	private ServiceType serviceType;
 	private Accommodation accommodation;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
-	
-	@Column(name="arrival_date",nullable=false)
+
+	@Column(name = "arrival_date", nullable = false)
 	@Temporal(TemporalType.DATE)
 	public Date getArrivalDate() {
 		return arrivalDate;
 	}
-	
-	@Column(name="leaving_date",nullable=false )
+
+	@Column(name = "leaving_date", nullable = false)
 	@Temporal(TemporalType.DATE)
 	public Date getLeavingDate() {
 		return leavingDate;
 	}
 
-	@Column(name="service_type", nullable=false)
+	@Column(name = "service_type", nullable = false)
 	public ServiceType getServiceType() {
 		return serviceType;
 	}
-	
-	@Column(nullable=false)
+
 	public Accommodation getAccommodation() {
 		return accommodation;
 	}
-	
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public void setArrivalDate(Date arrivalDate) {
 		this.arrivalDate = arrivalDate;
 	}
+
 	public void setLeavingDate(Date leavingDate) {
 		this.leavingDate = leavingDate;
 	}
-	
+
 	public void setServiceType(ServiceType serviceType) {
 		this.serviceType = serviceType;
 	}
+
 	public void setAccommodation(Accommodation accommodation) {
 		this.accommodation = accommodation;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result
-				+ ((accommodation == null) ? 0 : accommodation.hashCode());
-		result = prime * result
-				+ ((arrivalDate == null) ? 0 : arrivalDate.hashCode());
-		result = prime * result
-				+ ((leavingDate == null) ? 0 : leavingDate.hashCode());
-		result = prime * result
-				+ ((serviceType == null) ? 0 : serviceType.hashCode());
+		result = prime * result + ((accommodation == null) ? 0 : accommodation.hashCode());
+		result = prime * result + ((arrivalDate == null) ? 0 : arrivalDate.hashCode());
+		result = prime * result + ((leavingDate == null) ? 0 : leavingDate.hashCode());
+		result = prime * result + ((serviceType == null) ? 0 : serviceType.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -135,6 +134,7 @@ public class OvernightStay extends Service {
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -154,6 +154,4 @@ public class OvernightStay extends Service {
 		return builder.toString();
 	}
 
-	
-	
 }

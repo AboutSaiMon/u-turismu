@@ -23,6 +23,7 @@
 package uturismu.dto;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -58,7 +59,7 @@ public class Booker implements Serializable {
 	}
 
 	public Set<Booking> getBookings() {
-		return bookings;
+		return Collections.unmodifiableSet(bookings);
 	}
 
 	public void setId(Long id) {
@@ -73,8 +74,16 @@ public class Booker implements Serializable {
 		this.customer = customer;
 	}
 
-	public void setBookings(Set<Booking> bookings) {
+	protected void setBookings(Set<Booking> bookings) {
 		this.bookings = bookings;
+	}
+	
+	public boolean addBooking(Booking booking) {
+		return bookings.add(booking);
+	}
+	
+	public boolean removeBooking(Booking booking) {
+		return bookings.remove(booking);
 	}
 
 	@Override
