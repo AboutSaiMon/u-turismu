@@ -30,8 +30,6 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +40,7 @@ import uturismu.dto.util.AccommodationType;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity
+@Entity(name = "ACCOMMODATION")
 public class Accommodation implements Serializable {
 
 	private static final long serialVersionUID = 226753614504147949L;
@@ -78,7 +76,6 @@ public class Accommodation implements Serializable {
 		return address;
 	}
 
-	@Enumerated(EnumType.STRING)
 	public AccommodationType getType() {
 		return type;
 	}
@@ -111,12 +108,12 @@ public class Accommodation implements Serializable {
 		this.overnightsStay = overnightsStay;
 	}
 
-	public boolean addOvernightStay(OvernightStay e) {
-		return overnightsStay.add(e);
+	public boolean addOvernightStay(OvernightStay overnightStay) {
+		return overnightsStay.add(overnightStay);
 	}
 
-	public boolean removeOvernightStay(Object o) {
-		return overnightsStay.remove(o);
+	public boolean removeOvernightStay(OvernightStay overnightStay) {
+		return overnightsStay.remove(overnightStay);
 	}
 
 	@Override
@@ -157,23 +154,6 @@ public class Accommodation implements Serializable {
 		} else if (!vatNumber.equals(other.vatNumber))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Accommodation [id=");
-		builder.append(id);
-		builder.append(", vatNumber=");
-		builder.append(vatNumber);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", address=");
-		builder.append(address);
-		builder.append(", type=");
-		builder.append(type);
-		builder.append("]");
-		return builder.toString();
 	}
 
 }
