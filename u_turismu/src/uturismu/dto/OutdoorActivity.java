@@ -30,6 +30,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.sun.accessibility.internal.resources.accessibility;
+
 import uturismu.dto.util.ActivityType;
 
 /**
@@ -47,12 +49,16 @@ public class OutdoorActivity extends Service {
 	private ActivityType activityType;
 	private City city;
 	
+	public OutdoorActivity() {
+		description="";
+		name="";
+	}
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
-	
 	
 	public String getDescription() {
 		return description;
@@ -92,21 +98,22 @@ public class OutdoorActivity extends Service {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result
 				+ ((activityType == null) ? 0 : activityType.hashCode());
 		result = prime * result + ((city == null) ? 0 : city.hashCode());
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof OutdoorActivity))
 			return false;
 		OutdoorActivity other = (OutdoorActivity) obj;
 		if (activityType != other.activityType)
@@ -121,19 +128,26 @@ public class OutdoorActivity extends Service {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("OutdoorActivity [id=");
-		builder.append(id);
-		builder.append(", description=");
+		builder.append("OutdoorActivity [description=");
 		builder.append(description);
+		builder.append(", name=");
+		builder.append(name);
 		builder.append(", activityType=");
 		builder.append(activityType);
 		builder.append(", city=");
 		builder.append(city);
+		builder.append(", toString()=");
+		builder.append(super.toString());
 		builder.append("]");
 		return builder.toString();
 	}
