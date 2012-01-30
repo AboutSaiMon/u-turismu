@@ -57,7 +57,7 @@ public class POI implements Serializable {
 		name="";
 		description="";
 		address=new Address();
-		bookingServices=new HashSet<BookingService>();
+		bookingServices=new HashSet<BookingAndTicketing>();
 	}
 	
 	@Id
