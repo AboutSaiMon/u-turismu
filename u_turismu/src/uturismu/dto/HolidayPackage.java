@@ -45,7 +45,7 @@ import org.hibernate.annotations.ForeignKey;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity
+@Entity(name="HOLIDAY_PACKAGE")
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "name", "tourOperator" }))
 public class HolidayPackage implements Serializable {
 
@@ -79,7 +79,7 @@ public class HolidayPackage implements Serializable {
 		return guestNumber;
 	}
 
-	@ManyToOne()
+	@ManyToOne
 	@JoinColumn(name = "id_tour_operator")
 	@ForeignKey(name = "FK_HOLIDAYPACKAGE_TOUROPERATOR")
 	public TourOperator getTourOperator() {
@@ -91,13 +91,14 @@ public class HolidayPackage implements Serializable {
 		return Collections.unmodifiableSet(bookings);
 	}
 
-	@ManyToMany()
+	@ManyToMany
 	@JoinTable(name = "CATALOG", joinColumns = @JoinColumn(name = "id_holiday_package"), inverseJoinColumns = @JoinColumn(name = "id_service"))
 	@ForeignKey(name = "FK_CATALOG_HOLIDAYPACKAGE", inverseName = "FK_CATALOG_SERVICE")
 	public Set<Service> getServices() {
 		return Collections.unmodifiableSet(services);
 	}
 
+	@OneToMany(mappedBy="holidayPackage")
 	public Set<HolidayClassification> getClassifications() {
 		return classifications;
 	}

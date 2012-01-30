@@ -24,7 +24,17 @@ package uturismu.dto;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.ForeignKey;
 
 import uturismu.dto.util.TransportType;
 
@@ -32,11 +42,12 @@ import uturismu.dto.util.TransportType;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity
+@Entity(name = "TRANSPORT")
 public class Transport extends Service {
 
 	private static final long serialVersionUID = 5499793625458647910L;
 	private Long id;
+	private String companyName;
 	private Date departureTimeAndDate;
 	private Date arrivalTimeAndDate;
 	private TransportType type;
@@ -46,14 +57,20 @@ public class Transport extends Service {
 	public Transport() {
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "departure_time_date")
 	public Date getDepartureTimeAndDate() {
 		return departureTimeAndDate;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "arrival_time_date")
 	public Date getArrivalTimeAndDate() {
 		return arrivalTimeAndDate;
 	}
@@ -62,10 +79,16 @@ public class Transport extends Service {
 		return type;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "id_departure_station", nullable = false)
+	@ForeignKey(name = "FK_TRANSPORT_DEPARTURESTATION")
 	public Station getDepartureStation() {
 		return departureStation;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "id_arrival_station", nullable = false)
+	@ForeignKey(name = "FK_TRANSPORT_ARRIVALSTATION")
 	public Station getArrivalStation() {
 		return arrivalStation;
 	}

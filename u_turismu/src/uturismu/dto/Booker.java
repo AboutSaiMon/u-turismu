@@ -28,12 +28,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity
+@Entity(name = "BOOKER")
 public class Booker implements Serializable {
 
 	private static final long serialVersionUID = -4043855751210103797L;
@@ -46,18 +54,27 @@ public class Booker implements Serializable {
 		bookings = new HashSet<Booking>();
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
+	@OneToOne
+	@JoinColumn(name = "id_account", nullable = false)
+	@ForeignKey(name = "FK_BOOKER_ACCOUNT")
 	public Account getAccount() {
 		return account;
 	}
 
+	@OneToOne
+	@JoinColumn(name = "id_customer", nullable = false)
+	@ForeignKey(name = "FK_BOOKER_CUSTOMER")
 	public Customer getCustomer() {
 		return customer;
 	}
 
+	@OneToMany(mappedBy = "booker")
 	public Set<Booking> getBookings() {
 		return Collections.unmodifiableSet(bookings);
 	}
@@ -77,11 +94,11 @@ public class Booker implements Serializable {
 	protected void setBookings(Set<Booking> bookings) {
 		this.bookings = bookings;
 	}
-	
+
 	public boolean addBooking(Booking booking) {
 		return bookings.add(booking);
 	}
-	
+
 	public boolean removeBooking(Booking booking) {
 		return bookings.remove(booking);
 	}

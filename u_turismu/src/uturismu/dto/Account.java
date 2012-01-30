@@ -25,7 +25,16 @@ package uturismu.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Type;
 
 import uturismu.dto.util.AccountType;
 
@@ -51,6 +60,8 @@ public class Account implements Serializable {
 	public Account() {
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
@@ -67,14 +78,19 @@ public class Account implements Serializable {
 		return salt;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="registration_time_date", nullable=false)
 	public Date getRegistrationTimeAndDate() {
 		return registrationTimeAndDate;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="last_acces_time_date", nullable=false)
 	public Date getLastAccessTimeAndDate() {
 		return lastAccessTimeAndDate;
 	}
 
+	@Type(type="yes_no")
 	public Boolean isActive() {
 		return active;
 	}
@@ -83,10 +99,12 @@ public class Account implements Serializable {
 		return type;
 	}
 
+	@OneToOne(mappedBy="account")
 	public TourOperator getTourOperator() {
 		return tourOperator;
 	}
 
+	@OneToOne(mappedBy="account")
 	public Booker getBooker() {
 		return booker;
 	}

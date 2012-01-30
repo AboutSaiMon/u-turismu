@@ -28,12 +28,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity
+@Entity(name="SERVICE")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Service implements Serializable {
 
 	private static final long serialVersionUID = 3469323821178357386L;
@@ -46,6 +53,8 @@ public abstract class Service implements Serializable {
 		holidayPackages = new HashSet<HolidayPackage>();
 	}
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
@@ -58,6 +67,7 @@ public abstract class Service implements Serializable {
 		return description;
 	}
 
+	@ManyToMany(mappedBy="services")
 	public Set<HolidayPackage> getHolidayPackages() {
 		return Collections.unmodifiableSet(holidayPackages);
 	}

@@ -28,13 +28,25 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity
+@Entity(name="BOOKING")
 public class Booking implements Serializable {
 
 	private static final long serialVersionUID = 7295908518751530161L;
@@ -48,22 +60,37 @@ public class Booking implements Serializable {
 		customers = new HashSet<Customer>();
 	}
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="booking_time_date", nullable=false)
 	public Date getBookingTimeAndDate() {
 		return bookingTimeAndDate;
 	}
 
+	@ManyToOne
+	@JoinColumn(name="id_booker")
+	@ForeignKey(name="FK_BOOKING_BOOKER")
 	public Booker getBooker() {
 		return booker;
 	}
 
+	@ManyToOne
+	@JoinColumn(name="id_holiday_package")
+	@ForeignKey(name="FK_BOOKING_HOLIDAYPACKAGE")
 	public HolidayPackage getHolidayPackage() {
 		return holidayPackage;
 	}
 
+	@ManyToMany
+	@JoinTable(name="BOOKING_CUSTOMER",
+			joinColumns=@JoinColumn(name="id_booking"),
+			inverseJoinColumns=@JoinColumn(name="id_customer"))
+	@ForeignKey(name="FK_BOOKINGCUSTOMER_BOOKING", inverseName="FK_BOOKINGCUSTOMER_CUSTOMER")
 	public Set<Customer> getCustomers() {
 		return Collections.unmodifiableSet(customers);
 	}

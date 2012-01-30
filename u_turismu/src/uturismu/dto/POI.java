@@ -40,7 +40,7 @@ import javax.persistence.UniqueConstraint;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity
+@Entity(name = "POI")
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class POI implements Serializable {
 

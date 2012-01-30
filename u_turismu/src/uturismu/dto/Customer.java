@@ -28,6 +28,19 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import uturismu.dto.util.Gender;
 import uturismu.dto.util.IDType;
 
@@ -35,6 +48,7 @@ import uturismu.dto.util.IDType;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
+@Entity(name="CUSTOMER")
 public class Customer implements Serializable {
 
 	private static final long serialVersionUID = -6323910189513397033L;
@@ -59,18 +73,23 @@ public class Customer implements Serializable {
 		bookings = new HashSet<Booking>();
 	}
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
+	@Column(name="tax_code", unique=true)
 	public String getTaxCode() {
 		return taxCode;
 	}
 
+	@Column(name="first_name", nullable=false)
 	public String getFirstName() {
 		return firstName;
 	}
 
+	@Column(name="last_name", nullable=false)
 	public String getLastName() {
 		return lastName;
 	}
@@ -79,34 +98,43 @@ public class Customer implements Serializable {
 		return gender;
 	}
 
+	@Temporal(TemporalType.DATE)
 	public Date getBirthDate() {
 		return birthDate;
 	}
 
+	@ManyToOne
+	@JoinColumn(name="id_birth_place", nullable=false)
 	public City getBirthPlace() {
 		return birthPlace;
 	}
 
+	@Embedded
 	public Address getLivingPlace() {
 		return livingPlace;
 	}
 
+	@Column(name="id_number", nullable=false)
 	public String getIdNumber() {
 		return idNumber;
 	}
 
+	@Column(name="id_type")
 	public IDType getIdType() {
 		return idType;
 	}
-
+	
+	@Column(name="issuing_authority", nullable=false)
 	public String getIssuingAuthority() {
 		return issuingAuthority;
 	}
 
+	@OneToOne(mappedBy="customer")
 	public Booker getBooker() {
 		return booker;
 	}
 
+	@ManyToMany(mappedBy="customers")
 	public Set<Booking> getBookings() {
 		return Collections.unmodifiableSet(bookings);
 	}
