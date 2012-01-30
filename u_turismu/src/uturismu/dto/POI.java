@@ -50,7 +50,7 @@ public class POI implements Serializable {
 	private String name;
 	private String description;
 	private Address address;
-	private Set<BookingService> bookingServices;
+	private Set<BookingAndTicketing> bookingServices;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -73,7 +73,7 @@ public class POI implements Serializable {
 	}
 	
 	@OneToMany(mappedBy="pointOfInterest")
-	public Set<BookingService> getBookingServices() {
+	public Set<BookingAndTicketing> getBookingServices() {
 		return Collections.unmodifiableSet(bookingServices);
 	}
 	public void setId(Long id) {
@@ -88,15 +88,15 @@ public class POI implements Serializable {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	protected void setBookingServices(Set<BookingService> bookingServices) {
+	protected void setBookingServices(Set<BookingAndTicketing> bookingServices) {
 		this.bookingServices = bookingServices;
 	}
 	
-	public boolean addBockingService(BookingService bookingService){
+	public boolean addBockingService(BookingAndTicketing bookingService){
 		return this.bookingServices.add(bookingService);
 	}
 	
-	public boolean removeBookingService(BookingService bookingService){
+	public boolean removeBookingService(BookingAndTicketing bookingService){
 		return this.bookingServices.remove(bookingService);
 	}
 	

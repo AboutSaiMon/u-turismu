@@ -20,36 +20,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.dto;
-
-import java.io.Serializable;
-import java.sql.Date;
-import java.util.Set;
-
-import uturismu.dto.util.Gender;
-import uturismu.dto.util.IDType;
+package uturismu.dto.util;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- * 
+ *
  */
-public class Customer implements Serializable {
+public enum HolidayType {
 
-	private static final long serialVersionUID = -6323910189513397033L;
-	/* è il codice fiscale */
-	private String taxCode;
-	private String firstName;
-	private String lastName;
-	private Gender gender;
-	private Date birthDate;
-	private City birthPlace;
-	private Address livingPlace;
-	/* è il codice del documento identificativo */
-	private String idNumber;
-	/* è la tipologia (patente, passaporto, ecc) */
-	private IDType idType;
-	private String issuingAuthority;
-	private Booker booker;
-	private Set<Booking> bookings;
-
+	
+	
 }

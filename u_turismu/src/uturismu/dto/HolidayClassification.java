@@ -22,7 +22,7 @@
  */
 package uturismu.dto;
 
-import java.util.Date;
+import java.io.Serializable;
 
 import javax.persistence.Entity;
 
@@ -31,11 +31,11 @@ import javax.persistence.Entity;
  * 
  */
 @Entity
-public class BookingService extends Service {
+public class HolidayClassification implements Serializable {
 
-	private static final long serialVersionUID = -1401386687925117984L;
+	private static final long serialVersionUID = -3330068729315050006L;
 	private Long id;
-	private Date timeAndDate;
-	private POI pointOfInterest;
+	private HolidayPackage holiday;
+	private HolidayTag tag;
 
 }

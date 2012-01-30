@@ -26,30 +26,21 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Set;
 
+import javax.persistence.Entity;
+
 import uturismu.dto.util.Gender;
-import uturismu.dto.util.IDType;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- * 
+ *
  */
-public class Customer implements Serializable {
+@Entity
+public class Booker implements Serializable {
 
-	private static final long serialVersionUID = -6323910189513397033L;
-	/* è il codice fiscale */
-	private String taxCode;
-	private String firstName;
-	private String lastName;
-	private Gender gender;
-	private Date birthDate;
-	private City birthPlace;
-	private Address livingPlace;
-	/* è il codice del documento identificativo */
-	private String idNumber;
-	/* è la tipologia (patente, passaporto, ecc) */
-	private IDType idType;
-	private String issuingAuthority;
-	private Booker booker;
+	private static final long serialVersionUID = -4043855751210103797L;
+	private Long id;
+	private Account account;
+	private Customer customer;
 	private Set<Booking> bookings;
-
+	
 }
