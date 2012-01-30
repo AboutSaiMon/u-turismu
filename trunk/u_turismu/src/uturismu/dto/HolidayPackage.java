@@ -45,7 +45,7 @@ import org.hibernate.annotations.ForeignKey;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity(name="HOLIDAY_PACKAGE")
+@Entity(name = "HOLIDAY_PACKAGE")
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "name", "tourOperator" }))
 public class HolidayPackage implements Serializable {
 
@@ -98,7 +98,7 @@ public class HolidayPackage implements Serializable {
 		return Collections.unmodifiableSet(services);
 	}
 
-	@OneToMany(mappedBy="holidayPackage")
+	@OneToMany(mappedBy = "holidayPackage")
 	public Set<HolidayClassification> getClassifications() {
 		return classifications;
 	}
