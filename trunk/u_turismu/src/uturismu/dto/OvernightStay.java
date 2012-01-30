@@ -23,6 +23,7 @@
 package uturismu.dto;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,6 +48,13 @@ public class OvernightStay extends Service {
 	private Date leavingDate;
 	private ServiceType serviceType;
 	private Accommodation accomodation;
+	
+
+	public OvernightStay() {
+		arrivalDate=new GregorianCalendar().getTime();
+		leavingDate=new GregorianCalendar().getTime();
+		accomodation=new Accommodation();
+	}
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

@@ -24,6 +24,7 @@ package uturismu.dto;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -51,6 +52,13 @@ public class POI implements Serializable {
 	private String description;
 	private Address address;
 	private Set<BookingAndTicketing> bookingServices;
+	
+	public POI() {
+		name="";
+		description="";
+		address=new Address();
+		bookingServices=new HashSet<BookingService>();
+	}
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -135,6 +143,21 @@ public class POI implements Serializable {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("POI [id=");
+		builder.append(id);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", description=");
+		builder.append(description);
+		builder.append(", address=");
+		builder.append(address);
+		builder.append("]");
+		return builder.toString();
 	}
 	
 	

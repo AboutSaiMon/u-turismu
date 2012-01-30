@@ -23,105 +23,128 @@
 package uturismu.dto;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import uturismu.dto.util.Gender;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  *
  */
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
-public abstract class Service implements Serializable {
+public class User implements Serializable {
 
-	private static final long serialVersionUID = 3469323821178357386L;
+	private static final long serialVersionUID = -4043855751210103797L;
 	private Long id;
-	private Double price;
-	private Set<HolidayPackage> holidayPackages;
+	private Account account;
+	private Set<Booking> bookings;
+	private Customer customer;
 	
-	
+	public User() {
+		account=new Account();
+		bookings=new HashSet<Booking>();
+		customer=new Customer();
+	}
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
-	
-	public Double getPrice() {
-		return price;
+
+	@OneToOne(mappedBy="user")
+	public Account getAccount() {
+		return account;
 	}
-	
-	@ManyToMany(mappedBy="services")
-	public Set<HolidayPackage> getHolidayPackages() {
-		return Collections.unmodifiableSet(holidayPackages);
+
+	@OneToMany(mappedBy="user")
+	public Set<Booking> getBookings() {
+		return Collections.unmodifiableSet(bookings);
 	}
+
+	@OneToOne(mappedBy="user")
+	public Customer getCustomer() {
+		return customer;
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public void setPrice(Double price) {
-		this.price = price;
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
-	protected void setHolidayPackages(Set<HolidayPackage> holidayPackages) {
-		this.holidayPackages = holidayPackages;
+
+	protected void setBookings(Set<Booking> bookings) {
+		this.bookings = bookings;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 	
-	public boolean addHolidayPackage(HolidayPackage holidayPackage){
-		return this.holidayPackages.add(holidayPackage);
+	public boolean addBooking(Booking booking){
+		return this.bookings.add(booking);
 	}
-	public boolean removeHolidayPackage(HolidayPackage holidayPackage){
-		return this.holidayPackages.remove(holidayPackage);
+	public boolean removeBooking(Booking booking){
+		return this.bookings.remove(booking);
 	}
-	
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((account == null) ? 0 : account.hashCode());
+		result = prime * result
+				+ ((customer == null) ? 0 : customer.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof Service))
+		if (getClass() != obj.getClass())
 			return false;
-		Service other = (Service) obj;
-		if (id == null) {
-			if (other.id != null)
+		User other = (User) obj;
+		if (account == null) {
+			if (other.account != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!account.equals(other.account))
 			return false;
-		if (price == null) {
-			if (other.price != null)
+		if (customer == null) {
+			if (other.customer != null)
 				return false;
-		} else if (!price.equals(other.price))
+		} else if (!customer.equals(other.customer))
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Service [id=");
+		builder.append("User [id=");
 		builder.append(id);
-		builder.append(", price=");
-		builder.append(price);
+		builder.append(", account=");
+		builder.append(account);
+		builder.append(", customer=");
+		builder.append(customer);
 		builder.append("]");
 		return builder.toString();
 	}
-
+	
 	
 	
 }
