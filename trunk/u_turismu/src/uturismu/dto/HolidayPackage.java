@@ -61,8 +61,8 @@ public class HolidayPackage implements Serializable {
 	private TourOperator tourOperator;
 	private Set<Booking> bookings;
 	private Set<Service> services;
-
 	private Set<HolidayClassification> classifications;
+	
 	public HolidayPackage() {
 		name="";
 		description="";
