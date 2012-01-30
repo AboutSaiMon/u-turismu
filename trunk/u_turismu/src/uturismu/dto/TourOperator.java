@@ -38,6 +38,8 @@ public class TourOperator implements Serializable {
 	private Long id;
 	private String vatNumber; // unique
 	private String name;
+	private String holderName;
+	private String holderSurname;
 	private Address headOffice;
 	private Account account;
 	private Set<HolidayPackage> holidayPackages;

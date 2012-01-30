@@ -20,26 +20,40 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.dto;
-
-import java.io.Serializable;
-import java.sql.Date;
-import java.util.Set;
-
-import javax.persistence.Entity;
-
-import uturismu.dto.util.Gender;
+package uturismu.dto.util;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  *
  */
-@Entity
-public class User implements Serializable {
+public enum IDType {
 
-	private static final long serialVersionUID = -4043855751210103797L;
-	private Long id;
-	private Account account;
-	private Set<Booking> bookings;
-	private Customer customer;
+	ID {
+		@Override
+		public String toString() {
+			return "identification document";
+		}
+	},
+	
+	DRIVER_LICENSE {
+		@Override
+		public String toString() {
+			return "driver license";
+		}
+	},
+	
+	PASSPORT {
+		@Override
+		public String toString() {
+			return "passport";
+		}
+	},
+	
+	VISA {
+		@Override
+		public String toString() {
+			return "visa";
+		}
+	}
+	
 }

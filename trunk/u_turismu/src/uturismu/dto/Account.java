@@ -55,7 +55,7 @@ public class Account implements Serializable {
 	private Boolean active;
 	private AccountType type;
 	private TourOperator tourOperator;
-	private User user;
+	private Booker booker;
 
 	public Account() {
 	}
@@ -108,8 +108,8 @@ public class Account implements Serializable {
 	}
 
 	@OneToOne(mappedBy = "customer")
-	public User getCustomer() {
-		return user;
+	public Booker getBooker() {
+		return booker;
 	}
 
 	public void setId(Long id) {
@@ -148,8 +148,8 @@ public class Account implements Serializable {
 		this.tourOperator = tourOperator;
 	}
 
-	public void setCustomer(User customer) {
-		this.user = customer;
+	public void setCustomer(Booker customer) {
+		this.booker = customer;
 	}
 
 	@Override

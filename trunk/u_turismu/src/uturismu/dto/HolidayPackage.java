@@ -41,6 +41,8 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.ForeignKey;
 
+import uturismu.dto.util.HolidayType;
+
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
@@ -57,9 +59,8 @@ public class HolidayPackage implements Serializable {
 	private TourOperator tourOperator;
 	private Set<Booking> bookings;
 	private Set<Service> services;
+	private Set<HolidayClassification> classifications;
 
-	
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
@@ -94,11 +95,11 @@ public class HolidayPackage implements Serializable {
 		return Collections.unmodifiableSet(services);
 	}
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	public Integer getGuestNumber() {
 		return guestNumber;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -114,7 +115,7 @@ public class HolidayPackage implements Serializable {
 	public void setGuestNumber(Integer guestNumber) {
 		this.guestNumber = guestNumber;
 	}
-	
+
 	public void setTourOperator(TourOperator tourOperator) {
 		this.tourOperator = tourOperator;
 	}
