@@ -31,7 +31,7 @@ import javax.persistence.Entity;
  * 
  */
 @Entity
-public class BookingAndTicketing extends Service {
+public class ReservationAndTicketing extends Service {
 
 	private static final long serialVersionUID = -1401386687925117984L;
 	private Long id;

@@ -23,7 +23,6 @@
 package uturismu.dto;
 
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,14 +46,7 @@ public class OvernightStay extends Service {
 	private Date arrivalDate;
 	private Date leavingDate;
 	private ServiceType serviceType;
-	private Accommodation accomodation;
-	
-
-	public OvernightStay() {
-		arrivalDate=new GregorianCalendar().getTime();
-		leavingDate=new GregorianCalendar().getTime();
-		accomodation=new Accommodation();
-	}
+	private Accommodation accommodation;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -80,8 +72,8 @@ public class OvernightStay extends Service {
 	}
 	
 	@Column(nullable=false)
-	public Accommodation getAccomodation() {
-		return accomodation;
+	public Accommodation getAccommodation() {
+		return accommodation;
 	}
 	
 	
@@ -98,15 +90,15 @@ public class OvernightStay extends Service {
 	public void setServiceType(ServiceType serviceType) {
 		this.serviceType = serviceType;
 	}
-	public void setAccomodation(Accommodation accomodation) {
-		this.accomodation = accomodation;
+	public void setAccommodation(Accommodation accommodation) {
+		this.accommodation = accommodation;
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result
-				+ ((accomodation == null) ? 0 : accomodation.hashCode());
+				+ ((accommodation == null) ? 0 : accommodation.hashCode());
 		result = prime * result
 				+ ((arrivalDate == null) ? 0 : arrivalDate.hashCode());
 		result = prime * result
@@ -124,10 +116,10 @@ public class OvernightStay extends Service {
 		if (!(obj instanceof OvernightStay))
 			return false;
 		OvernightStay other = (OvernightStay) obj;
-		if (accomodation == null) {
-			if (other.accomodation != null)
+		if (accommodation == null) {
+			if (other.accommodation != null)
 				return false;
-		} else if (!accomodation.equals(other.accomodation))
+		} else if (!accommodation.equals(other.accommodation))
 			return false;
 		if (arrivalDate == null) {
 			if (other.arrivalDate != null)
@@ -155,7 +147,7 @@ public class OvernightStay extends Service {
 		builder.append(", serviceType=");
 		builder.append(serviceType);
 		builder.append(", accomodation=");
-		builder.append(accomodation);
+		builder.append(accommodation);
 		builder.append(", toString()=");
 		builder.append(super.toString());
 		builder.append("]");

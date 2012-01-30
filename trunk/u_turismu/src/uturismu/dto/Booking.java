@@ -37,7 +37,7 @@ public class Booking implements Serializable {
 
 	private static final long serialVersionUID = 7295908518751530161L;
 	private Long id;
-	private Date bookingTimestamp;
+	private Date bookingTimeAndDate;
 	private Booker booker;
 	private HolidayPackage holidayPackage;
 	private Set<Customer> customers;

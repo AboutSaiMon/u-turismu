@@ -23,73 +23,59 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
 public abstract class Service implements Serializable {
 
 	private static final long serialVersionUID = 3469323821178357386L;
 	private Long id;
 	private Double price;
+	private String description;
 	private Set<HolidayPackage> holidayPackages;
-	
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+
 	public Long getId() {
 		return id;
 	}
-	
+
 	public Double getPrice() {
 		return price;
 	}
-	
-	@ManyToMany(mappedBy="services")
+
+	@ManyToMany(mappedBy = "services")
 	public Set<HolidayPackage> getHolidayPackages() {
-		return Collections.unmodifiableSet(holidayPackages);
+		return holidayPackages;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	protected void setHolidayPackages(Set<HolidayPackage> holidayPackages) {
+
+	public void setHolidayPackages(Set<HolidayPackage> holidayPackages) {
 		this.holidayPackages = holidayPackages;
 	}
-	
-	public boolean addHolidayPackage(HolidayPackage holidayPackage){
-		return this.holidayPackages.add(holidayPackage);
-	}
-	public boolean removeHolidayPackage(HolidayPackage holidayPackage){
-		return this.holidayPackages.remove(holidayPackage);
-	}
-	
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((holidayPackages == null) ? 0 : holidayPackages.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -99,6 +85,11 @@ public abstract class Service implements Serializable {
 		if (!(obj instanceof Service))
 			return false;
 		Service other = (Service) obj;
+		if (holidayPackages == null) {
+			if (other.holidayPackages != null)
+				return false;
+		} else if (!holidayPackages.equals(other.holidayPackages))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -111,6 +102,7 @@ public abstract class Service implements Serializable {
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -122,6 +114,4 @@ public abstract class Service implements Serializable {
 		return builder.toString();
 	}
 
-	
-	
 }

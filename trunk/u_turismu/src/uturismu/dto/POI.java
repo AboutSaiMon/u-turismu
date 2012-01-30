@@ -24,7 +24,6 @@ package uturismu.dto;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -46,19 +45,11 @@ import javax.persistence.UniqueConstraint;
 public class POI implements Serializable {
 
 	private static final long serialVersionUID = -1860221631532674110L;
-
 	private Long id;
 	private String name;
 	private String description;
 	private Address address;
-	private Set<BookingAndTicketing> bookingServices;
-	
-	public POI() {
-		name="";
-		description="";
-		address=new Address();
-		bookingServices=new HashSet<BookingAndTicketing>();
-	}
+	private Set<ReservationAndTicketing> reservations;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -81,8 +72,8 @@ public class POI implements Serializable {
 	}
 	
 	@OneToMany(mappedBy="pointOfInterest")
-	public Set<BookingAndTicketing> getBookingServices() {
-		return Collections.unmodifiableSet(bookingServices);
+	public Set<ReservationAndTicketing> getReservations() {
+		return Collections.unmodifiableSet(reservations);
 	}
 	public void setId(Long id) {
 		this.id = id;
@@ -96,16 +87,16 @@ public class POI implements Serializable {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	protected void setBookingServices(Set<BookingAndTicketing> bookingServices) {
-		this.bookingServices = bookingServices;
+	protected void setReservations(Set<ReservationAndTicketing> reservations) {
+		this.reservations = reservations;
 	}
 	
-	public boolean addBockingService(BookingAndTicketing bookingService){
-		return this.bookingServices.add(bookingService);
+	public boolean addReservation(ReservationAndTicketing reservation){
+		return this.reservations.add(reservation);
 	}
 	
-	public boolean removeBookingService(BookingAndTicketing bookingService){
-		return this.bookingServices.remove(bookingService);
+	public boolean removeReservation(ReservationAndTicketing reservation){
+		return this.reservations.remove(reservation);
 	}
 	
 	@Override
@@ -143,21 +134,6 @@ public class POI implements Serializable {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("POI [id=");
-		builder.append(id);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", description=");
-		builder.append(description);
-		builder.append(", address=");
-		builder.append(address);
-		builder.append("]");
-		return builder.toString();
 	}
 	
 	
