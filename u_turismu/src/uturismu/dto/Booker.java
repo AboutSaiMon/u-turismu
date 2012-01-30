@@ -23,16 +23,14 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
 
-import uturismu.dto.util.Gender;
-
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
 @Entity
 public class Booker implements Serializable {
@@ -42,5 +40,72 @@ public class Booker implements Serializable {
 	private Account account;
 	private Customer customer;
 	private Set<Booking> bookings;
-	
+
+	public Booker() {
+		bookings = new HashSet<Booking>();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public Set<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public void setBookings(Set<Booking> bookings) {
+		this.bookings = bookings;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((account == null) ? 0 : account.hashCode());
+		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Booker other = (Booker) obj;
+		if (account == null) {
+			if (other.account != null)
+				return false;
+		} else if (!account.equals(other.account))
+			return false;
+		if (customer == null) {
+			if (other.customer != null)
+				return false;
+		} else if (!customer.equals(other.customer))
+			return false;
+		return true;
+	}
+
 }

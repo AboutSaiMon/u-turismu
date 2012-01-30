@@ -35,7 +35,7 @@ public class HolidayClassification implements Serializable {
 
 	private static final long serialVersionUID = -3330068729315050006L;
 	private Long id;
-	private HolidayPackage holiday;
-	private HolidayTag tag;
+	private HolidayPackage holidayPackage;
+	private HolidayTag holidayTag;
 
 }

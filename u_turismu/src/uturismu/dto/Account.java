@@ -25,16 +25,7 @@ package uturismu.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.hibernate.annotations.Type;
 
 import uturismu.dto.util.AccountType;
 
@@ -42,7 +33,7 @@ import uturismu.dto.util.AccountType;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity
+@Entity(name = "ACCOUNT")
 public class Account implements Serializable {
 
 	private static final long serialVersionUID = 1902321524953220029L;
@@ -50,8 +41,8 @@ public class Account implements Serializable {
 	private String email;
 	private String password;
 	private String salt;
-	private Date registrationTimestamp;
-	private Date lastAccessTimestamp;
+	private Date registrationTimeAndDate;
+	private Date lastAccessTimeAndDate;
 	private Boolean active;
 	private AccountType type;
 	private TourOperator tourOperator;
@@ -60,18 +51,14 @@ public class Account implements Serializable {
 	public Account() {
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
-	@Column(nullable = false, unique = true)
 	public String getEmail() {
 		return email;
 	}
 
-	@Column(nullable = false)
 	public String getPassword() {
 		return password;
 	}
@@ -80,34 +67,26 @@ public class Account implements Serializable {
 		return salt;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "registration_timestamp")
-	public Date getRegistrationTimestamp() {
-		return registrationTimestamp;
+	public Date getRegistrationTimeAndDate() {
+		return registrationTimeAndDate;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "last_access_timestamp")
-	public Date getLastAccessTimestamp() {
-		return lastAccessTimestamp;
+	public Date getLastAccessTimeAndDate() {
+		return lastAccessTimeAndDate;
 	}
 
-	@Type(type = "yes_no")
 	public Boolean isActive() {
 		return active;
 	}
 
-	@Column(nullable = false)
 	public AccountType getType() {
 		return type;
 	}
 
-	@OneToOne(mappedBy = "account")
 	public TourOperator getTourOperator() {
 		return tourOperator;
 	}
 
-	@OneToOne(mappedBy = "customer")
 	public Booker getBooker() {
 		return booker;
 	}
@@ -128,12 +107,12 @@ public class Account implements Serializable {
 		this.salt = salt;
 	}
 
-	public void setRegistrationTimestamp(Date registrationTimestamp) {
-		this.registrationTimestamp = registrationTimestamp;
+	public void setRegistrationTimeAndDate(Date registrationTimeAndDate) {
+		this.registrationTimeAndDate = registrationTimeAndDate;
 	}
 
-	public void setLastAccessTimestamp(Date lastAccessTimestamp) {
-		this.lastAccessTimestamp = lastAccessTimestamp;
+	public void setLastAccessTimeAndDate(Date lastAccessTimeAndDate) {
+		this.lastAccessTimeAndDate = lastAccessTimeAndDate;
 	}
 
 	public void setActive(Boolean active) {
@@ -148,8 +127,8 @@ public class Account implements Serializable {
 		this.tourOperator = tourOperator;
 	}
 
-	public void setCustomer(Booker customer) {
-		this.booker = customer;
+	public void setBooker(Booker booker) {
+		this.booker = booker;
 	}
 
 	@Override
@@ -159,10 +138,10 @@ public class Account implements Serializable {
 		result = prime * result + ((active == null) ? 0 : active.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result
-				+ ((lastAccessTimestamp == null) ? 0 : lastAccessTimestamp.hashCode());
+				+ ((lastAccessTimeAndDate == null) ? 0 : lastAccessTimeAndDate.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result
-				+ ((registrationTimestamp == null) ? 0 : registrationTimestamp.hashCode());
+				+ ((registrationTimeAndDate == null) ? 0 : registrationTimeAndDate.hashCode());
 		result = prime * result + ((salt == null) ? 0 : salt.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
@@ -187,20 +166,20 @@ public class Account implements Serializable {
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (lastAccessTimestamp == null) {
-			if (other.lastAccessTimestamp != null)
+		if (lastAccessTimeAndDate == null) {
+			if (other.lastAccessTimeAndDate != null)
 				return false;
-		} else if (!lastAccessTimestamp.equals(other.lastAccessTimestamp))
+		} else if (!lastAccessTimeAndDate.equals(other.lastAccessTimeAndDate))
 			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (registrationTimestamp == null) {
-			if (other.registrationTimestamp != null)
+		if (registrationTimeAndDate == null) {
+			if (other.registrationTimeAndDate != null)
 				return false;
-		} else if (!registrationTimestamp.equals(other.registrationTimestamp))
+		} else if (!registrationTimeAndDate.equals(other.registrationTimeAndDate))
 			return false;
 		if (salt == null) {
 			if (other.salt != null)
@@ -210,29 +189,6 @@ public class Account implements Serializable {
 		if (type != other.type)
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Account [id=");
-		builder.append(id);
-		builder.append(", email=");
-		builder.append(email);
-		builder.append(", password=");
-		builder.append(password);
-		builder.append(", salt=");
-		builder.append(salt);
-		builder.append(", registrationTimestamp=");
-		builder.append(registrationTimestamp);
-		builder.append(", lastAccessTimestamp=");
-		builder.append(lastAccessTimestamp);
-		builder.append(", active=");
-		builder.append(active);
-		builder.append(", type=");
-		builder.append(type);
-		builder.append("]");
-		return builder.toString();
 	}
 
 }

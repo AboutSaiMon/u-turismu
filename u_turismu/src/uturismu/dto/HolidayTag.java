@@ -38,6 +38,6 @@ public class HolidayTag implements Serializable {
 	private Long id;
 	private String name;
 	private String description;
-	private Set<HolidayClassification> classifications;
+	private Set<HolidayClassification> holidayClassifications;
 
 }
