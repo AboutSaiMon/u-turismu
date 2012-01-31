@@ -23,14 +23,67 @@
 package uturismu.dao;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.util.Iterator;
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.LockMode;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  *
  */
-public abstract class AbstractGenericDAO<T , ID extends Serializable> implements GenericDAO<T, Serializable>{
+public abstract class AbstractGenericDAO<T , ID extends Serializable> implements GenericDAO<T, ID>{
 	private Class<T> persistentClass;
-	private Se
+	private SessionFactory sessionFactory;
+	
+	public AbstractGenericDAO(){
+		this.persistentClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+	}
+	
+	private Session session(){
+		return sessionFactory.getCurrentSession();
+	}
+	
+	public Class<T> getPersistentClass(){
+		return persistentClass;
+	}
 	
 	
+//	@Override
+	public T findById(Serializable id) {
+		return (T) session().load(getPersistentClass(), id);
+	}
+	
+	
+	public List<T> findAll() {
+		Criteria criteria=session().createCriteria(getPersistentClass());
+		return criteria.list();
+	}
+
+
+	public ID save(T entity) {
+		//TODO: SE VOGLIAMO USARE IL SAVE OR UPDATE NON RESTITUISCE NULLA 
+		return (ID)session().save(entity);
+	}
+
+	public void delete(T entity) {
+		session().delete(entity);
+	}
+
+	public void update(T entity) {
+		session().update(entity);
+	}
+
+	public void flush() {
+		session().flush();
+	}
+
+	public void clear() {
+		session().clear();
+	}	
 }

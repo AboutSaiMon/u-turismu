@@ -23,19 +23,23 @@
 package uturismu.dao;
 
 import java.io.Serializable;
-import java.util.List;
+
+import uturismu.dto.HolidayPackage;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  *
  */
-public interface GenericDAO < T, ID extends Serializable >{
+public class HolidayPackageDAOImpl extends AbstractGenericDAO<HolidayPackage, Long> implements HolidayPackageDAO {
+
+	@Override
+	public void getFirst(Long id) {
+	}
+
+	@Override
+	public void getSecond(Long id) {
+	}
+
 	
-	T findById(ID id);
-	List<T> findAll();
-	ID save(T entity);
-	void delete(T entity);
-	void update(T entity);
-	void flush();
-	void clear();	
+	
 }
