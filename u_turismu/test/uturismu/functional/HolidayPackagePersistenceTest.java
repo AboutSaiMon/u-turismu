@@ -40,6 +40,7 @@ import uturismu.service.HolidayPackageService;
 public class HolidayPackagePersistenceTest {
 
 	@Test
+	@Ignore
 	public void persistWithHibernate() {
 		Session session = HibernateUtil.getSession();
 		Transaction transaction = session.beginTransaction();
@@ -49,12 +50,10 @@ public class HolidayPackagePersistenceTest {
 	}
 
 	@Test
-	@Ignore
 	public void persistWithSpring() {
-		String contextPath = "uturismu/functional/applicationContext.xml";
+		String contextPath = "uturismu/applicationContext.xml";
 		ApplicationContext context = new ClassPathXmlApplicationContext(contextPath);
-		HolidayPackageService service = (HolidayPackageService) context
-				.getBean("holidayPackageService");
+		HolidayPackageService service = (HolidayPackageService) context.getBean("holidayPackageService");
 
 		HolidayPackage p = new HolidayPackage();
 		p.setName("Vacanze nel mediterraneo");

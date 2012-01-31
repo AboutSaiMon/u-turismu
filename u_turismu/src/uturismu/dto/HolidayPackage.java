@@ -24,6 +24,7 @@ package uturismu.dto;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -59,6 +60,12 @@ public class HolidayPackage implements Serializable {
 	private Set<Service> services;
 	private Set<HolidayClassification> classifications;
 
+	public HolidayPackage() {
+		bookings = new HashSet<Booking>();
+		services = new HashSet<Service>();
+		classifications = new HashSet<HolidayClassification>();
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
