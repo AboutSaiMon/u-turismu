@@ -24,66 +24,73 @@ package uturismu.dao;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
-import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Criterion;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
-public abstract class AbstractGenericDAO<T , ID extends Serializable> implements GenericDAO<T, ID>{
+public abstract class AbstractDAO<T extends Serializable> implements GenericDAO<T> {
+
 	private Class<T> persistentClass;
 	private SessionFactory sessionFactory;
-	
-	public AbstractGenericDAO(){
-		this.persistentClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+
+	public AbstractDAO() {
+		// Risolve a runtime il tipo dei parametri della classe
+		// AbstractGenericDAO.
+		// In questo caso solo "T".
+		ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
+		// Recupera la prima (e l'unica) classe parametrizzata
+		persistentClass = (Class<T>) type.getActualTypeArguments()[0];
 	}
 	
-	private Session session(){
+	protected void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
+	protected Session session() {
 		return sessionFactory.getCurrentSession();
 	}
-	
-	public Class<T> getPersistentClass(){
-		return persistentClass;
+
+	@Override
+	public T findById(Long id) {
+		return (T) session().load(persistentClass, id);
 	}
-	
-	
-//	@Override
-	public T findById(Serializable id) {
-		return (T) session().load(getPersistentClass(), id);
-	}
-	
-	
+
+	@Override
 	public List<T> findAll() {
-		Criteria criteria=session().createCriteria(getPersistentClass());
-		return criteria.list();
+		Criteria criteria = session().createCriteria(persistentClass);
+		return (List<T>) criteria.list();
 	}
 
-
-	public ID save(T entity) {
-		//TODO: SE VOGLIAMO USARE IL SAVE OR UPDATE NON RESTITUISCE NULLA 
-		return (ID)session().save(entity);
+	@Override
+	public Long save(T entity) {
+		return (Long) session().save(entity);
 	}
 
+	@Override
 	public void delete(T entity) {
 		session().delete(entity);
 	}
 
+	@Override
 	public void update(T entity) {
 		session().update(entity);
 	}
 
+	@Override
 	public void flush() {
 		session().flush();
 	}
 
+	@Override
 	public void clear() {
 		session().clear();
-	}	
+	}
+
 }

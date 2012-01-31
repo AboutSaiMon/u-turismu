@@ -28,9 +28,6 @@ import uturismu.dto.HolidayPackage;
  * @author "LagrecaSpaccarotella" team.
  *
  */
-public interface HolidayPackageDAO extends GenericDAO<HolidayPackage, Long> {
-	
-	public void getFirst(Long id);
-	public void getSecond(Long id);
+public interface HolidayPackageDAO extends GenericDAO<HolidayPackage> {
 
 }
