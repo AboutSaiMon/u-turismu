@@ -29,7 +29,6 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -42,13 +41,12 @@ public abstract class AbstractDAO<T extends Serializable> implements GenericDAO<
 
 	public AbstractDAO() {
 		// Risolve a runtime il tipo dei parametri della classe
-		// AbstractGenericDAO.
-		// In questo caso solo "T".
+		// AbstractGenericDAO. In questo caso solo "T".
 		ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
 		// Recupera la prima (e l'unica) classe parametrizzata
 		persistentClass = (Class<T>) type.getActualTypeArguments()[0];
 	}
-	
+
 	protected void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
