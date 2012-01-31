@@ -23,8 +23,8 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,7 +48,7 @@ import uturismu.dto.util.IDType;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity(name="CUSTOMER")
+@Entity(name = "CUSTOMER")
 public class Customer implements Serializable {
 
 	private static final long serialVersionUID = -6323910189513397033L;
@@ -74,22 +74,22 @@ public class Customer implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
-	@Column(name="tax_code", unique=true)
+	@Column(name = "tax_code", unique = true)
 	public String getTaxCode() {
 		return taxCode;
 	}
 
-	@Column(name="first_name", nullable=false)
+	@Column(name = "first_name", nullable = false)
 	public String getFirstName() {
 		return firstName;
 	}
 
-	@Column(name="last_name", nullable=false)
+	@Column(name = "last_name", nullable = false)
 	public String getLastName() {
 		return lastName;
 	}
@@ -104,7 +104,7 @@ public class Customer implements Serializable {
 	}
 
 	@ManyToOne
-	@JoinColumn(name="id_birth_place", nullable=false)
+	@JoinColumn(name = "id_birth_place", nullable = false)
 	public City getBirthPlace() {
 		return birthPlace;
 	}
@@ -114,27 +114,27 @@ public class Customer implements Serializable {
 		return livingPlace;
 	}
 
-	@Column(name="id_number", nullable=false)
+	@Column(name = "id_number", nullable = false)
 	public String getIdNumber() {
 		return idNumber;
 	}
 
-	@Column(name="id_type")
+	@Column(name = "id_type")
 	public IDType getIdType() {
 		return idType;
 	}
-	
-	@Column(name="issuing_authority", nullable=false)
+
+	@Column(name = "issuing_authority", nullable = false)
 	public String getIssuingAuthority() {
 		return issuingAuthority;
 	}
 
-	@OneToOne(mappedBy="customer")
+	@OneToOne(mappedBy = "customer")
 	public Booker getBooker() {
 		return booker;
 	}
 
-	@ManyToMany(mappedBy="customers")
+	@ManyToMany(mappedBy = "customers")
 	public Set<Booking> getBookings() {
 		return Collections.unmodifiableSet(bookings);
 	}
