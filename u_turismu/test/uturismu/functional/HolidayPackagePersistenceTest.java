@@ -22,10 +22,14 @@
  */
 package uturismu.functional;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import uturismu.HibernateUtil;
 import uturismu.dto.HolidayPackage;
 import uturismu.service.HolidayPackageService;
 
@@ -36,7 +40,17 @@ import uturismu.service.HolidayPackageService;
 public class HolidayPackagePersistenceTest {
 
 	@Test
-	public void persist() {
+	public void persistWithHibernate() {
+		Session session = HibernateUtil.getSession();
+		Transaction transaction = session.beginTransaction();
+
+		transaction.commit();
+		session.close();
+	}
+
+	@Test
+	@Ignore("Verifichiamo eventuali problemi con Hibernate")
+	public void persistWithSpring() {
 		String contextPath = "uturismu/functional/applicationContext.xml";
 		ApplicationContext context = new ClassPathXmlApplicationContext(contextPath);
 		HolidayPackageService service = (HolidayPackageService) context

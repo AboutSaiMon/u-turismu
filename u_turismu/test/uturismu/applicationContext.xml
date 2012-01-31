@@ -51,6 +51,8 @@
 	</bean>
 
 	<!-- Translates Hibernate exceptions in Spring Exceptions -->
+	<!--
 	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	-->
 
 </beans>
