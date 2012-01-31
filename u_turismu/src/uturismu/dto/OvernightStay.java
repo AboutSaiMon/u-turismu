@@ -26,9 +26,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -42,21 +39,14 @@ import uturismu.dto.util.ServiceType;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity(name="OVERNIGHT_STAY")
+@Entity(name = "OVERNIGHT_STAY")
 public class OvernightStay extends Service {
 
 	private static final long serialVersionUID = 1066966536889642801L;
-	private Long id;
 	private Date arrivalDate;
 	private Date leavingDate;
 	private ServiceType serviceType;
 	private Accommodation accommodation;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
 
 	@Column(name = "arrival_date", nullable = false)
 	@Temporal(TemporalType.DATE)
@@ -76,14 +66,10 @@ public class OvernightStay extends Service {
 	}
 
 	@ManyToOne
-	@JoinColumn(name="id_accomodation")
-	@ForeignKey(name="FK_OVERNIGHTSTAY_ACCOMODATION")
+	@JoinColumn(name = "id_accomodation")
+	@ForeignKey(name = "FK_OVERNIGHTSTAY_ACCOMODATION")
 	public Accommodation getAccommodation() {
 		return accommodation;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public void setArrivalDate(Date arrivalDate) {
@@ -140,25 +126,6 @@ public class OvernightStay extends Service {
 		if (serviceType != other.serviceType)
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("OvernightStay [id=");
-		builder.append(id);
-		builder.append(", arrivalDate=");
-		builder.append(arrivalDate);
-		builder.append(", leavingDate=");
-		builder.append(leavingDate);
-		builder.append(", serviceType=");
-		builder.append(serviceType);
-		builder.append(", accomodation=");
-		builder.append(accommodation);
-		builder.append(", toString()=");
-		builder.append(super.toString());
-		builder.append("]");
-		return builder.toString();
 	}
 
 }

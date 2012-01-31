@@ -46,7 +46,7 @@ import org.hibernate.annotations.ForeignKey;
  * 
  */
 @Entity(name = "HOLIDAY_PACKAGE")
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "name", "tourOperator" }))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "name", "id_tour_operator" }))
 public class HolidayPackage implements Serializable {
 
 	private static final long serialVersionUID = -138153679026481915L;

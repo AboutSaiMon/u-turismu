@@ -45,6 +45,9 @@ import uturismu.dto.Service;
 import uturismu.dto.Station;
 import uturismu.dto.TourOperator;
 import uturismu.dto.Transport;
+import uturismu.dto.util.AccommodationType;
+import uturismu.dto.util.AccountType;
+import uturismu.dto.util.ActivityType;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -86,7 +89,7 @@ public class HibernateUtil {
 	}
 
 	public static Session getSession() {
-		return getSessionFactory().openSession();
+		return getSessionFactory().getCurrentSession();
 	}
 
 }

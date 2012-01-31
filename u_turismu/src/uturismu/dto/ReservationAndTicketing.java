@@ -44,17 +44,10 @@ import org.hibernate.annotations.ForeignKey;
 public class ReservationAndTicketing extends Service {
 
 	private static final long serialVersionUID = -1401386687925117984L;
-	private Long id;
 	private Date timeAndDate;
 	private POI pointOfInterest;
 
 	public ReservationAndTicketing() {
-	}
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	public Long getId() {
-		return id;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -68,10 +61,6 @@ public class ReservationAndTicketing extends Service {
 	@ForeignKey(name="FK_RESERVATIONANDTICKETING_POI")
 	public POI getPointOfInterest() {
 		return pointOfInterest;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public void setTimeAndDate(Date timeAndDate) {
