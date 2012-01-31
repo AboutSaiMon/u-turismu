@@ -48,6 +48,9 @@ public class OutdoorActivity extends Service {
 	private String name;
 	private ActivityType activityType;
 	private City city;
+	
+	public OutdoorActivity() {
+	}
 
 	public String getName() {
 		return name;

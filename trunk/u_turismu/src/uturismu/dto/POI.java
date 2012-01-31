@@ -24,6 +24,7 @@ package uturismu.dto;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -51,6 +52,10 @@ public class POI implements Serializable {
 	private Address address;
 	private Set<ReservationAndTicketing> reservations;
 
+	public POI() {
+		reservations = new HashSet<ReservationAndTicketing>();
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {

@@ -47,6 +47,9 @@ public class OvernightStay extends Service {
 	private Date leavingDate;
 	private ServiceType serviceType;
 	private Accommodation accommodation;
+	
+	public OvernightStay() {
+	}
 
 	@Column(name = "arrival_date", nullable = false)
 	@Temporal(TemporalType.DATE)
