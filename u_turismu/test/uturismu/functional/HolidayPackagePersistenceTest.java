@@ -20,29 +20,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.service;
+package uturismu.functional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import uturismu.dao.HolidayPackageDAO;
 import uturismu.dto.HolidayPackage;
+import uturismu.service.HolidayPackageService;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Service("holidayPackageService")
-@Transactional
-public class HolidayPackageServiceImpl implements HolidayPackageService {
+public class HolidayPackagePersistenceTest {
 
-	@Autowired
-	private HolidayPackageDAO dao;
+	@Test
+	public void persist() {
+		String contextPath = "uturismu/functional/applicationContext.xml";
+		ApplicationContext context = new ClassPathXmlApplicationContext(contextPath);
+		HolidayPackageService service = (HolidayPackageService) context
+				.getBean("holidayPackageService");
 
-	@Override
-	public Long save(HolidayPackage entity) {
-		return dao.save(entity);
+		HolidayPackage p = new HolidayPackage();
+		p.setName("Vacanze nel mediterraneo");
+		p.setGuestNumber(2);
+		p.setDescription("Viaggio per due con crociera");
+
+		service.save(p);
 	}
 
 }
