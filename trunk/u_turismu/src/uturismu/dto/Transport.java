@@ -22,13 +22,10 @@
  */
 package uturismu.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -46,7 +43,6 @@ import uturismu.dto.util.TransportType;
 public class Transport extends Service {
 
 	private static final long serialVersionUID = 5499793625458647910L;
-	private Long id;
 	private String companyName;
 	private Date departureTimeAndDate;
 	private Date arrivalTimeAndDate;
@@ -55,12 +51,6 @@ public class Transport extends Service {
 	private Station arrivalStation;
 
 	public Transport() {
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long getId() {
-		return id;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -91,10 +81,6 @@ public class Transport extends Service {
 	@ForeignKey(name = "FK_TRANSPORT_ARRIVALSTATION")
 	public Station getArrivalStation() {
 		return arrivalStation;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public void setDepartureTimeAndDate(Date departureTimeAndDate) {

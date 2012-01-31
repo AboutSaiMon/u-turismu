@@ -81,7 +81,7 @@ public class Accommodation implements Serializable {
 		return type;
 	}
 
-	@OneToMany(mappedBy = "accomodation")
+	@OneToMany(mappedBy = "accommodation")
 	public Set<OvernightStay> getOvernightsStay() {
 		return Collections.unmodifiableSet(overnightsStay);
 	}

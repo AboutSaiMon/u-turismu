@@ -41,20 +41,13 @@ import uturismu.dto.util.ActivityType;
  * 
  */
 @Entity(name="OUTDOOR_ACTIVITY")
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "name", "activityType" }))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "name", "activity_type" }))
 public class OutdoorActivity extends Service {
 
 	private static final long serialVersionUID = -5512888246149101861L;
-	private Long id;
 	private String name;
 	private ActivityType activityType;
 	private City city;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
 
 	public String getName() {
 		return name;
@@ -70,10 +63,6 @@ public class OutdoorActivity extends Service {
 	@ForeignKey(name="FK_OUTDOORACTIVITY_CITY")
 	public City getCity() {
 		return city;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public void setName(String name) {

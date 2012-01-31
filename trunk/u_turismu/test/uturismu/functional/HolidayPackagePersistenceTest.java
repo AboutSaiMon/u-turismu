@@ -49,7 +49,7 @@ public class HolidayPackagePersistenceTest {
 	}
 
 	@Test
-	@Ignore("Verifichiamo eventuali problemi con Hibernate")
+	@Ignore
 	public void persistWithSpring() {
 		String contextPath = "uturismu/functional/applicationContext.xml";
 		ApplicationContext context = new ClassPathXmlApplicationContext(contextPath);
