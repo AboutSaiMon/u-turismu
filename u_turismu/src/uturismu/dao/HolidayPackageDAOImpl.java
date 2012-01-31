@@ -22,24 +22,22 @@
  */
 package uturismu.dao;
 
-import java.io.Serializable;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import uturismu.dto.HolidayPackage;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
-public class HolidayPackageDAOImpl extends AbstractGenericDAO<HolidayPackage, Long> implements HolidayPackageDAO {
+@Repository
+public class HolidayPackageDAOImpl extends AbstractDAO<HolidayPackage> implements HolidayPackageDAO {
 
-	@Override
-	public void getFirst(Long id) {
+	@Override @Autowired
+	protected void setSessionFactory(SessionFactory sessionFactory) {
+		super.setSessionFactory(sessionFactory);
 	}
-
-	@Override
-	public void getSecond(Long id) {
-	}
-
-	
 	
 }

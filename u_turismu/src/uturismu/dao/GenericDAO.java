@@ -27,15 +27,21 @@ import java.util.List;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
-public interface GenericDAO < T, ID extends Serializable >{
-	
-	T findById(ID id);
-	List<T> findAll();
-	ID save(T entity);
-	void delete(T entity);
-	void update(T entity);
-	void flush();
-	void clear();	
+public interface GenericDAO<T extends Serializable> {
+
+	public T findById(Long id);
+
+	public List<T> findAll();
+
+	public Long save(T entity);
+
+	public void delete(T entity);
+
+	public void update(T entity);
+
+	public void flush();
+
+	public void clear();
 }
