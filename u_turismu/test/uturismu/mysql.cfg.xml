@@ -17,7 +17,7 @@
 		<property name="hibernate.use_sql_comments">true</property>
 		<!-- Drop and re-create the database schema on startup -->
 		<!-- validate | update | create | create-drop -->
-		<property name="hibernate.hbm2ddl.auto">create</property>
+		<property name="hibernate.hbm2ddl.auto">create-drop</property>
 		<!-- Enable Hibernate's automatic session context management -->
 		<property name="hibernate.current_session_context_class">thread</property>
 		<!-- Disable the second-level cache -->

@@ -50,8 +50,8 @@ public class Account implements Serializable {
 	private String email;
 	private String password;
 	private String salt;
-	private Date registrationTimeAndDate;
-	private Date lastAccessTimeAndDate;
+	private Date registrationTimestamp;
+	private Date lastAccessTimestamp;
 	private Boolean active;
 	private AccountType type;
 	private TourOperator tourOperator;
@@ -79,15 +79,15 @@ public class Account implements Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="registration_time_date", nullable=false)
-	public Date getRegistrationTimeAndDate() {
-		return registrationTimeAndDate;
+	@Column(name="registration_timestamp", nullable=false)
+	public Date getRegistrationTimestamp() {
+		return registrationTimestamp;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="last_acces_time_date", nullable=false)
-	public Date getLastAccessTimeAndDate() {
-		return lastAccessTimeAndDate;
+	@Column(name="last_acces_timestamp", nullable=false)
+	public Date getLastAccessTimestamp() {
+		return lastAccessTimestamp;
 	}
 
 	@Type(type="yes_no")
@@ -125,12 +125,12 @@ public class Account implements Serializable {
 		this.salt = salt;
 	}
 
-	public void setRegistrationTimeAndDate(Date registrationTimeAndDate) {
-		this.registrationTimeAndDate = registrationTimeAndDate;
+	public void setRegistrationTimestamp(Date registrationTimestamp) {
+		this.registrationTimestamp = registrationTimestamp;
 	}
 
-	public void setLastAccessTimeAndDate(Date lastAccessTimeAndDate) {
-		this.lastAccessTimeAndDate = lastAccessTimeAndDate;
+	public void setLastAccessTimestamp(Date lastAccessTimestamp) {
+		this.lastAccessTimestamp = lastAccessTimestamp;
 	}
 
 	public void setActive(Boolean active) {
@@ -156,10 +156,10 @@ public class Account implements Serializable {
 		result = prime * result + ((active == null) ? 0 : active.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result
-				+ ((lastAccessTimeAndDate == null) ? 0 : lastAccessTimeAndDate.hashCode());
+				+ ((lastAccessTimestamp == null) ? 0 : lastAccessTimestamp.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result
-				+ ((registrationTimeAndDate == null) ? 0 : registrationTimeAndDate.hashCode());
+				+ ((registrationTimestamp == null) ? 0 : registrationTimestamp.hashCode());
 		result = prime * result + ((salt == null) ? 0 : salt.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
@@ -184,20 +184,20 @@ public class Account implements Serializable {
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (lastAccessTimeAndDate == null) {
-			if (other.lastAccessTimeAndDate != null)
+		if (lastAccessTimestamp == null) {
+			if (other.lastAccessTimestamp != null)
 				return false;
-		} else if (!lastAccessTimeAndDate.equals(other.lastAccessTimeAndDate))
+		} else if (!lastAccessTimestamp.equals(other.lastAccessTimestamp))
 			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (registrationTimeAndDate == null) {
-			if (other.registrationTimeAndDate != null)
+		if (registrationTimestamp == null) {
+			if (other.registrationTimestamp != null)
 				return false;
-		} else if (!registrationTimeAndDate.equals(other.registrationTimeAndDate))
+		} else if (!registrationTimestamp.equals(other.registrationTimestamp))
 			return false;
 		if (salt == null) {
 			if (other.salt != null)

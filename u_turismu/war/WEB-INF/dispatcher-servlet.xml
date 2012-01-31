@@ -7,30 +7,27 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-	<!-- Il wiring delle dipendenze è stato effettuato mediante il meccanismo 
-		automatico -->
-
-	<!-- Permette a Spring di utilizzare le annotazioni e ricercare i bean nei 
-		package specificati -->
+	<!--
+		Enables annotation-driven Beans (using @Component or specializations of it,
+		such as @Repository, @Service, @Controller), allowing Spring to looking for
+		beans in the specified packages.
+	 -->
 	<context:component-scan base-package="uturismu.dao" />
 	<context:component-scan base-package="uturismu.service" />
 	<context:component-scan base-package="uturismu.controller" />
 
-	<!-- Transazioni gestite mediante AOP, con l'utilizzo delle annotazioni -->
-	<tx:annotation-driven />
-	<!-- Il modulo MVC gestito mediante annotazioni -->
-	<mvc:annotation-driven />
-
-	<!-- Definisce una sorgente dati con un "pool" di connessioni disponibili -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<!-- Defines a connection pool using Apache Commons DBCP and Commons Pool -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/uturismu" />
 		<property name="username" value="root" />
 		<property name="password" value="root" />
 	</bean>
 
-	<!-- Definisce la Session Factory di Hibernate, abilitando le annotazioni -->
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+	<!-- Defines Hibernate Session Factory, with Hibernate built-int properties -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan" value="uturismu.dto" />
 		<property name="schemaUpdate" value="true" />
@@ -38,22 +35,32 @@
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.use_sql_comments">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
 			</props>
 		</property>
 	</bean>
 
-	<!-- Abilita il Transaction Manager di Spring -->
-	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	<!-- Enables annotation-driven transactions -->
+	<tx:annotation-driven />
+
+	<!-- Enables Spring Transaction Manager -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<!-- Translates the Hibernate exceptions in Spring Exceptions -->
+	<!-- Translates Hibernate exceptions in Spring Exceptions -->
 	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
-	<!-- Indica qual'è la cartella che contiene le risorse statiche -->
+	<!-- Enables annotation-driven Spring MVC  -->
+	<mvc:annotation-driven />
+
+	<!-- Defines the local folder that contains static resources, such as images, html files, etc. -->
 	<mvc:resources location="/resources/" mapping="/resources/**" />
 
+	<!-- Defines the ViewResolver of the MVC pattern -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
@@ -61,6 +68,7 @@
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
 	</bean>
 	
+	<!-- Defines the Validator for the Bean values -->
 	<!-- 
 	<bean id="validator"
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />

@@ -22,14 +22,13 @@
  */
 package uturismu.service;
 
+import uturismu.dao.GenericDao;
 import uturismu.dto.HolidayPackage;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public interface HolidayPackageService {
-
-	public Long save(HolidayPackage entity);
+public interface HolidayPackageService extends GenericDao<HolidayPackage> {
 
 }
