@@ -36,7 +36,7 @@ import uturismu.dto.HolidayPackage;
 public class HolidayPackageDAOImpl extends AbstractDAO<HolidayPackage> implements HolidayPackageDAO {
 
 	@Override @Autowired
-	protected void setSessionFactory(SessionFactory sessionFactory) {
+	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
 	
