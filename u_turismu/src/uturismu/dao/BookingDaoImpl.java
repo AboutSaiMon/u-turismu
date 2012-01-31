@@ -22,12 +22,22 @@
  */
 package uturismu.dao;
 
-import uturismu.dto.HolidayPackage;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import uturismu.dto.Booking;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
-public interface HolidayPackageDAO extends GenericDAO<HolidayPackage> {
+@Repository
+public class BookingDaoImpl extends AbstractDao<Booking> implements BookingDao {
+
+	@Autowired
+	public BookingDaoImpl(SessionFactory sessionFactory) {
+		super(sessionFactory);
+	}
 
 }

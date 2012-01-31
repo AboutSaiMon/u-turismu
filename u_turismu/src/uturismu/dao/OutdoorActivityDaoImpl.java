@@ -26,18 +26,19 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import uturismu.dto.HolidayPackage;
+import uturismu.dto.OutdoorActivity;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
 @Repository
-public class HolidayPackageDAOImpl extends AbstractDAO<HolidayPackage> implements HolidayPackageDAO {
+public class OutdoorActivityDaoImpl extends AbstractDao<OutdoorActivity> implements
+		OutdoorActivityDao {
 
-	@Override @Autowired
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		super.setSessionFactory(sessionFactory);
+	@Autowired
+	public OutdoorActivityDaoImpl(SessionFactory sessionFactory) {
+		super(sessionFactory);
 	}
-	
+
 }

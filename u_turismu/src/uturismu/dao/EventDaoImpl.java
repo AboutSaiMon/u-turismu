@@ -20,29 +20,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.service;
+package uturismu.dao;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Repository;
 
-import uturismu.dao.HolidayPackageDao;
-import uturismu.dto.HolidayPackage;
+import uturismu.dto.Event;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Service("holidayPackageService")
-@Transactional
-public class HolidayPackageServiceImpl implements HolidayPackageService {
+@Repository
+public class EventDaoImpl extends AbstractDao<Event> implements EventDao {
 
 	@Autowired
-	private HolidayPackageDao dao;
-
-	@Override
-	public Long save(HolidayPackage entity) {
-		return dao.save(entity);
+	public EventDaoImpl(SessionFactory sessionFactory) {
+		super(sessionFactory);
 	}
 
 }
