@@ -22,26 +22,22 @@
  */
 package uturismu.dao;
 
-import java.io.Serializable;
-import java.util.List;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import uturismu.dto.Customer;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public interface GenericDAO<T extends Serializable> {
+@Repository
+public class CustomerDaoImpl extends AbstractDao<Customer> implements CustomerDao {
 
-	public T findById(Long id);
+	@Autowired
+	public CustomerDaoImpl(SessionFactory sessionFactory) {
+		super(sessionFactory);
+	}
 
-	public List<T> findAll();
-
-	public Long save(T entity);
-
-	public void delete(T entity);
-
-	public void update(T entity);
-
-	public void flush();
-
-	public void clear();
 }

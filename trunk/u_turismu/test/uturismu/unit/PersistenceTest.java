@@ -20,11 +20,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.functional;
+package uturismu.unit;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -37,11 +36,10 @@ import uturismu.service.HolidayPackageService;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public class HolidayPackagePersistenceTest {
+public class PersistenceTest {
 
 	@Test
-	@Ignore
-	public void persistWithHibernate() {
+	public void createSchemaWithHibernate() {
 		Session session = HibernateUtil.getSession();
 		Transaction transaction = session.beginTransaction();
 
@@ -53,7 +51,8 @@ public class HolidayPackagePersistenceTest {
 	public void persistWithSpring() {
 		String contextPath = "uturismu/applicationContext.xml";
 		ApplicationContext context = new ClassPathXmlApplicationContext(contextPath);
-		HolidayPackageService service = (HolidayPackageService) context.getBean("holidayPackageService");
+		HolidayPackageService service = (HolidayPackageService) context
+				.getBean("holidayPackageService");
 
 		HolidayPackage p = new HolidayPackage();
 		p.setName("Vacanze nel mediterraneo");
