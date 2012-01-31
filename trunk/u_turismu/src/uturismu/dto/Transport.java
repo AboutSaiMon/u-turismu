@@ -53,6 +53,11 @@ public class Transport extends Service {
 	public Transport() {
 	}
 
+	@Column(name="company_name")
+	public String getCompanyName() {
+		return companyName;
+	}
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "departure_time_date")
 	public Date getDepartureTimeAndDate() {
@@ -81,6 +86,10 @@ public class Transport extends Service {
 	@ForeignKey(name = "FK_TRANSPORT_ARRIVALSTATION")
 	public Station getArrivalStation() {
 		return arrivalStation;
+	}
+	
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 	public void setDepartureTimeAndDate(Date departureTimeAndDate) {
