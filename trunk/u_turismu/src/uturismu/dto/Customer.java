@@ -28,6 +28,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -40,6 +42,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Columns;
 
 import uturismu.dto.util.Gender;
 import uturismu.dto.util.IDType;
@@ -99,6 +103,7 @@ public class Customer implements Serializable {
 	}
 
 	@Temporal(TemporalType.DATE)
+	@Column(name="birth_date")
 	public Date getBirthDate() {
 		return birthDate;
 	}
@@ -110,6 +115,11 @@ public class Customer implements Serializable {
 	}
 
 	@Embedded
+	@AttributeOverrides({
+			@AttributeOverride(name="street", column=@Column(name="living_place_street")),
+			@AttributeOverride(name="zipCode", column=@Column(name="living_place_zipcode")),
+			@AttributeOverride(name="city", column=@Column(name="living_place_city"))
+	})
 	public Address getLivingPlace() {
 		return livingPlace;
 	}

@@ -40,6 +40,7 @@ public abstract class AbstractDao<T extends Serializable> implements GenericDao<
 	private SessionFactory sessionFactory;
 
 	public AbstractDao(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 		// Risolve a runtime il tipo dei parametri della classe
 		// AbstractGenericDAO. In questo caso solo "T".
 		ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();

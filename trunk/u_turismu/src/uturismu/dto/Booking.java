@@ -51,7 +51,7 @@ public class Booking implements Serializable {
 
 	private static final long serialVersionUID = 7295908518751530161L;
 	private Long id;
-	private Date bookingTimeAndDate;
+	private Date bookingTimestamp;
 	private Booker booker;
 	private HolidayPackage holidayPackage;
 	private Set<Customer> customers;
@@ -67,9 +67,9 @@ public class Booking implements Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="booking_time_date", nullable=false)
-	public Date getBookingTimeAndDate() {
-		return bookingTimeAndDate;
+	@Column(name="booking_timestamp", nullable=false)
+	public Date getBookingTimestamp() {
+		return bookingTimestamp;
 	}
 
 	@ManyToOne
@@ -99,8 +99,8 @@ public class Booking implements Serializable {
 		this.id = id;
 	}
 
-	public void setBookingTimeAndDate(Date bookingTimeAndDate) {
-		this.bookingTimeAndDate = bookingTimeAndDate;
+	public void setBookingTimestamp(Date bookingTimestamp) {
+		this.bookingTimestamp = bookingTimestamp;
 	}
 
 	public void setBooker(Booker booker) {
@@ -128,7 +128,7 @@ public class Booking implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((booker == null) ? 0 : booker.hashCode());
-		result = prime * result + ((bookingTimeAndDate == null) ? 0 : bookingTimeAndDate.hashCode());
+		result = prime * result + ((bookingTimestamp == null) ? 0 : bookingTimestamp.hashCode());
 		result = prime * result + ((customers == null) ? 0 : customers.hashCode());
 		result = prime * result + ((holidayPackage == null) ? 0 : holidayPackage.hashCode());
 		return result;
@@ -148,10 +148,10 @@ public class Booking implements Serializable {
 				return false;
 		} else if (!booker.equals(other.booker))
 			return false;
-		if (bookingTimeAndDate == null) {
-			if (other.bookingTimeAndDate != null)
+		if (bookingTimestamp == null) {
+			if (other.bookingTimestamp != null)
 				return false;
-		} else if (!bookingTimeAndDate.equals(other.bookingTimeAndDate))
+		} else if (!bookingTimestamp.equals(other.bookingTimestamp))
 			return false;
 		if (customers == null) {
 			if (other.customers != null)

@@ -22,6 +22,8 @@
  */
 package uturismu.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,8 +43,38 @@ public class HolidayPackageServiceImpl implements HolidayPackageService {
 	private HolidayPackageDao dao;
 
 	@Override
+	public HolidayPackage findById(Long id) {
+		return dao.findById(id);
+	}
+
+	@Override
+	public List<HolidayPackage> findAll() {
+		return findAll();
+	}
+
+	@Override
 	public Long save(HolidayPackage entity) {
 		return dao.save(entity);
+	}
+
+	@Override
+	public void delete(HolidayPackage entity) {
+		dao.delete(entity);
+	}
+
+	@Override
+	public void update(HolidayPackage entity) {
+		dao.update(entity);
+	}
+
+	@Override
+	public void flush() {
+		dao.flush();
+	}
+
+	@Override
+	public void clear() {
+		dao.clear();
 	}
 
 }

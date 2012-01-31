@@ -24,6 +24,7 @@ package uturismu.unit;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -39,6 +40,7 @@ import uturismu.service.HolidayPackageService;
 public class PersistenceTest {
 
 	@Test
+	@Ignore(value = "questo test è stato creato per verificare la correttezza delle annotazioni e configurazioni Hibernate")
 	public void createSchemaWithHibernate() {
 		Session session = HibernateUtil.getSession();
 		Transaction transaction = session.beginTransaction();
