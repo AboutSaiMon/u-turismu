@@ -22,7 +22,9 @@
  */
 package uturismu.dao;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -38,6 +40,13 @@ public class AccommodationDaoImpl extends AbstractDao<Accommodation> implements 
 	@Autowired
 	public AccommodationDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
+	}
+
+	@Override
+	public Accommodation findByVatNumber(String vatNumber) {
+		Criteria criteria = session().createCriteria(Accommodation.class);
+		criteria.add(Restrictions.eq("vatNumber", vatNumber));
+		return (Accommodation) criteria.uniqueResult();
 	}
 
 }

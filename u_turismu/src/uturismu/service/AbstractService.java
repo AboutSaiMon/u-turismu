@@ -20,16 +20,51 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.dao;
+package uturismu.service;
 
-import uturismu.dto.Accommodation;
+import java.io.Serializable;
+import java.util.List;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import uturismu.dao.GenericDao;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public interface AccommodationDao extends GenericDao<Accommodation> {
+@Transactional
+public abstract class AbstractService<T extends Serializable> implements GenericService<T> {
+
+	private GenericDao<T> dao;
 	
-	public Accommodation findByVatNumber(String vatNumber);
-	
+	public AbstractService(GenericDao<T> dao) {
+		this.dao = dao;
+	}
+
+	@Override
+	public T findById(Long id) {
+		return dao.findById(id);
+	}
+
+	@Override
+	public List<T> findAll() {
+		return dao.findAll();
+	}
+
+	@Override
+	public Long save(T entity) {
+		return dao.save(entity);
+	}
+
+	@Override
+	public void delete(T entity) {
+		dao.delete(entity);
+	}
+
+	@Override
+	public void update(T entity) {
+		dao.update(entity);
+	}
+
 }

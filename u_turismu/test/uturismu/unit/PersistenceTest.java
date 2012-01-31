@@ -22,6 +22,10 @@
  */
 package uturismu.unit;
 
+import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.equalTo;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.Ignore;
@@ -30,8 +34,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import uturismu.HibernateUtil;
+import uturismu.dto.Accommodation;
 import uturismu.dto.HolidayPackage;
-import uturismu.service.HolidayPackageService;
+import uturismu.dto.util.AccommodationType;
+import uturismu.service.AccommodationService;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -50,18 +56,26 @@ public class PersistenceTest {
 	}
 
 	@Test
-	public void persistWithSpring() {
+	public void testAccommodationService() {
+		// the application-context path
 		String contextPath = "uturismu/applicationContext.xml";
+		// create a new Spring application context
 		ApplicationContext context = new ClassPathXmlApplicationContext(contextPath);
-		HolidayPackageService service = (HolidayPackageService) context
-				.getBean("holidayPackageService");
-
-		HolidayPackage p = new HolidayPackage();
-		p.setName("Vacanze nel mediterraneo");
-		p.setGuestNumber(2);
-		p.setDescription("Viaggio per due con crociera");
-
-		service.save(p);
+		// get a service for Accommodation DTO
+		AccommodationService service = (AccommodationService) context.getBean("accommodationServiceImpl");
+		// create an Accommodation
+		String vatNumber = "0123456";
+		String name = "Mercure S.r.l.";
+		Accommodation a1 = new Accommodation();
+		a1.setVatNumber(vatNumber);
+		a1.setName(name);
+		a1.setType(AccommodationType.HOTEL);
+		// save it to the DB
+		service.save(a1);
+		// retrieve an object with the same vatNumber
+		Accommodation a2 = service.findByVatNumber(vatNumber);
+		// assert that the two objects are the same
+		assertThat(a2.getId(), is(equalTo(a1.getId())));
 	}
 
 }
