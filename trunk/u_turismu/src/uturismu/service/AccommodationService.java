@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.dao;
+package uturismu.service;
 
 import uturismu.dto.Accommodation;
 
@@ -28,8 +28,8 @@ import uturismu.dto.Accommodation;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public interface AccommodationDao extends GenericDao<Accommodation> {
-	
+public interface AccommodationService extends GenericService<Accommodation> {
+
 	public Accommodation findByVatNumber(String vatNumber);
 	
 }

@@ -20,16 +20,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.dao;
+package uturismu.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import uturismu.dao.AccommodationDao;
 import uturismu.dto.Accommodation;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public interface AccommodationDao extends GenericDao<Accommodation> {
-	
-	public Accommodation findByVatNumber(String vatNumber);
-	
+@Service
+@Transactional
+public class AccommodationServiceImpl extends AbstractService<Accommodation> implements
+		AccommodationService {
+
+	private AccommodationDao dao;
+
+	@Autowired
+	public AccommodationServiceImpl(AccommodationDao dao) {
+		super(dao);
+		this.dao = dao;
+	}
+
+	@Override
+	public Accommodation findByVatNumber(String vatNumber) {
+		return dao.findByVatNumber(vatNumber);
+	}
+
 }

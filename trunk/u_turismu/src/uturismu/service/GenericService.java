@@ -20,16 +20,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.dao;
+package uturismu.service;
 
-import uturismu.dto.Accommodation;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public interface AccommodationDao extends GenericDao<Accommodation> {
-	
-	public Accommodation findByVatNumber(String vatNumber);
-	
+public interface GenericService<T extends Serializable> {
+
+	public T findById(Long id);
+
+	public List<T> findAll();
+
+	public Long save(T entity);
+
+	public void delete(T entity);
+
+	public void update(T entity);
+
 }
