@@ -37,7 +37,7 @@ import uturismu.dao.GenericDao;
 public abstract class AbstractService<T extends Serializable> implements GenericService<T> {
 
 	private GenericDao<T> dao;
-	
+
 	public AbstractService(GenericDao<T> dao) {
 		this.dao = dao;
 	}
@@ -65,6 +65,11 @@ public abstract class AbstractService<T extends Serializable> implements Generic
 	@Override
 	public void update(T entity) {
 		dao.update(entity);
+	}
+
+	@Override
+	public Long rowCount() {
+		return dao.rowCount();
 	}
 
 }

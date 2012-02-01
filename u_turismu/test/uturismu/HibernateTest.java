@@ -20,26 +20,42 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.unit;
+package uturismu;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.hibernate.criterion.Projections;
 
-import uturismu.HibernateUtil;
+import uturismu.dto.Accommodation;
+import uturismu.dto.util.AccommodationType;
 
 /**
- * @author "LagrecaSpaccarotella" team.
+ * Questo test bypassa Spring ed effettua dei test sul database via Hibernate.
  * 
+ * @author "LagrecaSpaccarotella" team.
  */
-public class PersistenceTest {
+public class HibernateTest {
 
-	@Test
-	@Ignore(value = "questo test e' stato creato per verificare la correttezza delle annotazioni e la configurazione di Hibernate")
-	public void createSchemaWithHibernate() {
+	public static void main(String[] args) {
 		Session session = HibernateUtil.getSession();
 		Transaction transaction = session.beginTransaction();
+
+		Accommodation a = new Accommodation();
+		a.setVatNumber("11");
+		a.setName("name1");
+		a.setType(AccommodationType.HOTEL);
+		session.save(a);
+
+		a = new Accommodation();
+		a.setVatNumber("22");
+		a.setName("name2");
+		a.setType(AccommodationType.HOTEL);
+		session.save(a);
+		
+		Criteria criteria = session.createCriteria(Accommodation.class);
+		criteria.setProjection(Projections.rowCount());
+		System.out.println(criteria.uniqueResult().getClass().getName());
 
 		transaction.commit();
 		session.close();

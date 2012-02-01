@@ -42,7 +42,7 @@ public class AccommodationTest extends BaseTest {
 
 	@Test
 	public void verifySave() {
-		AccommodationService service = context.getBean(AccommodationService.class);
+		service = context.getBean(AccommodationService.class);
 
 		// create an Accommodation
 		String vatNumber = "0123456";
@@ -57,7 +57,7 @@ public class AccommodationTest extends BaseTest {
 		Accommodation a2 = service.findByVatNumber(vatNumber);
 		// assert that the two objects are the same
 		assertThat(a2.getId(), is(equalTo(a1.getId())));
-		assertThat(service.findAll().size(), is(equalTo(1)));
+		assertThat(service.rowCount(), is(equalTo(1L)));
 	}
 
 }

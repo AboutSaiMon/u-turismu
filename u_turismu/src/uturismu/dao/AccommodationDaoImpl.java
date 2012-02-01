@@ -36,7 +36,7 @@ import uturismu.dto.Accommodation;
  */
 @Repository
 public class AccommodationDaoImpl extends AbstractDao<Accommodation> implements AccommodationDao {
-
+	
 	@Autowired
 	public AccommodationDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
