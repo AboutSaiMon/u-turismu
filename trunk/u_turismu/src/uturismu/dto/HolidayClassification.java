@@ -30,6 +30,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.ForeignKey;
 
@@ -38,6 +40,7 @@ import org.hibernate.annotations.ForeignKey;
  * 
  */
 @Entity(name="HOLIDAY_CLASSIFICATION")
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={"id_holiday_package", "id_holiday_tag"}))
 public class HolidayClassification implements Serializable {
 
 	private static final long serialVersionUID = -3330068729315050006L;
