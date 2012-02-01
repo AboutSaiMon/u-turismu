@@ -22,21 +22,25 @@
  */
 package uturismu.unit;
 
+import java.io.Serializable;
+
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.springframework.context.ApplicationContext;
 
 import uturismu.ApplicationContextFactory;
+import uturismu.service.GenericService;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public class BaseTest {
+public abstract class BaseTest {
 
 	protected static ApplicationContext context;
 
 	@BeforeClass
-	public static void init() {
+	public static void initApplicationContext() {
 		context = ApplicationContextFactory.getApplicationContext();
 	}
 
