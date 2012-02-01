@@ -30,12 +30,16 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import uturismu.dto.util.PoiType;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -49,6 +53,7 @@ public class POI implements Serializable {
 	private Long id;
 	private String name;
 	private String description;
+	private PoiType type;
 	private Address address;
 	private Set<ReservationAndTicketing> reservations;
 
@@ -69,6 +74,11 @@ public class POI implements Serializable {
 
 	public String getDescription() {
 		return description;
+	}
+	
+	@Enumerated(EnumType.STRING)
+	public PoiType getType() {
+		return type;
 	}
 
 	@Embedded
@@ -91,6 +101,10 @@ public class POI implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public void setType(PoiType type) {
+		this.type = type;
 	}
 
 	public void setAddress(Address address) {

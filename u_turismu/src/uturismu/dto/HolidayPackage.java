@@ -65,7 +65,7 @@ public class HolidayPackage implements Serializable {
 		services = new HashSet<Service>();
 		classifications = new HashSet<HolidayClassification>();
 	}
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
@@ -81,7 +81,7 @@ public class HolidayPackage implements Serializable {
 		return description;
 	}
 
-	@Column(nullable = false)
+	@Column(name = "guest_number", nullable = false)
 	public Integer getGuestNumber() {
 		return guestNumber;
 	}

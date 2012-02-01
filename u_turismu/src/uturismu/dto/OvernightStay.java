@@ -26,6 +26,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -63,6 +65,7 @@ public class OvernightStay extends Service {
 		return leavingDate;
 	}
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "service_type", nullable = false)
 	public ServiceType getServiceType() {
 		return serviceType;

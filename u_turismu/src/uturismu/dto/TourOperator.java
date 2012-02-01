@@ -43,12 +43,12 @@ import org.hibernate.annotations.ForeignKey;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity(name="TOUR_OPERATOR")
+@Entity(name = "TOUR_OPERATOR")
 public class TourOperator implements Serializable {
 
 	private static final long serialVersionUID = 4132492228184160094L;
 	private Long id;
-	private String vatNumber; // unique
+	private String vatNumber;
 	private String name;
 	private String holderName;
 	private Address headOffice;
@@ -65,7 +65,7 @@ public class TourOperator implements Serializable {
 		return id;
 	}
 
-	@Column(unique = true)
+	@Column(name = "vat_number", unique = true)
 	public String getVatNumber() {
 		return vatNumber;
 	}
@@ -92,7 +92,7 @@ public class TourOperator implements Serializable {
 		return account;
 	}
 
-	@OneToMany(mappedBy="tourOperator")
+	@OneToMany(mappedBy = "tourOperator")
 	public Set<HolidayPackage> getHolidayPackages() {
 		return Collections.unmodifiableSet(holidayPackages);
 	}
