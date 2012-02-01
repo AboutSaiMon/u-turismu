@@ -29,14 +29,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public class ApplicationContextUtil {
+public class ApplicationContextFactory {
 
 	// the application-context object
 	private static ApplicationContext context;
 	// the application-context path
 	private static String CONTEXT_PATH = "uturismu/applicationContext.xml";
 
-	private ApplicationContextUtil() {
+	private ApplicationContextFactory() {
 	}
 
 	public static ApplicationContext getApplicationContext() {

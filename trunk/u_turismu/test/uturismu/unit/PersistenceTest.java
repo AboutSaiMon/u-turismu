@@ -33,7 +33,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import uturismu.ApplicationContextUtil;
+import uturismu.ApplicationContextFactory;
 import uturismu.HibernateUtil;
 import uturismu.dto.Accommodation;
 import uturismu.dto.util.AccommodationType;
@@ -58,7 +58,7 @@ public class PersistenceTest {
 
 	@Test
 	public void testAccommodationService() {
-		ApplicationContext context = ApplicationContextUtil.getApplicationContext();
+		ApplicationContext context = ApplicationContextFactory.getApplicationContext();
 		AccommodationService service = context.getBean(AccommodationService.class);
 		
 		// create an Accommodation
