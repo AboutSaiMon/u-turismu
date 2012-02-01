@@ -22,9 +22,9 @@
  */
 package uturismu.unit;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -33,11 +33,12 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import uturismu.ApplicationContextUtil;
 import uturismu.HibernateUtil;
 import uturismu.dto.Accommodation;
-import uturismu.dto.HolidayPackage;
 import uturismu.dto.util.AccommodationType;
 import uturismu.service.AccommodationService;
+import uturismu.service.AccommodationServiceImpl;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -57,12 +58,9 @@ public class PersistenceTest {
 
 	@Test
 	public void testAccommodationService() {
-		// the application-context path
-		String contextPath = "uturismu/applicationContext.xml";
-		// create a new Spring application context
-		ApplicationContext context = new ClassPathXmlApplicationContext(contextPath);
-		// get a service for Accommodation DTO
-		AccommodationService service = (AccommodationService) context.getBean("accommodationServiceImpl");
+		ApplicationContext context = ApplicationContextUtil.getApplicationContext();
+		AccommodationService service = context.getBean(AccommodationService.class);
+		
 		// create an Accommodation
 		String vatNumber = "0123456";
 		String name = "Mercure S.r.l.";
