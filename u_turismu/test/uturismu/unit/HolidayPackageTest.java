@@ -35,6 +35,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.omg.CosNaming.NamingContextPackage.NotEmpty;
+import org.springframework.test.context.transaction.BeforeTransaction;
 
 import uturismu.dto.HolidayPackage;
 import uturismu.dto.OvernightStay;
@@ -52,14 +53,15 @@ public class HolidayPackageTest extends BaseTest {
 
 	private HolidayPackageService dao;
 	
-	@Test
+	
+	@Before
 	public void createHolidayPakage(){
 		HolidayPackageService dao= context.getBean(HolidayPackageService.class);
 		OvernightStayService dao1=context.getBean(OvernightStayService.class);
 		TourOperatorService dao2=context.getBean(TourOperatorService.class);
 		
 		
-		String descr="una prova di testing unit";
+		
 		
 		OvernightStay hotel=new OvernightStay();
 		hotel.setArrivalDate(new GregorianCalendar().getTime());
@@ -76,7 +78,7 @@ public class HolidayPackageTest extends BaseTest {
 		holidayPackage.setTourOperator(top);
 		holidayPackage.addService(hotel);
 		holidayPackage.setGuestNumber(1);
-		holidayPackage.setDescription(descr);
+		
 		
 		dao2.save(top);
 		dao1.save(hotel);
@@ -85,6 +87,30 @@ public class HolidayPackageTest extends BaseTest {
 		HolidayPackage queried=dao.findById(id);
 		
 		assertThat(holidayPackage.getId(), is(equalTo(queried.getId())));
+		
+	}
+	
+	@Test
+	@Ignore("Mi da un problema con il lazy (inizialization exception)")
+	public void updateHP(){
+		
+		HolidayPackageService dao = context.getBean(HolidayPackageService.class);
+		
+		String descr="una prova di testing unit";
+		
+		HolidayPackage holidayPackage=dao.findById(1L);
+		
+		holidayPackage.setDescription(descr);
+		dao.save(holidayPackage);
+		
+		HolidayPackage hp=dao.findById(1L);
+		
+		assertThat(hp.getDescription(), is(org.hamcrest.Matchers.not(null)));
+		
+		hp=dao.findById(2L);
+		assertThat(hp.getDescription(), is(equalTo(null)));
+		
+		
 		
 	}
 	
