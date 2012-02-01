@@ -28,8 +28,13 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.GregorianCalendar;
+import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.omg.CosNaming.NamingContextPackage.NotEmpty;
 
 import uturismu.dto.HolidayPackage;
 import uturismu.dto.OvernightStay;
@@ -80,6 +85,33 @@ public class HolidayPackageTest extends BaseTest {
 		HolidayPackage queried=dao.findById(id);
 		
 		assertThat(holidayPackage.getId(), is(equalTo(queried.getId())));
+		
+	}
+	
+	@Test
+	public void deleteHolidayPackage(){
+		HolidayPackageService dao=context.getBean(HolidayPackageService.class);
+		
+		Long id=new Long(1);
+		Long w=1l;
+		System.out.println(w);
+		
+		HolidayPackage hp=dao.findById(id);
+		assertThat(id, is(equalTo(hp.getId())));
+		
+		List<HolidayPackage> queryList= dao.findAll();
+		
+//		assertThat(queryList.size(), is(org.hamcrest.Matchers.not(null)));
+		assertThat(queryList.size(), is(1));
+		
+		
+		for (HolidayPackage holidayPackage : queryList) {
+			dao.delete(holidayPackage);
+		}
+		
+		queryList=dao.findAll();
+		
+		assertThat(queryList.size(), is(equalTo(0)));
 		
 	}
 	
