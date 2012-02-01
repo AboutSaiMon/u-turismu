@@ -22,27 +22,22 @@
  */
 package uturismu.unit;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.BeforeClass;
+import org.springframework.context.ApplicationContext;
 
-import uturismu.HibernateUtil;
+import uturismu.ApplicationContextFactory;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public class PersistenceTest {
+public class BaseTest {
 
-	@Test
-	@Ignore(value = "questo test e' stato creato per verificare la correttezza delle annotazioni e la configurazione di Hibernate")
-	public void createSchemaWithHibernate() {
-		Session session = HibernateUtil.getSession();
-		Transaction transaction = session.beginTransaction();
+	protected static ApplicationContext context;
 
-		transaction.commit();
-		session.close();
+	@BeforeClass
+	public static void init() {
+		context = ApplicationContextFactory.getApplicationContext();
 	}
 
 }

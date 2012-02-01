@@ -22,27 +22,42 @@
  */
 package uturismu.unit;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.junit.Ignore;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Test;
 
-import uturismu.HibernateUtil;
+import uturismu.dto.Accommodation;
+import uturismu.dto.util.AccommodationType;
+import uturismu.service.AccommodationService;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public class PersistenceTest {
+public class AccommodationTest extends BaseTest {
+
+	private AccommodationService service;
 
 	@Test
-	@Ignore(value = "questo test e' stato creato per verificare la correttezza delle annotazioni e la configurazione di Hibernate")
-	public void createSchemaWithHibernate() {
-		Session session = HibernateUtil.getSession();
-		Transaction transaction = session.beginTransaction();
+	public void verifySave() {
+		AccommodationService service = context.getBean(AccommodationService.class);
 
-		transaction.commit();
-		session.close();
+		// create an Accommodation
+		String vatNumber = "0123456";
+		String name = "Mercure S.r.l.";
+		Accommodation a1 = new Accommodation();
+		a1.setVatNumber(vatNumber);
+		a1.setName(name);
+		a1.setType(AccommodationType.HOTEL);
+		// save it to the DB
+		service.save(a1);
+		// retrieve an object with the same vatNumber
+		Accommodation a2 = service.findByVatNumber(vatNumber);
+		// assert that the two objects are the same
+		assertThat(a2.getId(), is(equalTo(a1.getId())));
+		assertThat(service.findAll().size(), is(equalTo(1)));
 	}
 
 }
