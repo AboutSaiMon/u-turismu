@@ -24,6 +24,8 @@ package uturismu.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -56,6 +58,7 @@ public class OutdoorActivity extends Service {
 		return name;
 	}
 
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, name = "activity_type")
 	public ActivityType getActivityType() {
 		return activityType;

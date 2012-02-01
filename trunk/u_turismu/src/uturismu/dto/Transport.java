@@ -26,6 +26,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -59,17 +61,18 @@ public class Transport extends Service {
 	}
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "departure_time_date")
+	@Column(name = "departure_timestamp")
 	public Date getDepartureTimeAndDate() {
 		return departureTimeAndDate;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "arrival_time_date")
+	@Column(name = "arrival_timestamp")
 	public Date getArrivalTimeAndDate() {
 		return arrivalTimeAndDate;
 	}
 
+	@Enumerated(EnumType.STRING)
 	public TransportType getType() {
 		return type;
 	}

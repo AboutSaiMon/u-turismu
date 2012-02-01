@@ -33,6 +33,8 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,8 +44,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.hibernate.annotations.Columns;
 
 import uturismu.dto.util.Gender;
 import uturismu.dto.util.IDType;
@@ -66,9 +66,9 @@ public class Customer implements Serializable {
 	private City birthPlace;
 	private Address livingPlace;
 	/* è il codice del documento identificativo */
-	private String idNumber;
+	private String identificationDocumentNumber;
 	/* è la tipologia (patente, passaporto, ecc) */
-	private IDType idType;
+	private IDType identificationDocumentType;
 	private String issuingAuthority;
 	private Booker booker;
 	private Set<Booking> bookings;
@@ -98,12 +98,13 @@ public class Customer implements Serializable {
 		return lastName;
 	}
 
+	@Enumerated(EnumType.STRING)
 	public Gender getGender() {
 		return gender;
 	}
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="birth_date")
+	@Column(name = "birth_date")
 	public Date getBirthDate() {
 		return birthDate;
 	}
@@ -116,22 +117,21 @@ public class Customer implements Serializable {
 
 	@Embedded
 	@AttributeOverrides({
-			@AttributeOverride(name="street", column=@Column(name="living_place_street")),
-			@AttributeOverride(name="zipCode", column=@Column(name="living_place_zipcode")),
-			@AttributeOverride(name="city", column=@Column(name="living_place_city"))
-	})
+			@AttributeOverride(name = "street", column = @Column(name = "living_place_street")),
+			@AttributeOverride(name = "zipCode", column = @Column(name = "living_place_zipcode")),
+			@AttributeOverride(name = "city", column = @Column(name = "living_place_city")) })
 	public Address getLivingPlace() {
 		return livingPlace;
 	}
 
-	@Column(name = "id_number", nullable = false)
-	public String getIdNumber() {
-		return idNumber;
+	@Column(name = "identification_document_number", nullable = false)
+	public String getIdentificationDocumentNumber() {
+		return identificationDocumentNumber;
 	}
 
-	@Column(name = "id_type")
-	public IDType getIdType() {
-		return idType;
+	@Column(name = "identification_document_type")
+	public IDType getIdentificationDocumentType() {
+		return identificationDocumentType;
 	}
 
 	@Column(name = "issuing_authority", nullable = false)
@@ -181,12 +181,12 @@ public class Customer implements Serializable {
 		this.livingPlace = livingPlace;
 	}
 
-	public void setIdNumber(String idNumber) {
-		this.idNumber = idNumber;
+	public void setIdentificationDocumentNumber(String idNumber) {
+		this.identificationDocumentNumber = idNumber;
 	}
 
-	public void setIdType(IDType idType) {
-		this.idType = idType;
+	public void setIdentificationDocumentType(IDType idType) {
+		this.identificationDocumentType = idType;
 	}
 
 	public void setIssuingAuthority(String issuingAuthority) {
@@ -217,8 +217,11 @@ public class Customer implements Serializable {
 		result = prime * result + ((birthPlace == null) ? 0 : birthPlace.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
-		result = prime * result + ((idNumber == null) ? 0 : idNumber.hashCode());
-		result = prime * result + ((idType == null) ? 0 : idType.hashCode());
+		result = prime
+				* result
+				+ ((identificationDocumentNumber == null) ? 0 : identificationDocumentNumber.hashCode());
+		result = prime * result
+				+ ((identificationDocumentType == null) ? 0 : identificationDocumentType.hashCode());
 		result = prime * result + ((issuingAuthority == null) ? 0 : issuingAuthority.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((livingPlace == null) ? 0 : livingPlace.hashCode());
@@ -252,12 +255,12 @@ public class Customer implements Serializable {
 			return false;
 		if (gender != other.gender)
 			return false;
-		if (idNumber == null) {
-			if (other.idNumber != null)
+		if (identificationDocumentNumber == null) {
+			if (other.identificationDocumentNumber != null)
 				return false;
-		} else if (!idNumber.equals(other.idNumber))
+		} else if (!identificationDocumentNumber.equals(other.identificationDocumentNumber))
 			return false;
-		if (idType != other.idType)
+		if (identificationDocumentType != other.identificationDocumentType)
 			return false;
 		if (issuingAuthority == null) {
 			if (other.issuingAuthority != null)

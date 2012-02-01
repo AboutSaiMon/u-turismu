@@ -25,6 +25,8 @@ package uturismu.dto;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -62,6 +64,7 @@ public class Event implements Serializable {
 		return name;
 	}
 
+	@Enumerated(EnumType.STRING)
 	public EventType getType() {
 		return type;
 	}
