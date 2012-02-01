@@ -22,6 +22,8 @@
  */
 package uturismu.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import uturismu.dao.HolidayClassificationDao;
 import uturismu.dto.HolidayClassification;
 
@@ -32,6 +34,7 @@ import uturismu.dto.HolidayClassification;
 public class HolidayClassificationServiceImpl extends AbstractService<HolidayClassification>
 		implements HolidayClassificationService {
 
+	@Autowired
 	public HolidayClassificationServiceImpl(HolidayClassificationDao dao) {
 		super(dao);
 	}
