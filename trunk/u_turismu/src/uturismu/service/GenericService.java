@@ -40,5 +40,7 @@ public interface GenericService<T extends Serializable> {
 	public void delete(T entity);
 
 	public void update(T entity);
+	
+	public Long rowCount();
 
 }

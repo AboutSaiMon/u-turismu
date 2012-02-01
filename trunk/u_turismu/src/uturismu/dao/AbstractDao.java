@@ -29,6 +29,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -76,6 +77,12 @@ public abstract class AbstractDao<T extends Serializable> implements GenericDao<
 	@Override
 	public void update(T entity) {
 		session().update(entity);
+	}
+
+	@Override
+	public Long rowCount() {
+		Criteria criteria = session().createCriteria(persistentClass);
+		return (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
 	}
 
 	@Override
