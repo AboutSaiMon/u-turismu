@@ -46,7 +46,7 @@ import uturismu.service.AccommodationService;
 public class PersistenceTest {
 
 	@Test
-	@Ignore(value = "questo test è stato creato per verificare la correttezza delle annotazioni e configurazioni Hibernate")
+	@Ignore(value = "questo test e' stato creato per verificare la correttezza delle annotazioni e configurazioni Hibernate")
 	public void createSchemaWithHibernate() {
 		Session session = HibernateUtil.getSession();
 		Transaction transaction = session.beginTransaction();

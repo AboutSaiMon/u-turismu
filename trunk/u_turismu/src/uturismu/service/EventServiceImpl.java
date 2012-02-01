@@ -22,6 +22,7 @@
  */
 package uturismu.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,7 @@ import uturismu.dto.Event;
 @Transactional
 public class EventServiceImpl extends AbstractService<Event> implements EventService {
 
+	@Autowired
 	public EventServiceImpl(EventDao dao) {
 		super(dao);
 	}
