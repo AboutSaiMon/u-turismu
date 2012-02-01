@@ -48,14 +48,10 @@ public class HibernateTest {
 		session.save(a);
 
 		a = new Accommodation();
-		a.setVatNumber("22");
-		a.setName("name2");
+		a.setVatNumber("11");
+		a.setName("name1");
 		a.setType(AccommodationType.HOTEL);
 		session.save(a);
-		
-		Criteria criteria = session.createCriteria(Accommodation.class);
-		criteria.setProjection(Projections.rowCount());
-		System.out.println(criteria.uniqueResult().getClass().getName());
 
 		transaction.commit();
 		session.close();

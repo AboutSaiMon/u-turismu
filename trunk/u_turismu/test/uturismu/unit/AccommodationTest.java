@@ -26,7 +26,9 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import uturismu.dto.Accommodation;
 import uturismu.dto.util.AccommodationType;
@@ -38,12 +40,15 @@ import uturismu.service.AccommodationService;
  */
 public class AccommodationTest extends BaseTest {
 
-	private AccommodationService service;
+	private static AccommodationService service;
+	
+	@BeforeClass
+	public static void initService() {
+		service = context.getBean(AccommodationService.class);
+	}
 
 	@Test
-	public void verifySave() {
-		service = context.getBean(AccommodationService.class);
-
+	public void checkSave() {
 		// create an Accommodation
 		String vatNumber = "0123456";
 		String name = "Mercure S.r.l.";
@@ -58,6 +63,19 @@ public class AccommodationTest extends BaseTest {
 		// assert that the two objects are the same
 		assertThat(a2.getId(), is(equalTo(a1.getId())));
 		assertThat(service.rowCount(), is(equalTo(1L)));
+	}
+
+	@Test(expected = DataIntegrityViolationException.class)
+	public void checkUniqueConstraintValidation() {
+		Accommodation a1 = new Accommodation();
+		a1.setVatNumber("007");
+		a1.setName("Moe's");
+		service.save(a1);
+
+		Accommodation a2 = new Accommodation();
+		a2.setVatNumber("007");
+		a1.setName("Homer Motel");
+		service.save(a2);
 	}
 
 }
