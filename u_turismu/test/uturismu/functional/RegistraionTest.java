@@ -25,6 +25,7 @@ package uturismu.functional;
 import java.util.Date;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 
@@ -49,6 +50,7 @@ public class RegistraionTest {
 	}
 
 	@Test
+	@Ignore
 	public void tryToRegisterAnAccount() {
 		Account account = new Account();
 		account.setEmail("prova@gmail.com");
