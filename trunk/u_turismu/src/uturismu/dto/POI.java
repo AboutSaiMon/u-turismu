@@ -39,7 +39,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import uturismu.dto.util.PoiType;
+import uturismu.dto.enumtype.PoiType;
 
 /**
  * @author "LagrecaSpaccarotella" team.

@@ -38,7 +38,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
-import uturismu.dto.util.AccountType;
+import uturismu.dto.enumtype.AccountType;
 
 /**
  * @author "LagrecaSpaccarotella" team.

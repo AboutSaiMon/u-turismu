@@ -45,8 +45,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import uturismu.dto.util.Gender;
-import uturismu.dto.util.IDType;
+import uturismu.dto.enumtype.Gender;
+import uturismu.dto.enumtype.IDType;
 
 /**
  * @author "LagrecaSpaccarotella" team.

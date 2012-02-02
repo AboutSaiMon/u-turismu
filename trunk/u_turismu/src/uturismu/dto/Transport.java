@@ -35,7 +35,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.ForeignKey;
 
-import uturismu.dto.util.TransportType;
+import uturismu.dto.enumtype.TransportType;
 
 /**
  * @author "LagrecaSpaccarotella" team.

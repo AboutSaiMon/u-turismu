@@ -20,39 +20,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.dto.util;
+package uturismu.dto.enumtype;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public enum ServiceType {
+public enum StationType {
 
-	FULL_SERVICE {
+	TRAIN_STATION {
 		@Override
 		public String toString() {
-			return "full service";
+			return "train station";
 		}
 	},
 
-	HALF_SERVICE {
+	AIRPORT {
 		@Override
 		public String toString() {
-			return "half service";
+			return "airport";
 		}
 	},
 
-	ONLY_BREAKFAST {
+	COACH_STATION {
 		@Override
 		public String toString() {
-			return "only breakfast";
+			return "coach station";
 		}
 	},
 
-	NO_SERVICE_INCLUDED {
+	HARBOUR {
 		@Override
 		public String toString() {
-			return "no service included";
+			return "harbour";
 		}
 	}
 

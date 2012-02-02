@@ -40,7 +40,7 @@ import uturismu.ServiceFactory;
 import uturismu.dto.HolidayPackage;
 import uturismu.dto.OvernightStay;
 import uturismu.dto.TourOperator;
-import uturismu.dto.util.ServiceType;
+import uturismu.dto.enumtype.ServiceType;
 import uturismu.service.HolidayPackageService;
 import uturismu.service.OvernightStayService;
 import uturismu.service.TourOperatorService;

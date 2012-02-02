@@ -37,7 +37,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import uturismu.dto.util.AccommodationType;
+import uturismu.dto.enumtype.AccommodationType;
 
 /**
  * @author "LagrecaSpaccarotella" team.
