@@ -20,40 +20,47 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.dto.util;
+package uturismu.dto.enumtype;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
-public enum IDType {
+public enum TransportType {
 
-	ID {
+	COACH {
 		@Override
 		public String toString() {
-			return "identification document";
+			return "coach";
 		}
 	},
 	
-	DRIVER_LICENSE {
+	AIRPLANE {
 		@Override
 		public String toString() {
-			return "driver license";
+			return "airplane";
 		}
 	},
 	
-	PASSPORT {
+	TRAIN {
 		@Override
 		public String toString() {
-			return "passport";
+			return "train";
 		}
 	},
 	
-	VISA {
+	FERRY {
 		@Override
 		public String toString() {
-			return "visa";
+			return "ferry";
+		}
+	},
+	
+	SHIP {
+		@Override
+		public String toString() {
+			return "ship";
 		}
 	}
-	
+
 }

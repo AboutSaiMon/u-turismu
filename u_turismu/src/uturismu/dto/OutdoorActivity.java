@@ -36,7 +36,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.ForeignKey;
 
-import uturismu.dto.util.ActivityType;
+import uturismu.dto.enumtype.ActivityType;
 
 /**
  * @author "LagrecaSpaccarotella" team.

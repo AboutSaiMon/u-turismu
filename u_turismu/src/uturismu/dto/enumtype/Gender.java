@@ -20,39 +20,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.dto.util;
+package uturismu.dto.enumtype;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public enum EventType {
+public enum Gender {
 
-	FESTIVAL {
+	MALE {
 		@Override
 		public String toString() {
-			return "festival";
+			return "male";
 		}
 	}, 
 	
-	CONCERT {
+	FEMALE {
 		@Override
 		public String toString() {
-			return "concert";
+			return "female";
 		}
 	},
 	
-	RELIGIOUS {
+	NOT_SPECIFIED {
 		@Override
 		public String toString() {
-			return "religious";
-		}
-	},
-	
-	SPORTING {
-		@Override
-		public String toString() {
-			return "sporting";
+			return "not specified";
 		}
 	}
 

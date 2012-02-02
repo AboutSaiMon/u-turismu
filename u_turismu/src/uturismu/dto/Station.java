@@ -32,7 +32,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import uturismu.dto.util.StationType;
+import uturismu.dto.enumtype.StationType;
 
 /**
  * @author "LagrecaSpaccarotella" team.

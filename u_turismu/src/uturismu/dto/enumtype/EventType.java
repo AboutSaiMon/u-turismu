@@ -20,32 +20,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.dto.util;
+package uturismu.dto.enumtype;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public enum AccommodationType {
+public enum EventType {
 
-	HOSTEL {
+	FESTIVAL {
 		@Override
 		public String toString() {
-			return "hostel";
+			return "festival";
 		}
 	}, 
 	
-	HOTEL {
+	CONCERT {
 		@Override
 		public String toString() {
-			return "hotel";
+			return "concert";
 		}
 	},
 	
-	BED_AND_BREAKFAST {
+	RELIGIOUS {
 		@Override
 		public String toString() {
-			return "b&b";
+			return "religious";
+		}
+	},
+	
+	SPORTING {
+		@Override
+		public String toString() {
+			return "sporting";
 		}
 	}
 

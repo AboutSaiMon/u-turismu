@@ -20,39 +20,53 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.dto.util;
+package uturismu.dto.enumtype;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public enum StationType {
+public enum ActivityType {
 
-	TRAIN_STATION {
+	TREKKING {
 		@Override
 		public String toString() {
-			return "train station";
+			return "trekking";
 		}
 	},
-
-	AIRPORT {
+	
+	RAFTING {
 		@Override
 		public String toString() {
-			return "airport";
+			return "rafting";
 		}
 	},
-
-	COACH_STATION {
+	
+	BIRD_WATCHING {
 		@Override
 		public String toString() {
-			return "coach station";
+			return super.toString();
+		}
+	}, 
+	
+	SKYDIVING {
+		@Override
+		public String toString() {
+			return "sky diving";
+		}
+	}, 
+	
+	DIVING {
+		@Override
+		public String toString() {
+			return "diving";
 		}
 	},
-
-	HARBOUR {
+	
+	BUNGEE_JUMPING {
 		@Override
 		public String toString() {
-			return "harbour";
+			return "bungee jumping";
 		}
 	}
 

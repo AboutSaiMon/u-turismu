@@ -20,14 +20,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.dto.util;
+package uturismu.dto.enumtype;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
-public enum HolidayType {
+public enum AccountType {
 
+	BOOKER {
+		@Override
+		public String toString() {
+			return "booker";
+		}
+	},
 	
+	TOUR_OPERATOR {
+		@Override
+		public String toString() {
+			return "tour operator";
+		}
+	},
 	
+	ADMINISTRATOR {
+		@Override
+		public String toString() {
+			return "administrator";
+		}
+	}
+
 }

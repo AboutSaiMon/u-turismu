@@ -22,10 +22,19 @@
  */
 package uturismu.functional;
 
+import java.util.Date;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uturismu.ServiceFactory;
+import uturismu.dto.Account;
+import uturismu.dto.Booker;
+import uturismu.dto.City;
+import uturismu.dto.Customer;
+import uturismu.dto.enumtype.AccountType;
+import uturismu.dto.enumtype.Gender;
+import uturismu.dto.enumtype.IDType;
 import uturismu.service.usecase.BookerRegistrationService;
 
 /**
@@ -35,15 +44,58 @@ import uturismu.service.usecase.BookerRegistrationService;
 public class RegistraionTest {
 
 	private static BookerRegistrationService bookerService;
+	private static City city;
 
 	@BeforeClass
 	public static void init() {
+		city = new City();
+		city.setName("Springfield");
+		city.setProvince("USA");
+		ServiceFactory.getCityService().save(city);
 		bookerService = ServiceFactory.getBookerRegistrationService();
 	}
 
 	@Test
 	public void registerBooker() {
-		
+		Account account = createAccount();
+		Customer customer = createCustomer();
+		Booker booker = createBooker(account, customer);
+		bookerService.registerBooker(account, customer, booker);
+	}
+
+	private Account createAccount() {
+		Account account = new Account();
+		account.setActive(true);
+		account.setEmail("account@gmail.com");
+		account.setPassword("livuoiqueikiwiyankeecoikiwayawayani");
+		account.setLastAccessTimestamp(new Date());
+		account.setRegistrationTimestamp(new Date());
+		account.setSalt("A3DFF002958901AFF20190");
+		account.setType(AccountType.BOOKER);
+		return account;
+	}
+
+	private Customer createCustomer() {
+		Customer customer = new Customer();
+		customer.setTaxCode("SMPHMR89T31Z404B");
+		customer.setFirstName("Homer");
+		customer.setLastName("Simpson");
+		customer.setGender(Gender.MALE);
+		customer.setBirthPlace(city);
+		customer.setBirthDate(new Date());
+		customer.setIdentificationDocumentNumber("1103D2");
+		customer.setIdentificationDocumentType(IDType.PASSPORT);
+		customer.setIssuingAuthority("Police");
+		return customer;
+	}
+
+	private Booker createBooker(Account account, Customer customer) {
+		Booker booker = new Booker();
+		account.setBooker(booker);
+		booker.setAccount(account);
+		customer.setBooker(booker);
+		booker.setCustomer(customer);
+		return booker;
 	}
 
 }

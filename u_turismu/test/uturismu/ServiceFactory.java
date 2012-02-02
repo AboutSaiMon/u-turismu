@@ -25,8 +25,8 @@ package uturismu;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import uturismu.dto.TourOperator;
 import uturismu.service.AccommodationService;
+import uturismu.service.CityService;
 import uturismu.service.HolidayPackageService;
 import uturismu.service.OvernightStayService;
 import uturismu.service.TourOperatorService;
@@ -46,7 +46,7 @@ public class ServiceFactory {
 	static {
 		context = new ClassPathXmlApplicationContext(CONTEXT_PATH);
 	}
-	
+
 	private ServiceFactory() {
 	}
 
@@ -57,17 +57,21 @@ public class ServiceFactory {
 	public static AccommodationService getAccommodationService() {
 		return context.getBean(AccommodationService.class);
 	}
-	
+
 	public static HolidayPackageService getHolidayPackageService() {
 		return context.getBean(HolidayPackageService.class);
 	}
-	
+
 	public static OvernightStayService getOvernightStayService() {
 		return context.getBean(OvernightStayService.class);
 	}
-	
+
 	public static TourOperatorService getTourOperatorService() {
 		return context.getBean(TourOperatorService.class);
+	}
+
+	public static CityService getCityService() {
+		return context.getBean(CityService.class);
 	}
 
 }

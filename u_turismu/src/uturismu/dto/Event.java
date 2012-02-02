@@ -35,7 +35,7 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.ForeignKey;
 
-import uturismu.dto.util.EventType;
+import uturismu.dto.enumtype.EventType;
 
 /**
  * @author "LagrecaSpaccarotella" team.

@@ -35,7 +35,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.ForeignKey;
 
-import uturismu.dto.util.ServiceType;
+import uturismu.dto.enumtype.ServiceType;
 
 /**
  * @author "LagrecaSpaccarotella" team.

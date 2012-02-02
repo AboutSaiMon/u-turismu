@@ -20,46 +20,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.dto.util;
+package uturismu.dto.enumtype;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public enum TransportType {
+public enum AccommodationType {
 
-	COACH {
+	HOSTEL {
 		@Override
 		public String toString() {
-			return "coach";
+			return "hostel";
+		}
+	}, 
+	
+	HOTEL {
+		@Override
+		public String toString() {
+			return "hotel";
 		}
 	},
 	
-	AIRPLANE {
+	BED_AND_BREAKFAST {
 		@Override
 		public String toString() {
-			return "airplane";
-		}
-	},
-	
-	TRAIN {
-		@Override
-		public String toString() {
-			return "train";
-		}
-	},
-	
-	FERRY {
-		@Override
-		public String toString() {
-			return "ferry";
-		}
-	},
-	
-	SHIP {
-		@Override
-		public String toString() {
-			return "ship";
+			return "b&b";
 		}
 	}
 

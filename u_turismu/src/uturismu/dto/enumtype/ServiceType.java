@@ -20,53 +20,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.dto.util;
+package uturismu.dto.enumtype;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public enum ActivityType {
+public enum ServiceType {
 
-	TREKKING {
+	FULL_SERVICE {
 		@Override
 		public String toString() {
-			return "trekking";
+			return "full service";
 		}
 	},
-	
-	RAFTING {
+
+	HALF_SERVICE {
 		@Override
 		public String toString() {
-			return "rafting";
+			return "half service";
 		}
 	},
-	
-	BIRD_WATCHING {
+
+	ONLY_BREAKFAST {
 		@Override
 		public String toString() {
-			return super.toString();
-		}
-	}, 
-	
-	SKYDIVING {
-		@Override
-		public String toString() {
-			return "sky diving";
-		}
-	}, 
-	
-	DIVING {
-		@Override
-		public String toString() {
-			return "diving";
+			return "only breakfast";
 		}
 	},
-	
-	BUNGEE_JUMPING {
+
+	NO_SERVICE_INCLUDED {
 		@Override
 		public String toString() {
-			return "bungee jumping";
+			return "no service included";
 		}
 	}
 

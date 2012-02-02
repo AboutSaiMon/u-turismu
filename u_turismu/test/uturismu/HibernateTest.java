@@ -28,7 +28,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 
 import uturismu.dto.Accommodation;
-import uturismu.dto.util.AccommodationType;
+import uturismu.dto.enumtype.AccommodationType;
 
 /**
  * Questo test bypassa Spring ed effettua dei test sul database via Hibernate.
