@@ -22,57 +22,18 @@
  */
 package uturismu.functional;
 
-import java.util.Date;
-
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
 
-import uturismu.ApplicationContextFactory;
-import uturismu.dto.Account;
-import uturismu.dto.Booker;
-import uturismu.dto.util.AccountType;
-import uturismu.service.AccountService;
-import uturismu.service.BookerService;
+import uturismu.BaseTest;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public class RegistraionTest {
-
-	private static ApplicationContext context;
-
-	@BeforeClass
-	public static void init() {
-		context = ApplicationContextFactory.getApplicationContext();
-	}
+public class RegistraionTest extends BaseTest {
 
 	@Test
-	@Ignore
-	public void tryToRegisterAnAccount() {
-		Account account = new Account();
-		account.setEmail("prova@gmail.com");
-		account.setPassword("ciuccia");
-		account.setLastAccessTimestamp(new Date());
-		account.setRegistrationTimestamp(new Date());
-		account.setSalt("salt");
-		account.setActive(true);
-		account.setType(AccountType.ADMINISTRATOR);
-		
-		Booker booker = new Booker();
-		booker.setAccount(account);
-		
-		account.setBooker(booker);
-		
-		ApplicationContext context = ApplicationContextFactory.getApplicationContext();
-		AccountService service = context.getBean(AccountService.class);
-		service.save(account);
-		BookerService bookerService = context.getBean(BookerService.class);
-		bookerService.save(booker);
-		
-		
-		
+	public void registerBooker() {
 	}
+
 }

@@ -37,6 +37,7 @@ import org.junit.Test;
 import org.omg.CosNaming.NamingContextPackage.NotEmpty;
 import org.springframework.test.context.transaction.BeforeTransaction;
 
+import uturismu.BaseTest;
 import uturismu.dto.HolidayPackage;
 import uturismu.dto.OvernightStay;
 import uturismu.dto.TourOperator;

@@ -79,7 +79,7 @@ public class HibernateUtil {
 			configuration.addAnnotatedClass(Station.class);
 			configuration.addAnnotatedClass(TourOperator.class);
 			configuration.addAnnotatedClass(Transport.class);
-			configuration.configure("/uturismu/mysql.cfg.xml");
+			configuration.configure("mysql.cfg.xml");
 			sessionFactory = configuration.buildSessionFactory();
 		}
 		return sessionFactory;

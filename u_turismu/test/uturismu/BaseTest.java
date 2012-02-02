@@ -20,16 +20,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.unit;
+package uturismu;
 
-import java.io.Serializable;
-
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.springframework.context.ApplicationContext;
-
-import uturismu.ApplicationContextFactory;
-import uturismu.service.GenericService;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -38,7 +32,7 @@ import uturismu.service.GenericService;
 public abstract class BaseTest {
 
 	protected static ApplicationContext context;
-
+	
 	@BeforeClass
 	public static void initApplicationContext() {
 		context = ApplicationContextFactory.getApplicationContext();
