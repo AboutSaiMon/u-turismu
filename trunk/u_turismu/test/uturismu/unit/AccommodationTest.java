@@ -30,6 +30,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import uturismu.BaseTest;
 import uturismu.dto.Accommodation;
 import uturismu.dto.util.AccommodationType;
 import uturismu.service.AccommodationService;

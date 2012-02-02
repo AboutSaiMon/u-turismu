@@ -34,7 +34,7 @@ public class ApplicationContextFactory {
 	// the application-context object
 	private static ApplicationContext context;
 	// the application-context path
-	private static String CONTEXT_PATH = "uturismu/applicationContext.xml";
+	private static String CONTEXT_PATH = "applicationContext.xml";
 
 	private ApplicationContextFactory() {
 	}
