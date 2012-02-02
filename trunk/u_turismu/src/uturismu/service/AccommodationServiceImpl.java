@@ -47,6 +47,7 @@ public class AccommodationServiceImpl extends AbstractService<Accommodation> imp
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Accommodation findByVatNumber(String vatNumber) {
 		return dao.findByVatNumber(vatNumber);
 	}
