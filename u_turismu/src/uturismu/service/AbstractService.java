@@ -43,11 +43,13 @@ public abstract class AbstractService<T extends Serializable> implements Generic
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public T findById(Long id) {
 		return dao.findById(id);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<T> findAll() {
 		return dao.findAll();
 	}
@@ -68,6 +70,7 @@ public abstract class AbstractService<T extends Serializable> implements Generic
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Long rowCount() {
 		return dao.rowCount();
 	}

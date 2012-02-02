@@ -27,12 +27,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import uturismu.dao.BookingDao;
-import uturismu.dao.GenericDao;
 import uturismu.dto.Booking;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
 @Service
 @Transactional
