@@ -24,20 +24,19 @@ package uturismu.unit;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.omg.CosNaming.NamingContextPackage.NotEmpty;
-import org.springframework.test.context.transaction.BeforeTransaction;
 
-import uturismu.BaseTest;
+import uturismu.ServiceFactory;
 import uturismu.dto.HolidayPackage;
 import uturismu.dto.OvernightStay;
 import uturismu.dto.TourOperator;
@@ -48,98 +47,110 @@ import uturismu.service.TourOperatorService;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
-public class HolidayPackageTest extends BaseTest {
+public class HolidayPackageTest {
 
-	private HolidayPackageService dao;
-	
-	
+	private static HolidayPackageService holidayPackageService;
+	private static OvernightStayService overnightStayService;
+	private static TourOperatorService tourOperatorService;
+
+	@BeforeClass
+	public static void init() {
+		holidayPackageService = ServiceFactory.getHolidayPackageService();
+		overnightStayService = ServiceFactory.getOvernightStayService();
+		tourOperatorService = ServiceFactory.getTourOperatorService();
+	}
+
+	/*
+	 * Il problema sta in questo metodo. Non puoi salvare un Holiday Package quì
+	 * perché i metodi annotati con @Before vengono richiamati tante volte quanti
+	 * sono i metodi annotati con @Test. Siccome c'è un vincolo di unicità sulla
+	 * coppia (name, id_tour_operator), la seconda volta che viene eseguito
+	 * questo codice, verrà lanciata un'eccezione del tipo
+	 * "DataIntegrityViolationException".
+	 */
 	@Before
-	public void createHolidayPakage(){
-		HolidayPackageService dao= context.getBean(HolidayPackageService.class);
-		OvernightStayService dao1=context.getBean(OvernightStayService.class);
-		TourOperatorService dao2=context.getBean(TourOperatorService.class);
-		
-		
-		
-		
-		OvernightStay hotel=new OvernightStay();
-		hotel.setArrivalDate(new GregorianCalendar().getTime());
-		hotel.setLeavingDate(new GregorianCalendar().getTime());
-		hotel.setServiceType(ServiceType.FULL_SERVICE);
-		hotel.setPrice(35d);
-		
-		TourOperator top=new TourOperator();
+	public void createHolidayPakage() {
+		OvernightStay overnightStay = new OvernightStay();
+		overnightStay.setArrivalDate(new GregorianCalendar().getTime());
+		overnightStay.setLeavingDate(new GregorianCalendar().getTime());
+		overnightStay.setServiceType(ServiceType.FULL_SERVICE);
+		overnightStay.setPrice(35d);
+
+		TourOperator top = new TourOperator();
 		top.setName("Il Viaggio");
-		
-		
-		HolidayPackage holidayPackage=new HolidayPackage();
+
+		HolidayPackage holidayPackage = new HolidayPackage();
 		holidayPackage.setName("alpiMe");
 		holidayPackage.setTourOperator(top);
-		holidayPackage.addService(hotel);
+		holidayPackage.addService(overnightStay);
 		holidayPackage.setGuestNumber(1);
-		
-		
-		dao2.save(top);
-		dao1.save(hotel);
-		Long id= dao.save(holidayPackage);
-		
-		HolidayPackage queried=dao.findById(id);
-		
+
+		tourOperatorService.save(top);
+		overnightStayService.save(overnightStay);
+		Long id = holidayPackageService.save(holidayPackage);
+		HolidayPackage queried = holidayPackageService.findById(id);
+
 		assertThat(holidayPackage.getId(), is(equalTo(queried.getId())));
-		
 	}
-	
+
+	/*
+	 * Non hai la garanzia che lo stato del DB sia come ti aspetti. I metodi di
+	 * test vengono eseguiti con un ordine al di fuori del controllo dello
+	 * sviluppatore. Non è detto che venga eseguito prima il test di creazione,
+	 * poi quello di update e poi quello di delete.
+	 */
 	@Test
 	@Ignore("Mi da un problema con il lazy (inizialization exception)")
-	public void updateHP(){
-		
-		HolidayPackageService dao = context.getBean(HolidayPackageService.class);
-		
-		String descr="una prova di testing unit";
-		
-		HolidayPackage holidayPackage=dao.findById(1L);
-		
+	public void updateHP() {
+		String descr = "una prova di testing unit";
+		HolidayPackage holidayPackage = holidayPackageService.findById(1L);
+
 		holidayPackage.setDescription(descr);
-		dao.save(holidayPackage);
-		
-		HolidayPackage hp=dao.findById(1L);
-		
-		assertThat(hp.getDescription(), is(org.hamcrest.Matchers.not(null)));
-		
-		hp=dao.findById(2L);
-		assertThat(hp.getDescription(), is(equalTo(null)));
-		
-		
-		
+		holidayPackageService.save(holidayPackage);
+
+		HolidayPackage hp = holidayPackageService.findById(1L);
+
+		assertThat(hp.getDescription(), is(notNullValue()));
+
+		hp = holidayPackageService.findById(2L);
+		assertThat(hp.getDescription(), is(nullValue()));
+
 	}
-	
+
+	/*
+	 * Non hai la garanzia che lo stato del DB sia come ti aspetti. I metodi di
+	 * test vengono eseguiti con un ordine al di fuori del controllo dello
+	 * sviluppatore. Non è detto che venga eseguito prima il test di creazione,
+	 * poi quello di update e poi quello di delete.
+	 */
 	@Test
-	public void deleteHolidayPackage(){
-		HolidayPackageService dao=context.getBean(HolidayPackageService.class);
-		
-		Long id=new Long(1);
-		Long w=1l;
+	public void deleteHolidayPackage() {
+		Long id = new Long(1);
+		Long w = 1l;
 		System.out.println(w);
-		
-		HolidayPackage hp=dao.findById(id);
+
+		HolidayPackage hp = holidayPackageService.findById(id);
 		assertThat(id, is(equalTo(hp.getId())));
-		
-		List<HolidayPackage> queryList= dao.findAll();
-		
-//		assertThat(queryList.size(), is(org.hamcrest.Matchers.not(null)));
+
+		List<HolidayPackage> queryList = holidayPackageService.findAll();
+		// TODO: ALTERNATIVA
+		// Integer rowCount = holidayPackageService.rowCount();
+
+		// assertThat(queryList.size(), is(org.hamcrest.Matchers.not(null)));
 		assertThat(queryList.size(), is(1));
-		
-		
+		// TODO: ALTERNATIVA
+		// assertThat(rowCount, is(equalTo(1)));
+
 		for (HolidayPackage holidayPackage : queryList) {
-			dao.delete(holidayPackage);
+			holidayPackageService.delete(holidayPackage);
 		}
-		
-		queryList=dao.findAll();
-		
+
+		queryList = holidayPackageService.findAll();
+
 		assertThat(queryList.size(), is(equalTo(0)));
-		
+
 	}
-	
+
 }

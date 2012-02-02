@@ -20,22 +20,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu;
+package uturismu.service.usecase;
 
-import org.junit.BeforeClass;
-import org.springframework.context.ApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import uturismu.dao.AccountDao;
+import uturismu.dao.BookerDao;
+import uturismu.dao.CustomerDao;
+import uturismu.dto.Account;
+import uturismu.dto.Booker;
+import uturismu.dto.Customer;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public abstract class BaseTest {
+@Service
+@Transactional
+public class BookerRegistrationServiceImpl implements BookerRegistrationService {
 
-	protected static ApplicationContext context;
-	
-	@BeforeClass
-	public static void initApplicationContext() {
-		context = ApplicationContextFactory.getApplicationContext();
+	@Autowired
+	private BookerDao bookerDao;
+	@Autowired
+	private AccountDao accountDao;
+	@Autowired
+	private CustomerDao customerDao;
+
+	@Override
+	public void registerBooker(Account account, Customer customer, Booker booker) {
+		accountDao.save(account);
+		customerDao.save(customer);
+		bookerDao.save(booker);
 	}
 
 }

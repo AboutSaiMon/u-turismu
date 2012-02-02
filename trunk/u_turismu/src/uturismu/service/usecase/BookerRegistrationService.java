@@ -20,30 +20,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.functional;
+package uturismu.service.usecase;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import uturismu.ServiceFactory;
-import uturismu.service.usecase.BookerRegistrationService;
+import uturismu.dto.Account;
+import uturismu.dto.Booker;
+import uturismu.dto.Customer;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public class RegistraionTest {
+public interface BookerRegistrationService {
 
-	private static BookerRegistrationService bookerService;
-
-	@BeforeClass
-	public static void init() {
-		bookerService = ServiceFactory.getBookerRegistrationService();
-	}
-
-	@Test
-	public void registerBooker() {
-		
-	}
+	public void registerBooker(Account account, Customer customer, Booker booker);
 
 }
