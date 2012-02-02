@@ -30,7 +30,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import uturismu.BaseTest;
+import uturismu.ServiceFactory;
 import uturismu.dto.Accommodation;
 import uturismu.dto.util.AccommodationType;
 import uturismu.service.AccommodationService;
@@ -39,13 +39,13 @@ import uturismu.service.AccommodationService;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public class AccommodationTest extends BaseTest {
+public class AccommodationTest {
 
 	private static AccommodationService service;
 
 	@BeforeClass
-	public static void initService() {
-		service = context.getBean(AccommodationService.class);
+	public static void init() {
+		service = ServiceFactory.getAccommodationService();
 	}
 
 	@Test
@@ -86,7 +86,7 @@ public class AccommodationTest extends BaseTest {
 		// was deleted
 		assertThat(service.rowCount(), is(equalTo(rowCount)));
 	}
-	
+
 	@Test
 	public void checkUpdate() {
 		// inserts a new accommodation
@@ -104,7 +104,7 @@ public class AccommodationTest extends BaseTest {
 		accommodation = service.findByVatNumber(":-)");
 		// checks whether the name was updated
 		assertThat(accommodation.getName(), is(equalTo(newName)));
-		
+
 	}
 
 	/*

@@ -25,25 +25,49 @@ package uturismu;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import uturismu.dto.TourOperator;
+import uturismu.service.AccommodationService;
+import uturismu.service.HolidayPackageService;
+import uturismu.service.OvernightStayService;
+import uturismu.service.TourOperatorService;
+import uturismu.service.usecase.BookerRegistrationService;
+
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public class ApplicationContextFactory {
+public class ServiceFactory {
 
 	// the application-context object
 	private static ApplicationContext context;
 	// the application-context path
-	private static String CONTEXT_PATH = "applicationContext.xml";
+	private static final String CONTEXT_PATH = "applicationContext.xml";
 
-	private ApplicationContextFactory() {
+	static {
+		context = new ClassPathXmlApplicationContext(CONTEXT_PATH);
+	}
+	
+	private ServiceFactory() {
 	}
 
-	public static ApplicationContext getApplicationContext() {
-		if (context == null) {
-			context = new ClassPathXmlApplicationContext(CONTEXT_PATH);
-		}
-		return context;
+	public static BookerRegistrationService getBookerRegistrationService() {
+		return context.getBean(BookerRegistrationService.class);
+	}
+
+	public static AccommodationService getAccommodationService() {
+		return context.getBean(AccommodationService.class);
+	}
+	
+	public static HolidayPackageService getHolidayPackageService() {
+		return context.getBean(HolidayPackageService.class);
+	}
+	
+	public static OvernightStayService getOvernightStayService() {
+		return context.getBean(OvernightStayService.class);
+	}
+	
+	public static TourOperatorService getTourOperatorService() {
+		return context.getBean(TourOperatorService.class);
 	}
 
 }
