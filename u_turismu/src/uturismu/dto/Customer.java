@@ -101,7 +101,7 @@ public class Customer implements Serializable {
 	}
 
 	@Enumerated(EnumType.STRING)
-	public Gender getGender() {
+	public Gender getGender() {	
 		return gender;
 	}
 

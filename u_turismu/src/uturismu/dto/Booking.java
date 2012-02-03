@@ -37,6 +37,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -54,10 +55,11 @@ public class Booking implements Serializable {
 	private Date bookingTimestamp;
 	private Booker booker;
 	private HolidayPackage holidayPackage;
-	private Set<Customer> customers;
+	private Set<BookingAcceptance> bookingAcceptances;
+	
 
 	public Booking() {
-		customers = new HashSet<Customer>();
+		bookingAcceptances=new HashSet<BookingAcceptance>();
 	}
 
 	@Id
@@ -86,15 +88,12 @@ public class Booking implements Serializable {
 		return holidayPackage;
 	}
 
-	@ManyToMany
-	@JoinTable(name="BOOKING_CUSTOMER",
-			joinColumns=@JoinColumn(name="id_booking"),
-			inverseJoinColumns=@JoinColumn(name="id_customer"))
-	@ForeignKey(name="FK_BOOKINGCUSTOMER_BOOKING", inverseName="FK_BOOKINGCUSTOMER_CUSTOMER")
-	public Set<Customer> getCustomers() {
-		return Collections.unmodifiableSet(customers);
+	
+	@OneToMany(mappedBy="booking")
+	public Set<BookingAcceptance> getBookingAcceptances(){
+		return Collections.unmodifiableSet(bookingAcceptances);
 	}
-
+	
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -110,17 +109,17 @@ public class Booking implements Serializable {
 	public void setHolidayPackage(HolidayPackage holidayPackage) {
 		this.holidayPackage = holidayPackage;
 	}
-
-	protected void setCustomers(Set<Customer> customers) {
-		this.customers = customers;
+	
+	protected void setBookingAcceptances(Set<BookingAcceptance> bookingAcceptances) {
+		this.bookingAcceptances=bookingAcceptances;
 	}
 
-	public boolean addCustomer(Customer customer) {
-		return customers.add(customer);
+	public boolean addBookingAcceptance(BookingAcceptance bookingAcceptance){
+		return this.bookingAcceptances.add(bookingAcceptance);
 	}
-
-	public boolean removeCustomer(Customer customer) {
-		return customers.remove(customer);
+	
+	public boolean removeBookingAcceptance(BookingAcceptance bookingAcceptance){
+		return this.bookingAcceptances.remove(bookingAcceptance);
 	}
 
 	@Override
@@ -128,9 +127,11 @@ public class Booking implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((booker == null) ? 0 : booker.hashCode());
-		result = prime * result + ((bookingTimestamp == null) ? 0 : bookingTimestamp.hashCode());
-		result = prime * result + ((customers == null) ? 0 : customers.hashCode());
-		result = prime * result + ((holidayPackage == null) ? 0 : holidayPackage.hashCode());
+		result = prime
+				* result
+				+ ((bookingTimestamp == null) ? 0 : bookingTimestamp.hashCode());
+		result = prime * result
+				+ ((holidayPackage == null) ? 0 : holidayPackage.hashCode());
 		return result;
 	}
 
@@ -140,7 +141,7 @@ public class Booking implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Booking))
 			return false;
 		Booking other = (Booking) obj;
 		if (booker == null) {
@@ -152,11 +153,6 @@ public class Booking implements Serializable {
 			if (other.bookingTimestamp != null)
 				return false;
 		} else if (!bookingTimestamp.equals(other.bookingTimestamp))
-			return false;
-		if (customers == null) {
-			if (other.customers != null)
-				return false;
-		} else if (!customers.equals(other.customers))
 			return false;
 		if (holidayPackage == null) {
 			if (other.holidayPackage != null)
