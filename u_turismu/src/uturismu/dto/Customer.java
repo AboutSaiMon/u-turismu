@@ -39,8 +39,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -73,10 +73,10 @@ public class Customer implements Serializable {
 	private String email;
 	private String phoneNumber;
 	private Booker booker;
-	private Set<Booking> bookings;
+	private Set<BookingAcceptance> bookingAcceptances;
 
 	public Customer() {
-		bookings = new HashSet<Booking>();
+		bookingAcceptances = new HashSet<BookingAcceptance>();
 	}
 
 	@Id
@@ -140,13 +140,13 @@ public class Customer implements Serializable {
 	public String getIssuingAuthority() {
 		return issuingAuthority;
 	}
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	public String getEmail() {
 		return email;
 	}
-	
-	@Column(name="phone_number")
+
+	@Column(name = "phone_number")
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -156,9 +156,9 @@ public class Customer implements Serializable {
 		return booker;
 	}
 
-	@ManyToMany(mappedBy = "customers")
-	public Set<Booking> getBookings() {
-		return Collections.unmodifiableSet(bookings);
+	@OneToMany(mappedBy = "customer")
+	public Set<BookingAcceptance> getBookingAcceptances() {
+		return Collections.unmodifiableSet(bookingAcceptances);
 	}
 
 	public void setId(Long id) {
@@ -204,11 +204,11 @@ public class Customer implements Serializable {
 	public void setIssuingAuthority(String issuingAuthority) {
 		this.issuingAuthority = issuingAuthority;
 	}
-	
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
@@ -217,16 +217,16 @@ public class Customer implements Serializable {
 		this.booker = booker;
 	}
 
-	protected void setBookings(Set<Booking> bookings) {
-		this.bookings = bookings;
+	protected void setBookingAcceptances(Set<BookingAcceptance> bookingAcceptances) {
+		this.bookingAcceptances = bookingAcceptances;
 	}
 
-	public boolean addBooking(Booking booking) {
-		return bookings.add(booking);
+	public boolean addBookingAcceptance(BookingAcceptance bookingAcceptance) {
+		return bookingAcceptances.add(bookingAcceptance);
 	}
 
-	public boolean removeBooking(Booking booking) {
-		return bookings.remove(booking);
+	public boolean removeBookingAcceptance(BookingAcceptance bookingAcceptance) {
+		return bookingAcceptances.remove(bookingAcceptance);
 	}
 
 	@Override
