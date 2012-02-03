@@ -34,8 +34,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -47,7 +45,7 @@ import org.hibernate.annotations.ForeignKey;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity(name="BOOKING")
+@Entity(name = "BOOKING")
 public class Booking implements Serializable {
 
 	private static final long serialVersionUID = 7295908518751530161L;
@@ -56,44 +54,42 @@ public class Booking implements Serializable {
 	private Booker booker;
 	private HolidayPackage holidayPackage;
 	private Set<BookingAcceptance> bookingAcceptances;
-	
 
 	public Booking() {
-		bookingAcceptances=new HashSet<BookingAcceptance>();
+		bookingAcceptances = new HashSet<BookingAcceptance>();
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="booking_timestamp", nullable=false)
+	@Column(name = "booking_timestamp", nullable = false)
 	public Date getBookingTimestamp() {
 		return bookingTimestamp;
 	}
 
 	@ManyToOne
-	@JoinColumn(name="id_booker")
-	@ForeignKey(name="FK_BOOKING_BOOKER")
+	@JoinColumn(name = "id_booker")
+	@ForeignKey(name = "FK_BOOKING_BOOKER")
 	public Booker getBooker() {
 		return booker;
 	}
 
 	@ManyToOne
-	@JoinColumn(name="id_holiday_package")
-	@ForeignKey(name="FK_BOOKING_HOLIDAYPACKAGE")
+	@JoinColumn(name = "id_holiday_package")
+	@ForeignKey(name = "FK_BOOKING_HOLIDAYPACKAGE")
 	public HolidayPackage getHolidayPackage() {
 		return holidayPackage;
 	}
 
-	
-	@OneToMany(mappedBy="booking")
-	public Set<BookingAcceptance> getBookingAcceptances(){
+	@OneToMany(mappedBy = "booking")
+	public Set<BookingAcceptance> getBookingAcceptances() {
 		return Collections.unmodifiableSet(bookingAcceptances);
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -109,16 +105,16 @@ public class Booking implements Serializable {
 	public void setHolidayPackage(HolidayPackage holidayPackage) {
 		this.holidayPackage = holidayPackage;
 	}
-	
+
 	protected void setBookingAcceptances(Set<BookingAcceptance> bookingAcceptances) {
-		this.bookingAcceptances=bookingAcceptances;
+		this.bookingAcceptances = bookingAcceptances;
 	}
 
-	public boolean addBookingAcceptance(BookingAcceptance bookingAcceptance){
+	public boolean addBookingAcceptance(BookingAcceptance bookingAcceptance) {
 		return this.bookingAcceptances.add(bookingAcceptance);
 	}
-	
-	public boolean removeBookingAcceptance(BookingAcceptance bookingAcceptance){
+
+	public boolean removeBookingAcceptance(BookingAcceptance bookingAcceptance) {
 		return this.bookingAcceptances.remove(bookingAcceptance);
 	}
 
@@ -127,11 +123,8 @@ public class Booking implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((booker == null) ? 0 : booker.hashCode());
-		result = prime
-				* result
-				+ ((bookingTimestamp == null) ? 0 : bookingTimestamp.hashCode());
-		result = prime * result
-				+ ((holidayPackage == null) ? 0 : holidayPackage.hashCode());
+		result = prime * result + ((bookingTimestamp == null) ? 0 : bookingTimestamp.hashCode());
+		result = prime * result + ((holidayPackage == null) ? 0 : holidayPackage.hashCode());
 		return result;
 	}
 
