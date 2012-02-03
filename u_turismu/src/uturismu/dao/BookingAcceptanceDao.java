@@ -22,12 +22,12 @@
  */
 package uturismu.dao;
 
-import uturismu.dto.HolidayClassification;
+import uturismu.dto.BookingAcceptance;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
-public interface HolidayClassificationDao extends GenericDao<HolidayClassification> {
+public interface BookingAcceptanceDao extends GenericDao<BookingAcceptance> {
 
 }

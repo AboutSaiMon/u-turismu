@@ -20,14 +20,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.service;
+package uturismu.dao;
 
-import uturismu.dto.HolidayClassification;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import uturismu.dto.BookingAcceptance;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- * 
+ *
  */
-public interface HolidayClassificationService extends GenericService<HolidayClassification> {
+@Repository
+public class BookingAcceptanceDaoImpl extends AbstractDao<BookingAcceptance> implements BookingAcceptanceDao {
+
+	@Autowired
+	public BookingAcceptanceDaoImpl(SessionFactory sessionFactory) {
+		super(sessionFactory);
+	}
 
 }
