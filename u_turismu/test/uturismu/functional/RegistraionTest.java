@@ -23,7 +23,6 @@
 package uturismu.functional;
 
 import java.util.Date;
-import java.util.Random;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
