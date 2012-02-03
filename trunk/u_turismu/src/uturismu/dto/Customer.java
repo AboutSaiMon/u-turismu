@@ -70,6 +70,8 @@ public class Customer implements Serializable {
 	/* è la tipologia (patente, passaporto, ecc) */
 	private IDType identificationDocumentType;
 	private String issuingAuthority;
+	private String email;
+	private String phoneNumber;
 	private Booker booker;
 	private Set<Booking> bookings;
 
@@ -138,6 +140,16 @@ public class Customer implements Serializable {
 	public String getIssuingAuthority() {
 		return issuingAuthority;
 	}
+	
+	@Column(nullable=false)
+	public String getEmail() {
+		return email;
+	}
+	
+	@Column(name="phone_number")
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
 
 	@OneToOne(mappedBy = "customer")
 	public Booker getBooker() {
@@ -191,6 +203,14 @@ public class Customer implements Serializable {
 
 	public void setIssuingAuthority(String issuingAuthority) {
 		this.issuingAuthority = issuingAuthority;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	public void setBooker(Booker booker) {
