@@ -32,44 +32,44 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity(name="HOLIDAY_TAG")
+@Entity(name = "HOLIDAY_TAG")
 public class HolidayTag implements Serializable {
 
 	private static final long serialVersionUID = -7833352862425542082L;
 	private Long id;
 	private String name;
 	private String description;
-	private Set<HolidayClassification> holidayClassifications;
+	private Set<HolidayPackage> holidayPackages;
 
 	public HolidayTag() {
-		holidayClassifications = new HashSet<HolidayClassification>();
+		holidayPackages = new HashSet<HolidayPackage>();
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	public String getName() {
 		return name;
 	}
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	public String getDescription() {
 		return description;
 	}
 
-	@OneToMany(mappedBy="holidayTag")
-	public Set<HolidayClassification> getHolidayClassifications() {
-		return Collections.unmodifiableSet(holidayClassifications);
+	@ManyToMany(mappedBy = "holidayTags")
+	public Set<HolidayPackage> getHolidayPackages() {
+		return Collections.unmodifiableSet(holidayPackages);
 	}
 
 	public void setId(Long id) {
@@ -84,17 +84,17 @@ public class HolidayTag implements Serializable {
 		this.description = description;
 	}
 
-	protected void setHolidayClassifications(Set<HolidayClassification> holidayClassifications) {
-		this.holidayClassifications = holidayClassifications;
+	protected void setHolidayPackages(Set<HolidayPackage> holidayPackages) {
+		this.holidayPackages = holidayPackages;
 	}
-	
-	public boolean addClassification(HolidayClassification classification) {
-		return holidayClassifications.add(classification);
+
+	public boolean addHolidayPackage(HolidayPackage holidayPackage) {
+		return holidayPackages.add(holidayPackage);
 	}
-	
-	public boolean removeClassification(HolidayClassification classification) {
-		return holidayClassifications.remove(classification);
-	} 
+
+	public boolean removeHolidayPackage(HolidayPackage holidayPackage) {
+		return holidayPackages.remove(holidayPackage);
+	}
 
 	@Override
 	public int hashCode() {

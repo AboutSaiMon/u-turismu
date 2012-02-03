@@ -22,21 +22,12 @@
  */
 package uturismu.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import uturismu.dao.HolidayClassificationDao;
-import uturismu.dto.HolidayClassification;
+import uturismu.dto.BookingAcceptance;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public class HolidayClassificationServiceImpl extends AbstractService<HolidayClassification>
-		implements HolidayClassificationService {
-
-	@Autowired
-	public HolidayClassificationServiceImpl(HolidayClassificationDao dao) {
-		super(dao);
-	}
+public interface BookingAcceptanceService extends GenericService<BookingAcceptance> {
 
 }

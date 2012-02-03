@@ -58,12 +58,12 @@ public class HolidayPackage implements Serializable {
 	private TourOperator tourOperator;
 	private Set<Booking> bookings;
 	private Set<Service> services;
-	private Set<HolidayClassification> classifications;
+	private Set<HolidayTag> holidayTags;
 
 	public HolidayPackage() {
 		bookings = new HashSet<Booking>();
 		services = new HashSet<Service>();
-		classifications = new HashSet<HolidayClassification>();
+		holidayTags = new HashSet<HolidayTag>();
 	}
 
 	@Id
@@ -105,9 +105,11 @@ public class HolidayPackage implements Serializable {
 		return Collections.unmodifiableSet(services);
 	}
 
-	@OneToMany(mappedBy = "holidayPackage")
-	public Set<HolidayClassification> getClassifications() {
-		return classifications;
+	@ManyToMany
+	@JoinTable(name = "HOLIDAY_CLASSIFICATION", joinColumns = @JoinColumn(name = "id_holiday_package"), inverseJoinColumns = @JoinColumn(name = "id_holiday_tag"))
+	@ForeignKey(name = "FK_HOLIDAYCLASSIFICATION_HOLIDAYPACKAGE", inverseName = "FK_HOLIDAYCLASSIFICATION_HOLIDAYTAG")
+	public Set<HolidayTag> getHolidayTags() {
+		return Collections.unmodifiableSet(holidayTags);
 	}
 
 	public void setId(Long id) {
@@ -134,8 +136,8 @@ public class HolidayPackage implements Serializable {
 		this.bookings = bookings;
 	}
 
-	protected void setClassifications(Set<HolidayClassification> classifications) {
-		this.classifications = classifications;
+	protected void setHolidayTags(Set<HolidayTag> holidayTags) {
+		this.holidayTags = holidayTags;
 	}
 
 	protected void setServices(Set<Service> services) {
@@ -150,12 +152,12 @@ public class HolidayPackage implements Serializable {
 		return services.add(service);
 	}
 
-	public boolean addClassification(HolidayClassification classification) {
-		return classifications.add(classification);
+	public boolean addHolidayTag(HolidayTag holidayTag) {
+		return holidayTags.add(holidayTag);
 	}
 
-	public boolean removeClassification(HolidayClassification classification) {
-		return classifications.remove(classification);
+	public boolean removeHolidayTag(HolidayTag holidayTag) {
+		return holidayTags.remove(holidayTag);
 	}
 
 	public boolean removeBooking(Booking booking) {
@@ -172,6 +174,7 @@ public class HolidayPackage implements Serializable {
 		int result = 1;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((guestNumber == null) ? 0 : guestNumber.hashCode());
+		result = prime * result + ((holidayTags == null) ? 0 : holidayTags.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((services == null) ? 0 : services.hashCode());
 		result = prime * result + ((tourOperator == null) ? 0 : tourOperator.hashCode());
@@ -196,6 +199,11 @@ public class HolidayPackage implements Serializable {
 			if (other.guestNumber != null)
 				return false;
 		} else if (!guestNumber.equals(other.guestNumber))
+			return false;
+		if (holidayTags == null) {
+			if (other.holidayTags != null)
+				return false;
+		} else if (!holidayTags.equals(other.holidayTags))
 			return false;
 		if (name == null) {
 			if (other.name != null)
