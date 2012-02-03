@@ -72,27 +72,29 @@ public class Account implements Serializable {
 		return email;
 	}
 
+	@Column(length = 128)
 	public String getPassword() {
 		return password;
 	}
 
+	@Column(length = 16)
 	public String getSalt() {
 		return salt;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="registration_timestamp", nullable=false)
+	@Column(name = "registration_timestamp", nullable = false)
 	public Date getRegistrationTimestamp() {
 		return registrationTimestamp;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="last_acces_timestamp", nullable=false)
+	@Column(name = "last_acces_timestamp", nullable = false)
 	public Date getLastAccessTimestamp() {
 		return lastAccessTimestamp;
 	}
 
-	@Type(type="yes_no")
+	@Type(type = "yes_no")
 	public Boolean isActive() {
 		return active;
 	}
@@ -102,12 +104,12 @@ public class Account implements Serializable {
 		return type;
 	}
 
-	@OneToOne(mappedBy="account")
+	@OneToOne(mappedBy = "account")
 	public TourOperator getTourOperator() {
 		return tourOperator;
 	}
 
-	@OneToOne(mappedBy="account")
+	@OneToOne(mappedBy = "account")
 	public Booker getBooker() {
 		return booker;
 	}

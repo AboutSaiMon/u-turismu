@@ -65,7 +65,7 @@ public class TourOperator implements Serializable {
 		return id;
 	}
 
-	@Column(name = "vat_number", unique = true)
+	@Column(name = "vat_number", unique = true, length = 11)
 	public String getVatNumber() {
 		return vatNumber;
 	}

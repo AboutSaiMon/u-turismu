@@ -83,7 +83,7 @@ public class Customer implements Serializable {
 		return id;
 	}
 
-	@Column(name = "tax_code", unique = true)
+	@Column(name = "tax_code", unique = true, length = 16)
 	public String getTaxCode() {
 		return taxCode;
 	}
