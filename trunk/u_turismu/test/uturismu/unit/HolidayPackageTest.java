@@ -72,6 +72,9 @@ public class HolidayPackageTest {
 	 */
 	@Before
 	public void createHolidayPakage() {
+		
+		System.out.println("######## CIAO CIAO CIAO ########");
+		
 		OvernightStay overnightStay = new OvernightStay();
 		overnightStay.setArrivalDate(new GregorianCalendar().getTime());
 		overnightStay.setLeavingDate(new GregorianCalendar().getTime());
