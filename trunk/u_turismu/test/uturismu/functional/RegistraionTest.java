@@ -23,10 +23,12 @@
 package uturismu.functional;
 
 import java.util.Date;
+import java.util.Random;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import uturismu.HashUtil;
 import uturismu.ServiceFactory;
 import uturismu.dto.Account;
 import uturismu.dto.Booker;
@@ -67,10 +69,12 @@ public class RegistraionTest {
 		Account account = new Account();
 		account.setActive(true);
 		account.setEmail("account@gmail.com");
-		account.setPassword("livuoiqueikiwiyankeecoikiwayawayani");
+		String salt = HashUtil.generateSalt();
+		account.setSalt(salt);
+		String password = HashUtil.getHash("livuoiqueikiwiyankeecoikiwayawayani", salt);
+		account.setPassword(password);
 		account.setLastAccessTimestamp(new Date());
 		account.setRegistrationTimestamp(new Date());
-		account.setSalt("A3DFF002958901AFF20190");
 		account.setType(AccountType.BOOKER);
 		return account;
 	}
