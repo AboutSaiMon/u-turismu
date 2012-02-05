@@ -24,46 +24,43 @@ package uturismu.functional;
 
 import java.util.Date;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import uturismu.HashUtil;
 import uturismu.ServiceFactory;
+import uturismu.dto.Accommodation;
 import uturismu.dto.Account;
 import uturismu.dto.Booker;
 import uturismu.dto.City;
-import uturismu.dto.Customer;
+import uturismu.dto.enumtype.AccommodationType;
 import uturismu.dto.enumtype.AccountType;
-import uturismu.dto.enumtype.Gender;
-import uturismu.dto.enumtype.IdType;
 import uturismu.service.BookerManagementService;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public class RegistraionTest {
+public class Main {
 
-	private static BookerManagementService bookerService;
-	private static City city;
-
-	@BeforeClass
-	public static void init() {
-		city = new City();
+	public static void main(String[] args) {
+		Accommodation a = new Accommodation();
+		a.setName("n");
+		a.setType(AccommodationType.BED_AND_BREAKFAST);
+		a.setVatNumber("asdòflkj");
+		
+		ServiceFactory.getAccommodationService().save(a);
+		/*
+		City city = new City();
 		city.setName("Springfield");
 		city.setProvince("USA");
-		ServiceFactory.getCityService().save(city);
-		bookerService = ServiceFactory.getBookerRegistrationService();
-	}
 
-	@Test
-	public void registerBooker() {
+		BookerManagementService service = ServiceFactory.getBookerManagementService();
 		Account account = createAccount();
 		Booker booker = createBooker(account);
-		//bookerService.registerBooker(account, booker);
+		
+		service.createAccount(account, booker);
+		*/
 	}
 
-	private Account createAccount() {
+	private static Account createAccount() {
 		Account account = new Account();
 		account.setActive(true);
 		account.setEmail("account@gmail.com");
@@ -77,21 +74,7 @@ public class RegistraionTest {
 		return account;
 	}
 
-	private Customer createCustomer() {
-		Customer customer = new Customer();
-		customer.setTaxCode("SMPHMR89T31Z404B");
-		customer.setFirstName("Homer");
-		customer.setLastName("Simpson");
-		customer.setGender(Gender.MALE);
-		customer.setBirthPlace(city);
-		customer.setBirthDate(new Date());
-		customer.setIdentificationDocumentNumber("1103D2");
-		customer.setIdentificationDocumentType(IdType.PASSPORT);
-		customer.setIssuingAuthority("Police");
-		return customer;
-	}
-
-	private Booker createBooker(Account account) {
+	private static Booker createBooker(Account account) {
 		Booker booker = new Booker();
 		account.setBooker(booker);
 		booker.setAccount(account);

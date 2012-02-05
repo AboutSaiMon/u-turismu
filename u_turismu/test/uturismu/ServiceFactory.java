@@ -50,7 +50,7 @@ public class ServiceFactory {
 	private ServiceFactory() {
 	}
 
-	public static BookerManagementService getBookerRegistrationService() {
+	public static BookerManagementService getBookerManagementService() {
 		return context.getBean(BookerManagementService.class);
 	}
 
