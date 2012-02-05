@@ -24,7 +24,6 @@ package uturismu.service;
 
 import uturismu.dto.Account;
 import uturismu.dto.Booker;
-import uturismu.dto.Customer;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -32,6 +31,6 @@ import uturismu.dto.Customer;
  */
 public interface BookerManagementService {
 
-	public void registerBooker(Account account, Customer customer, Booker booker);
+	public void createAccount(Account account, Booker booker);
 
 }

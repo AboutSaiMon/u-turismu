@@ -28,10 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import uturismu.dao.AccountDao;
 import uturismu.dao.BookerDao;
-import uturismu.dao.CustomerDao;
 import uturismu.dto.Account;
 import uturismu.dto.Booker;
-import uturismu.dto.Customer;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -42,16 +40,13 @@ import uturismu.dto.Customer;
 public class BookerManagementServiceImpl implements BookerManagementService {
 
 	@Autowired
-	private BookerDao bookerDao;
-	@Autowired
 	private AccountDao accountDao;
 	@Autowired
-	private CustomerDao customerDao;
+	private BookerDao bookerDao;
 
 	@Override
-	public void registerBooker(Account account, Customer customer, Booker booker) {
+	public void createAccount(Account account, Booker booker) {
 		accountDao.save(account);
-		customerDao.save(customer);
 		bookerDao.save(booker);
 	}
 
