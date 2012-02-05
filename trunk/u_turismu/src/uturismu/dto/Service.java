@@ -23,23 +23,24 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity(name="SERVICE")
+@Entity(name = "SERVICE")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Service implements Serializable {
 
@@ -47,29 +48,32 @@ public abstract class Service implements Serializable {
 	private Long id;
 	private Double price;
 	private String description;
-	private Set<HolidayPackage> holidayPackages;
+	private HolidayPackage holidayPackage;
 
 	public Service() {
-		holidayPackages = new HashSet<HolidayPackage>();
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
+	@Column(nullable = false)
 	public Double getPrice() {
 		return price;
 	}
 
+	@Column(nullable = false)
 	public String getDescription() {
 		return description;
 	}
 
-	@ManyToMany(mappedBy="services")
-	public Set<HolidayPackage> getHolidayPackages() {
-		return Collections.unmodifiableSet(holidayPackages);
+	@ManyToOne
+	@JoinColumn(name = "id_holiday_package")
+	@ForeignKey(name = "FK_SERVICE_HOLIDAYPACKAGE")
+	public HolidayPackage getHolidayPackage() {
+		return holidayPackage;
 	}
 
 	public void setId(Long id) {
@@ -84,16 +88,8 @@ public abstract class Service implements Serializable {
 		this.description = description;
 	}
 
-	protected void setHolidayPackages(Set<HolidayPackage> holidayPackages) {
-		this.holidayPackages = holidayPackages;
-	}
-
-	public boolean addHolidayPackage(HolidayPackage holidayPackage) {
-		return holidayPackages.add(holidayPackage);
-	}
-
-	public boolean removeHolidayPackage(HolidayPackage holidayPackage) {
-		return holidayPackages.remove(holidayPackage);
+	protected void setHolidayPackage(HolidayPackage holidayPackage) {
+		this.holidayPackage = holidayPackage;
 	}
 
 	@Override
@@ -101,23 +97,23 @@ public abstract class Service implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((holidayPackage == null) ? 0 : holidayPackage.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof Service))
-			return false;
 		Service other = (Service) obj;
 		if (description == null) {
 			if (other.description != null)
 				return false;
 		} else if (!description.equals(other.description))
+			return false;
+		if (holidayPackage == null) {
+			if (other.holidayPackage != null)
+				return false;
+		} else if (!holidayPackage.equals(other.holidayPackage))
 			return false;
 		if (price == null) {
 			if (other.price != null)

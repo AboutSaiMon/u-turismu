@@ -55,10 +55,10 @@ public class POI implements Serializable {
 	private String description;
 	private PoiType type;
 	private Address address;
-	private Set<ReservationAndTicketing> reservations;
+	private Set<Reservation> reservations;
 
 	public POI() {
-		reservations = new HashSet<ReservationAndTicketing>();
+		reservations = new HashSet<Reservation>();
 	}
 	
 	@Id
@@ -87,7 +87,7 @@ public class POI implements Serializable {
 	}
 
 	@OneToMany(mappedBy = "pointOfInterest")
-	public Set<ReservationAndTicketing> getReservations() {
+	public Set<Reservation> getReservations() {
 		return Collections.unmodifiableSet(reservations);
 	}
 
@@ -111,15 +111,15 @@ public class POI implements Serializable {
 		this.address = address;
 	}
 
-	protected void setReservations(Set<ReservationAndTicketing> reservations) {
+	protected void setReservations(Set<Reservation> reservations) {
 		this.reservations = reservations;
 	}
 
-	public boolean addReservation(ReservationAndTicketing reservation) {
+	public boolean addReservation(Reservation reservation) {
 		return this.reservations.add(reservation);
 	}
 
-	public boolean removeReservation(ReservationAndTicketing reservation) {
+	public boolean removeReservation(Reservation reservation) {
 		return this.reservations.remove(reservation);
 	}
 

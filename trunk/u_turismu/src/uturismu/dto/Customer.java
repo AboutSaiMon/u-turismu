@@ -23,7 +23,6 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,12 +40,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.ForeignKey;
+
 import uturismu.dto.enumtype.Gender;
-import uturismu.dto.enumtype.IDType;
+import uturismu.dto.enumtype.IdType;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -57,26 +57,21 @@ public class Customer implements Serializable {
 
 	private static final long serialVersionUID = -6323910189513397033L;
 	private Long id;
-	/* è il codice fiscale */
 	private String taxCode;
 	private String firstName;
 	private String lastName;
 	private Gender gender;
 	private Date birthDate;
 	private City birthPlace;
-	private Address livingPlace;
-	/* è il codice del documento identificativo */
+	private Address residence;
 	private String identificationDocumentNumber;
-	/* è la tipologia (patente, passaporto, ecc) */
-	private IDType identificationDocumentType;
+	private IdType identificationDocumentType;
 	private String issuingAuthority;
 	private String email;
-	private String phoneNumber;
-	private Booker booker;
-	private Set<BookingAcceptance> bookingAcceptances;
+	private Set<Confirmation> confirmations;
 
 	public Customer() {
-		bookingAcceptances = new HashSet<BookingAcceptance>();
+		confirmations = new HashSet<Confirmation>();
 	}
 
 	@Id
@@ -85,23 +80,23 @@ public class Customer implements Serializable {
 		return id;
 	}
 
-	@Column(name = "tax_code", unique = true, length = 16)
+	@Column(name = "tax_code", length = 16, unique = true, nullable = false)
 	public String getTaxCode() {
 		return taxCode;
 	}
 
-	@Column(name = "first_name", nullable = false)
+	@Column(name = "first_name")
 	public String getFirstName() {
 		return firstName;
 	}
 
-	@Column(name = "last_name", nullable = false)
+	@Column(name = "last_name")
 	public String getLastName() {
 		return lastName;
 	}
 
 	@Enumerated(EnumType.STRING)
-	public Gender getGender() {	
+	public Gender getGender() {
 		return gender;
 	}
 
@@ -112,53 +107,44 @@ public class Customer implements Serializable {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "id_birth_place", nullable = false)
+	@JoinColumn(name = "id_birth_place")
+	@ForeignKey(name = "FK_BOOKER_CITY")
 	public City getBirthPlace() {
 		return birthPlace;
 	}
 
 	@Embedded
 	@AttributeOverrides({
-			@AttributeOverride(name = "street", column = @Column(name = "living_place_street")),
-			@AttributeOverride(name = "zipCode", column = @Column(name = "living_place_zipcode")),
-			@AttributeOverride(name = "city", column = @Column(name = "living_place_city")) })
-	public Address getLivingPlace() {
-		return livingPlace;
+			@AttributeOverride(name = "street", column = @Column(name = "residence_street")),
+			@AttributeOverride(name = "zipCode", column = @Column(name = "residence_zipcode")),
+			@AttributeOverride(name = "city", column = @Column(name = "residence_city")) })
+	public Address getResidence() {
+		return residence;
 	}
 
-	@Column(name = "identification_document_number", nullable = false)
+	@Column(name = "identification_document_number")
 	public String getIdentificationDocumentNumber() {
 		return identificationDocumentNumber;
 	}
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "identification_document_type")
-	public IDType getIdentificationDocumentType() {
+	public IdType getIdentificationDocumentType() {
 		return identificationDocumentType;
 	}
 
-	@Column(name = "issuing_authority", nullable = false)
+	@Column(name = "issuing_authority")
 	public String getIssuingAuthority() {
 		return issuingAuthority;
 	}
 
-	@Column(nullable = false)
 	public String getEmail() {
 		return email;
 	}
 
-	@Column(name = "phone_number")
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	@OneToOne(mappedBy = "customer")
-	public Booker getBooker() {
-		return booker;
-	}
-
 	@OneToMany(mappedBy = "customer")
-	public Set<BookingAcceptance> getBookingAcceptances() {
-		return Collections.unmodifiableSet(bookingAcceptances);
+	public Set<Confirmation> getConfirmations() {
+		return confirmations;
 	}
 
 	public void setId(Long id) {
@@ -189,16 +175,16 @@ public class Customer implements Serializable {
 		this.birthPlace = birthPlace;
 	}
 
-	public void setLivingPlace(Address livingPlace) {
-		this.livingPlace = livingPlace;
+	public void setResidence(Address residence) {
+		this.residence = residence;
 	}
 
-	public void setIdentificationDocumentNumber(String idNumber) {
-		this.identificationDocumentNumber = idNumber;
+	public void setIdentificationDocumentNumber(String identificationDocumentNumber) {
+		this.identificationDocumentNumber = identificationDocumentNumber;
 	}
 
-	public void setIdentificationDocumentType(IDType idType) {
-		this.identificationDocumentType = idType;
+	public void setIdentificationDocumentType(IdType identificationDocumentType) {
+		this.identificationDocumentType = identificationDocumentType;
 	}
 
 	public void setIssuingAuthority(String issuingAuthority) {
@@ -209,24 +195,16 @@ public class Customer implements Serializable {
 		this.email = email;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	protected void setConfirmations(Set<Confirmation> confirmations) {
+		this.confirmations = confirmations;
 	}
 
-	public void setBooker(Booker booker) {
-		this.booker = booker;
+	public boolean addConfirmation(Confirmation confirmation) {
+		return confirmations.add(confirmation);
 	}
 
-	protected void setBookingAcceptances(Set<BookingAcceptance> bookingAcceptances) {
-		this.bookingAcceptances = bookingAcceptances;
-	}
-
-	public boolean addBookingAcceptance(BookingAcceptance bookingAcceptance) {
-		return bookingAcceptances.add(bookingAcceptance);
-	}
-
-	public boolean removeBookingAcceptance(BookingAcceptance bookingAcceptance) {
-		return bookingAcceptances.remove(bookingAcceptance);
+	public boolean removeConfirmation(Confirmation confirmation) {
+		return confirmations.remove(confirmation);
 	}
 
 	@Override
@@ -235,6 +213,7 @@ public class Customer implements Serializable {
 		int result = 1;
 		result = prime * result + ((birthDate == null) ? 0 : birthDate.hashCode());
 		result = prime * result + ((birthPlace == null) ? 0 : birthPlace.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
 		result = prime
@@ -244,7 +223,7 @@ public class Customer implements Serializable {
 				+ ((identificationDocumentType == null) ? 0 : identificationDocumentType.hashCode());
 		result = prime * result + ((issuingAuthority == null) ? 0 : issuingAuthority.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((livingPlace == null) ? 0 : livingPlace.hashCode());
+		result = prime * result + ((residence == null) ? 0 : residence.hashCode());
 		result = prime * result + ((taxCode == null) ? 0 : taxCode.hashCode());
 		return result;
 	}
@@ -267,6 +246,11 @@ public class Customer implements Serializable {
 			if (other.birthPlace != null)
 				return false;
 		} else if (!birthPlace.equals(other.birthPlace))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
 			return false;
 		if (firstName == null) {
 			if (other.firstName != null)
@@ -292,10 +276,10 @@ public class Customer implements Serializable {
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
-		if (livingPlace == null) {
-			if (other.livingPlace != null)
+		if (residence == null) {
+			if (other.residence != null)
 				return false;
-		} else if (!livingPlace.equals(other.livingPlace))
+		} else if (!residence.equals(other.residence))
 			return false;
 		if (taxCode == null) {
 			if (other.taxCode != null)

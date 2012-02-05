@@ -30,78 +30,66 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.ForeignKey;
 
-import uturismu.dto.enumtype.ActivityType;
+import uturismu.dto.enumtype.ReservationType;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity(name = "OUTDOOR_ACTIVITY")
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "name", "activity_type" }))
-public class OutdoorActivity extends Service {
+@Entity(name = "RESERVATION")
+public class Reservation extends Service {
 
-	private static final long serialVersionUID = -5512888246149101861L;
-	private String name;
-	private Date date;
-	private ActivityType activityType;
-	private City city;
+	private static final long serialVersionUID = -1401386687925117984L;
+	private ReservationType type;
+	private Date reservationTimestamp;
+	private POI pointOfInterest;
 
-	public OutdoorActivity() {
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	@Temporal(TemporalType.DATE)
-	public Date getDate() {
-		return date;
+	public Reservation() {
 	}
 
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, name = "activity_type")
-	public ActivityType getActivityType() {
-		return activityType;
+	public ReservationType getType() {
+		return type;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "reservation_timestamp")
+	public Date getReservationTimestamp() {
+		return reservationTimestamp;
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "id_city")
-	@ForeignKey(name = "FK_OUTDOORACTIVITY_CITY")
-	public City getCity() {
-		return city;
+	@JoinColumn(name = "id_poi")
+	@ForeignKey(name = "FK_RESERVATION_POI")
+	public POI getPointOfInterest() {
+		return pointOfInterest;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setType(ReservationType type) {
+		this.type = type;
+	}
+	
+	public void setReservationTimestamp(Date reservationTimestamp) {
+		this.reservationTimestamp = reservationTimestamp;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public void setActivityType(ActivityType activityType) {
-		this.activityType = activityType;
-	}
-
-	public void setCity(City city) {
-		this.city = city;
+	public void setPointOfInterest(POI pointOfInterest) {
+		this.pointOfInterest = pointOfInterest;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((activityType == null) ? 0 : activityType.hashCode());
-		result = prime * result + ((city == null) ? 0 : city.hashCode());
-		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((pointOfInterest == null) ? 0 : pointOfInterest.hashCode());
+		result = prime * result
+				+ ((reservationTimestamp == null) ? 0 : reservationTimestamp.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
 
@@ -115,23 +103,18 @@ public class OutdoorActivity extends Service {
 			return false;
 		if (!super.equals(obj))
 			return false;
-		OutdoorActivity other = (OutdoorActivity) obj;
-		if (activityType != other.activityType)
-			return false;
-		if (city == null) {
-			if (other.city != null)
+		Reservation other = (Reservation) obj;
+		if (pointOfInterest == null) {
+			if (other.pointOfInterest != null)
 				return false;
-		} else if (!city.equals(other.city))
+		} else if (!pointOfInterest.equals(other.pointOfInterest))
 			return false;
-		if (date == null) {
-			if (other.date != null)
+		if (reservationTimestamp == null) {
+			if (other.reservationTimestamp != null)
 				return false;
-		} else if (!date.equals(other.date))
+		} else if (!reservationTimestamp.equals(other.reservationTimestamp))
 			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
+		if (type != other.type)
 			return false;
 		return true;
 	}

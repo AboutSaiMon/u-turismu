@@ -35,8 +35,8 @@ import uturismu.dto.City;
 import uturismu.dto.Customer;
 import uturismu.dto.enumtype.AccountType;
 import uturismu.dto.enumtype.Gender;
-import uturismu.dto.enumtype.IDType;
-import uturismu.service.usecase.BookerRegistrationService;
+import uturismu.dto.enumtype.IdType;
+import uturismu.service.BookerManagementService;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -44,7 +44,7 @@ import uturismu.service.usecase.BookerRegistrationService;
  */
 public class RegistraionTest {
 
-	private static BookerRegistrationService bookerService;
+	private static BookerManagementService bookerService;
 	private static City city;
 
 	@BeforeClass
@@ -59,9 +59,8 @@ public class RegistraionTest {
 	@Test
 	public void registerBooker() {
 		Account account = createAccount();
-		Customer customer = createCustomer();
-		Booker booker = createBooker(account, customer);
-		bookerService.registerBooker(account, customer, booker);
+		Booker booker = createBooker(account);
+		//bookerService.registerBooker(account, booker);
 	}
 
 	private Account createAccount() {
@@ -87,17 +86,15 @@ public class RegistraionTest {
 		customer.setBirthPlace(city);
 		customer.setBirthDate(new Date());
 		customer.setIdentificationDocumentNumber("1103D2");
-		customer.setIdentificationDocumentType(IDType.PASSPORT);
+		customer.setIdentificationDocumentType(IdType.PASSPORT);
 		customer.setIssuingAuthority("Police");
 		return customer;
 	}
 
-	private Booker createBooker(Account account, Customer customer) {
+	private Booker createBooker(Account account) {
 		Booker booker = new Booker();
 		account.setBooker(booker);
 		booker.setAccount(account);
-		customer.setBooker(booker);
-		booker.setCustomer(customer);
 		return booker;
 	}
 

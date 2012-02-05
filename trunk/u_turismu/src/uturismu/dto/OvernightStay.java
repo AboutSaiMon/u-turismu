@@ -49,7 +49,7 @@ public class OvernightStay extends Service {
 	private Date leavingDate;
 	private ServiceType serviceType;
 	private Accommodation accommodation;
-	
+
 	public OvernightStay() {
 	}
 
@@ -109,9 +109,11 @@ public class OvernightStay extends Service {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
-		if (!(obj instanceof OvernightStay))
+		if (getClass() != obj.getClass())
+			return false;
+		if (!super.equals(obj))
 			return false;
 		OvernightStay other = (OvernightStay) obj;
 		if (accommodation == null) {

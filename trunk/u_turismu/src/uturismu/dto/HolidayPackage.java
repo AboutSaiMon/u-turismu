@@ -54,7 +54,11 @@ public class HolidayPackage implements Serializable {
 	private Long id;
 	private String name;
 	private String description;
-	private Integer guestNumber;
+	private Integer customerNumber;
+	// è il numero di pacchetti vacanza messi a disposizione
+	private Integer availability;
+	// tiene il conto di quanti pacchetti sono stati venduti
+	private Integer counter;
 	private TourOperator tourOperator;
 	private Set<Booking> bookings;
 	private Set<Service> services;
@@ -81,9 +85,17 @@ public class HolidayPackage implements Serializable {
 		return description;
 	}
 
-	@Column(name = "guest_number", nullable = false)
-	public Integer getGuestNumber() {
-		return guestNumber;
+	@Column(name = "customer_number", nullable = false)
+	public Integer getCustomerNumber() {
+		return customerNumber;
+	}
+
+	public Integer getAvailability() {
+		return availability;
+	}
+
+	public Integer getCounter() {
+		return counter;
 	}
 
 	@ManyToOne
@@ -98,9 +110,7 @@ public class HolidayPackage implements Serializable {
 		return Collections.unmodifiableSet(bookings);
 	}
 
-	@ManyToMany
-	@JoinTable(name = "CATALOG", joinColumns = @JoinColumn(name = "id_holiday_package"), inverseJoinColumns = @JoinColumn(name = "id_service"))
-	@ForeignKey(name = "FK_CATALOG_HOLIDAYPACKAGE", inverseName = "FK_CATALOG_SERVICE")
+	@OneToMany(mappedBy = "holidayPackage")
 	public Set<Service> getServices() {
 		return Collections.unmodifiableSet(services);
 	}
@@ -124,8 +134,16 @@ public class HolidayPackage implements Serializable {
 		this.description = description;
 	}
 
-	public void setGuestNumber(Integer guestNumber) {
-		this.guestNumber = guestNumber;
+	public void setCustomerNumber(Integer customerNumber) {
+		this.customerNumber = customerNumber;
+	}
+
+	public void setAvailability(Integer availability) {
+		this.availability = availability;
+	}
+
+	public void setCounter(Integer counter) {
+		this.counter = counter;
 	}
 
 	public void setTourOperator(TourOperator tourOperator) {
@@ -136,20 +154,16 @@ public class HolidayPackage implements Serializable {
 		this.bookings = bookings;
 	}
 
-	protected void setHolidayTags(Set<HolidayTag> holidayTags) {
-		this.holidayTags = holidayTags;
-	}
-
-	protected void setServices(Set<Service> services) {
-		this.services = services;
-	}
-
 	public boolean addBooking(Booking booking) {
 		return bookings.add(booking);
 	}
 
-	public boolean addService(Service service) {
-		return services.add(service);
+	public boolean removeBooking(Booking booking) {
+		return bookings.remove(booking);
+	}
+
+	protected void setHolidayTags(Set<HolidayTag> holidayTags) {
+		this.holidayTags = holidayTags;
 	}
 
 	public boolean addHolidayTag(HolidayTag holidayTag) {
@@ -160,8 +174,12 @@ public class HolidayPackage implements Serializable {
 		return holidayTags.remove(holidayTag);
 	}
 
-	public boolean removeBooking(Booking booking) {
-		return bookings.remove(booking);
+	protected void setServices(Set<Service> services) {
+		this.services = services;
+	}
+
+	public boolean addService(Service service) {
+		return services.add(service);
 	}
 
 	public boolean removeService(Service service) {
@@ -172,11 +190,12 @@ public class HolidayPackage implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((availability == null) ? 0 : availability.hashCode());
+		result = prime * result + ((counter == null) ? 0 : counter.hashCode());
+		result = prime * result + ((customerNumber == null) ? 0 : customerNumber.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((guestNumber == null) ? 0 : guestNumber.hashCode());
 		result = prime * result + ((holidayTags == null) ? 0 : holidayTags.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((services == null) ? 0 : services.hashCode());
 		result = prime * result + ((tourOperator == null) ? 0 : tourOperator.hashCode());
 		return result;
 	}
@@ -190,15 +209,25 @@ public class HolidayPackage implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		HolidayPackage other = (HolidayPackage) obj;
+		if (availability == null) {
+			if (other.availability != null)
+				return false;
+		} else if (!availability.equals(other.availability))
+			return false;
+		if (counter == null) {
+			if (other.counter != null)
+				return false;
+		} else if (!counter.equals(other.counter))
+			return false;
+		if (customerNumber == null) {
+			if (other.customerNumber != null)
+				return false;
+		} else if (!customerNumber.equals(other.customerNumber))
+			return false;
 		if (description == null) {
 			if (other.description != null)
 				return false;
 		} else if (!description.equals(other.description))
-			return false;
-		if (guestNumber == null) {
-			if (other.guestNumber != null)
-				return false;
-		} else if (!guestNumber.equals(other.guestNumber))
 			return false;
 		if (holidayTags == null) {
 			if (other.holidayTags != null)
@@ -209,11 +238,6 @@ public class HolidayPackage implements Serializable {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (services == null) {
-			if (other.services != null)
-				return false;
-		} else if (!services.equals(other.services))
 			return false;
 		if (tourOperator == null) {
 			if (other.tourOperator != null)
