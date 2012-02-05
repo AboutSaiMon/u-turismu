@@ -33,7 +33,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import uturismu.ServiceFactory;
 import uturismu.dto.Accommodation;
 import uturismu.dto.enumtype.AccommodationType;
-import uturismu.service.AccommodationService;
+import uturismu.service.backup.AccommodationService;
 
 /**
  * @author "LagrecaSpaccarotella" team.

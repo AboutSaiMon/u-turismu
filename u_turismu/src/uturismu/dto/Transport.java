@@ -46,8 +46,8 @@ public class Transport extends Service {
 
 	private static final long serialVersionUID = 5499793625458647910L;
 	private String companyName;
-	private Date departureTimeAndDate;
-	private Date arrivalTimeAndDate;
+	private Date departureTimestamp;
+	private Date arrivalTimestamp;
 	private TransportType type;
 	private Station departureStation;
 	private Station arrivalStation;
@@ -55,21 +55,21 @@ public class Transport extends Service {
 	public Transport() {
 	}
 
-	@Column(name="company_name")
+	@Column(name = "company_name")
 	public String getCompanyName() {
 		return companyName;
 	}
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "departure_timestamp")
-	public Date getDepartureTimeAndDate() {
-		return departureTimeAndDate;
+	public Date getDepartureTimestamp() {
+		return departureTimestamp;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "arrival_timestamp")
-	public Date getArrivalTimeAndDate() {
-		return arrivalTimeAndDate;
+	public Date getArrivalTimestamp() {
+		return arrivalTimestamp;
 	}
 
 	@Enumerated(EnumType.STRING)
@@ -90,17 +90,17 @@ public class Transport extends Service {
 	public Station getArrivalStation() {
 		return arrivalStation;
 	}
-	
+
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
 
-	public void setDepartureTimeAndDate(Date departureTimeAndDate) {
-		this.departureTimeAndDate = departureTimeAndDate;
+	public void setDepartureTimestamp(Date departureTimestamp) {
+		this.departureTimestamp = departureTimestamp;
 	}
 
-	public void setArrivalTimeAndDate(Date arrivalTimeAndDate) {
-		this.arrivalTimeAndDate = arrivalTimeAndDate;
+	public void setArrivalTimestamp(Date arrivalTimestamp) {
+		this.arrivalTimestamp = arrivalTimestamp;
 	}
 
 	public void setType(TransportType type) {
@@ -120,10 +120,10 @@ public class Transport extends Service {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((arrivalStation == null) ? 0 : arrivalStation.hashCode());
-		result = prime * result + ((arrivalTimeAndDate == null) ? 0 : arrivalTimeAndDate.hashCode());
+		result = prime * result + ((departureTimestamp == null) ? 0 : departureTimestamp.hashCode());
+		result = prime * result + ((arrivalTimestamp == null) ? 0 : arrivalTimestamp.hashCode());
+		result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
 		result = prime * result + ((departureStation == null) ? 0 : departureStation.hashCode());
-		result = prime * result
-				+ ((departureTimeAndDate == null) ? 0 : departureTimeAndDate.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -132,9 +132,11 @@ public class Transport extends Service {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
+			return false;
+		if (!super.equals(obj))
 			return false;
 		Transport other = (Transport) obj;
 		if (arrivalStation == null) {
@@ -142,20 +144,25 @@ public class Transport extends Service {
 				return false;
 		} else if (!arrivalStation.equals(other.arrivalStation))
 			return false;
-		if (arrivalTimeAndDate == null) {
-			if (other.arrivalTimeAndDate != null)
+		if (departureTimestamp == null) {
+			if (other.departureTimestamp != null)
 				return false;
-		} else if (!arrivalTimeAndDate.equals(other.arrivalTimeAndDate))
+		} else if (!departureTimestamp.equals(other.departureTimestamp))
+			return false;
+		if (arrivalTimestamp == null) {
+			if (other.arrivalTimestamp != null)
+				return false;
+		} else if (!arrivalTimestamp.equals(other.arrivalTimestamp))
+			return false;
+		if (companyName == null) {
+			if (other.companyName != null)
+				return false;
+		} else if (!companyName.equals(other.companyName))
 			return false;
 		if (departureStation == null) {
 			if (other.departureStation != null)
 				return false;
 		} else if (!departureStation.equals(other.departureStation))
-			return false;
-		if (departureTimeAndDate == null) {
-			if (other.departureTimeAndDate != null)
-				return false;
-		} else if (!departureTimeAndDate.equals(other.departureTimeAndDate))
 			return false;
 		if (type != other.type)
 			return false;

@@ -24,18 +24,31 @@ package uturismu.dto;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.ForeignKey;
+
+import uturismu.dto.enumtype.Gender;
+import uturismu.dto.enumtype.IdType;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -46,8 +59,17 @@ public class Booker implements Serializable {
 
 	private static final long serialVersionUID = -4043855751210103797L;
 	private Long id;
+	private String taxCode;
+	private String firstName;
+	private String lastName;
+	private Gender gender;
+	private Date birthDate;
+	private City birthPlace;
+	private Address residence;
+	private String identificationDocumentNumber;
+	private IdType identificationDocumentType;
+	private String issuingAuthority;
 	private Account account;
-	private Customer customer;
 	private Set<Booking> bookings;
 
 	public Booker() {
@@ -60,21 +82,71 @@ public class Booker implements Serializable {
 		return id;
 	}
 
+	@Column(name = "tax_code", length = 16, unique = true, nullable = false)
+	public String getTaxCode() {
+		return taxCode;
+	}
+
+	@Column(name = "first_name")
+	public String getFirstName() {
+		return firstName;
+	}
+
+	@Column(name = "last_name")
+	public String getLastName() {
+		return lastName;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public Gender getGender() {
+		return gender;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "birth_date")
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "id_birth_place")
+	@ForeignKey(name = "FK_BOOKER_CITY")
+	public City getBirthPlace() {
+		return birthPlace;
+	}
+
+	@Embedded
+	@AttributeOverrides({
+			@AttributeOverride(name = "street", column = @Column(name = "residence_street")),
+			@AttributeOverride(name = "zipCode", column = @Column(name = "residence_zipcode")),
+			@AttributeOverride(name = "city", column = @Column(name = "residence_city")) })
+	public Address getResidence() {
+		return residence;
+	}
+
+	@Column(name = "identification_document_number")
+	public String getIdentificationDocumentNumber() {
+		return identificationDocumentNumber;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "identification_document_type")
+	public IdType getIdentificationDocumentType() {
+		return identificationDocumentType;
+	}
+
+	@Column(name = "issuing_authority")
+	public String getIssuingAuthority() {
+		return issuingAuthority;
+	}
+
 	@OneToOne
-	@JoinColumn(name = "id_account", nullable = false)
-	@ForeignKey(name = "FK_BOOKER_ACCOUNT")
+	@JoinColumn(name = "id_account")
 	public Account getAccount() {
 		return account;
 	}
 
-	@OneToOne
-	@JoinColumn(name = "id_customer", nullable = false)
-	@ForeignKey(name = "FK_BOOKER_CUSTOMER")
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	@OneToMany(mappedBy = "booker")
+	@OneToMany(mappedBy = "customer")
 	public Set<Booking> getBookings() {
 		return Collections.unmodifiableSet(bookings);
 	}
@@ -83,12 +155,48 @@ public class Booker implements Serializable {
 		this.id = id;
 	}
 
-	public void setAccount(Account account) {
-		this.account = account;
+	public void setTaxCode(String taxCode) {
+		this.taxCode = taxCode;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public void setBirthPlace(City birthPlace) {
+		this.birthPlace = birthPlace;
+	}
+
+	public void setResidence(Address residence) {
+		this.residence = residence;
+	}
+
+	public void setIdentificationDocumentNumber(String identificationDocumentNumber) {
+		this.identificationDocumentNumber = identificationDocumentNumber;
+	}
+
+	public void setIdentificationDocumentType(IdType identificationDocumentType) {
+		this.identificationDocumentType = identificationDocumentType;
+	}
+
+	public void setIssuingAuthority(String issuingAuthority) {
+		this.issuingAuthority = issuingAuthority;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	protected void setBookings(Set<Booking> bookings) {
@@ -108,7 +216,19 @@ public class Booker implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((account == null) ? 0 : account.hashCode());
-		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+		result = prime * result + ((birthDate == null) ? 0 : birthDate.hashCode());
+		result = prime * result + ((birthPlace == null) ? 0 : birthPlace.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
+		result = prime
+				* result
+				+ ((identificationDocumentNumber == null) ? 0 : identificationDocumentNumber.hashCode());
+		result = prime * result
+				+ ((identificationDocumentType == null) ? 0 : identificationDocumentType.hashCode());
+		result = prime * result + ((issuingAuthority == null) ? 0 : issuingAuthority.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((residence == null) ? 0 : residence.hashCode());
+		result = prime * result + ((taxCode == null) ? 0 : taxCode.hashCode());
 		return result;
 	}
 
@@ -126,10 +246,49 @@ public class Booker implements Serializable {
 				return false;
 		} else if (!account.equals(other.account))
 			return false;
-		if (customer == null) {
-			if (other.customer != null)
+		if (birthDate == null) {
+			if (other.birthDate != null)
 				return false;
-		} else if (!customer.equals(other.customer))
+		} else if (!birthDate.equals(other.birthDate))
+			return false;
+		if (birthPlace == null) {
+			if (other.birthPlace != null)
+				return false;
+		} else if (!birthPlace.equals(other.birthPlace))
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (gender != other.gender)
+			return false;
+		if (identificationDocumentNumber == null) {
+			if (other.identificationDocumentNumber != null)
+				return false;
+		} else if (!identificationDocumentNumber.equals(other.identificationDocumentNumber))
+			return false;
+		if (identificationDocumentType != other.identificationDocumentType)
+			return false;
+		if (issuingAuthority == null) {
+			if (other.issuingAuthority != null)
+				return false;
+		} else if (!issuingAuthority.equals(other.issuingAuthority))
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		if (residence == null) {
+			if (other.residence != null)
+				return false;
+		} else if (!residence.equals(other.residence))
+			return false;
+		if (taxCode == null) {
+			if (other.taxCode != null)
+				return false;
+		} else if (!taxCode.equals(other.taxCode))
 			return false;
 		return true;
 	}

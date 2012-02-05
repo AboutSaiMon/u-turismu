@@ -50,6 +50,7 @@ public class Accommodation implements Serializable {
 	private Long id;
 	private String vatNumber;
 	private String name;
+	private String description;
 	private Address address;
 	private AccommodationType type;
 	private Set<OvernightStay> overnightsStay;
@@ -72,6 +73,10 @@ public class Accommodation implements Serializable {
 	@Column(nullable = false)
 	public String getName() {
 		return name;
+	}
+	
+	public String getDescription() {
+		return description;
 	}
 
 	@Embedded
@@ -100,6 +105,10 @@ public class Accommodation implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	public void setAddress(Address address) {
 		this.address = address;
@@ -126,7 +135,9 @@ public class Accommodation implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((overnightsStay == null) ? 0 : overnightsStay.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + ((vatNumber == null) ? 0 : vatNumber.hashCode());
 		return result;
@@ -146,10 +157,20 @@ public class Accommodation implements Serializable {
 				return false;
 		} else if (!address.equals(other.address))
 			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
+			return false;
+		if (overnightsStay == null) {
+			if (other.overnightsStay != null)
+				return false;
+		} else if (!overnightsStay.equals(other.overnightsStay))
 			return false;
 		if (type != other.type)
 			return false;

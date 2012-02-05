@@ -44,6 +44,7 @@ public class Station implements Serializable {
 	private static final long serialVersionUID = 259910721548074249L;
 	private Long id;
 	private String name;
+	private String description;
 	private Address address;
 	private StationType type;
 
@@ -58,6 +59,10 @@ public class Station implements Serializable {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 	@Embedded
@@ -78,6 +83,10 @@ public class Station implements Serializable {
 		this.name = name;
 	}
 
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public void setAddress(Address address) {
 		this.address = address;
 	}
@@ -91,6 +100,7 @@ public class Station implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
@@ -109,6 +119,11 @@ public class Station implements Serializable {
 			if (other.address != null)
 				return false;
 		} else if (!address.equals(other.address))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
 			return false;
 		if (name == null) {
 			if (other.name != null)

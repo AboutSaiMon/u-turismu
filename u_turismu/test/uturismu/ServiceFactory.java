@@ -25,12 +25,12 @@ package uturismu;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import uturismu.service.AccommodationService;
-import uturismu.service.CityService;
-import uturismu.service.HolidayPackageService;
-import uturismu.service.OvernightStayService;
-import uturismu.service.TourOperatorService;
-import uturismu.service.usecase.BookerRegistrationService;
+import uturismu.service.BookerManagementService;
+import uturismu.service.backup.AccommodationService;
+import uturismu.service.backup.CityService;
+import uturismu.service.backup.HolidayPackageService;
+import uturismu.service.backup.OvernightStayService;
+import uturismu.service.backup.TourOperatorService;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -50,8 +50,8 @@ public class ServiceFactory {
 	private ServiceFactory() {
 	}
 
-	public static BookerRegistrationService getBookerRegistrationService() {
-		return context.getBean(BookerRegistrationService.class);
+	public static BookerManagementService getBookerRegistrationService() {
+		return context.getBean(BookerManagementService.class);
 	}
 
 	public static AccommodationService getAccommodationService() {

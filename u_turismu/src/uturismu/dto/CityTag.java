@@ -23,36 +23,31 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-
-import org.hibernate.annotations.ForeignKey;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity(name = "CITY")
-public class City implements Serializable {
+@Entity(name = "CITY_TAG")
+public class CityTag implements Serializable {
 
-	private static final long serialVersionUID = -5177619158328836473L;
+	private static final long serialVersionUID = 1414798209148299867L;
 	private Long id;
 	private String name;
-	private String province;
 	private String description;
-	private Set<CityTag> cityTags;
+	private Set<City> cities;
 
-	public City() {
-		cityTags = new HashSet<CityTag>();
+	public CityTag() {
+		cities = new HashSet<City>();
 	}
 
 	@Id
@@ -61,23 +56,19 @@ public class City implements Serializable {
 		return id;
 	}
 
+	@Column(nullable = false)
 	public String getName() {
 		return name;
 	}
 
-	public String getProvince() {
-		return province;
-	}
-
+	@Column(nullable = false)
 	public String getDescription() {
 		return description;
 	}
 
-	@ManyToMany
-	@JoinTable(name = "CITY_CLASSIFICATION", joinColumns = @JoinColumn(name = "id_city"), inverseJoinColumns = @JoinColumn(name = "id_city_tag"))
-	@ForeignKey(name = "FK_CITYCLASSIFICATION_CITY", inverseName = "FK_CITYCLASSIFICATION_CITYTAG")
-	public Set<CityTag> getCityTags() {
-		return Collections.unmodifiableSet(cityTags);
+	@ManyToMany(mappedBy = "cityTags")
+	public Set<City> getCities() {
+		return cities;
 	}
 
 	public void setId(Long id) {
@@ -88,24 +79,20 @@ public class City implements Serializable {
 		this.name = name;
 	}
 
-	public void setProvince(String province) {
-		this.province = province;
-	}
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	protected void setCityTags(Set<CityTag> cityTags) {
-		this.cityTags = cityTags;
+	protected void setCities(Set<City> cities) {
+		this.cities = cities;
 	}
 
-	public boolean addCityTag(CityTag cityTag) {
-		return this.cityTags.add(cityTag);
+	public boolean addCity(City city) {
+		return this.cities.add(city);
 	}
 
-	public boolean removeCityTag(CityTag cityTag) {
-		return this.cityTags.remove(cityTag);
+	public boolean removeCity(City city) {
+		return this.cities.remove(city);
 	}
 
 }

@@ -53,10 +53,10 @@ public class Booking implements Serializable {
 	private Date bookingTimestamp;
 	private Booker booker;
 	private HolidayPackage holidayPackage;
-	private Set<BookingAcceptance> bookingAcceptances;
+	private Set<Confirmation> confirmations;
 
 	public Booking() {
-		bookingAcceptances = new HashSet<BookingAcceptance>();
+		confirmations = new HashSet<Confirmation>();
 	}
 
 	@Id
@@ -86,8 +86,8 @@ public class Booking implements Serializable {
 	}
 
 	@OneToMany(mappedBy = "booking")
-	public Set<BookingAcceptance> getBookingAcceptances() {
-		return Collections.unmodifiableSet(bookingAcceptances);
+	public Set<Confirmation> getConfirmations() {
+		return Collections.unmodifiableSet(confirmations);
 	}
 
 	public void setId(Long id) {
@@ -106,16 +106,16 @@ public class Booking implements Serializable {
 		this.holidayPackage = holidayPackage;
 	}
 
-	protected void setBookingAcceptances(Set<BookingAcceptance> bookingAcceptances) {
-		this.bookingAcceptances = bookingAcceptances;
+	protected void setConfirmations(Set<Confirmation> confirmations) {
+		this.confirmations = confirmations;
 	}
 
-	public boolean addBookingAcceptance(BookingAcceptance bookingAcceptance) {
-		return this.bookingAcceptances.add(bookingAcceptance);
+	public boolean addConfirmation(Confirmation confirmation) {
+		return this.confirmations.add(confirmation);
 	}
 
-	public boolean removeBookingAcceptance(BookingAcceptance bookingAcceptance) {
-		return this.bookingAcceptances.remove(bookingAcceptance);
+	public boolean removeConfirmation(Confirmation confirmation) {
+		return this.confirmations.remove(confirmation);
 	}
 
 	@Override
@@ -134,7 +134,7 @@ public class Booking implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof Booking))
+		if (getClass() != obj.getClass())
 			return false;
 		Booking other = (Booking) obj;
 		if (booker == null) {

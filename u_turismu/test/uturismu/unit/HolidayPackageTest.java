@@ -41,9 +41,9 @@ import uturismu.dto.HolidayPackage;
 import uturismu.dto.OvernightStay;
 import uturismu.dto.TourOperator;
 import uturismu.dto.enumtype.ServiceType;
-import uturismu.service.HolidayPackageService;
-import uturismu.service.OvernightStayService;
-import uturismu.service.TourOperatorService;
+import uturismu.service.backup.HolidayPackageService;
+import uturismu.service.backup.OvernightStayService;
+import uturismu.service.backup.TourOperatorService;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -72,9 +72,9 @@ public class HolidayPackageTest {
 	 */
 	@Before
 	public void createHolidayPakage() {
-		
+
 		System.out.println("######## CIAO CIAO CIAO ########");
-		
+
 		OvernightStay overnightStay = new OvernightStay();
 		overnightStay.setArrivalDate(new GregorianCalendar().getTime());
 		overnightStay.setLeavingDate(new GregorianCalendar().getTime());
@@ -88,7 +88,7 @@ public class HolidayPackageTest {
 		holidayPackage.setName("alpiMe");
 		holidayPackage.setTourOperator(top);
 		holidayPackage.addService(overnightStay);
-		holidayPackage.setGuestNumber(1);
+		holidayPackage.setCustomerNumber(1);
 
 		tourOperatorService.save(top);
 		overnightStayService.save(overnightStay);
