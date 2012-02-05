@@ -55,7 +55,7 @@ public class HolidayPackage implements Serializable {
 	private String name;
 	private String description;
 	private Integer customerNumber;
-	// è il numero di pacchetti vacanza messi a disposizione
+	//il numero di pacchetti vacanza messi a disposizione
 	private Integer availability;
 	// tiene il conto di quanti pacchetti sono stati venduti
 	private Integer counter;
