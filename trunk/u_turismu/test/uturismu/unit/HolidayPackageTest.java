@@ -71,31 +71,16 @@ public class HolidayPackageTest {
 	 * "DataIntegrityViolationException".
 	 */
 	@Before
-	public void createHolidayPakage() {
-
+	public void create_HolidayPakage() {
+		
 		System.out.println("######## CIAO CIAO CIAO ########");
 
-		OvernightStay overnightStay = new OvernightStay();
-		overnightStay.setArrivalDate(new GregorianCalendar().getTime());
-		overnightStay.setLeavingDate(new GregorianCalendar().getTime());
-		overnightStay.setServiceType(ServiceType.FULL_SERVICE);
-		overnightStay.setPrice(35d);
-
-		TourOperator top = new TourOperator();
-		top.setName("Il Viaggio");
-
-		HolidayPackage holidayPackage = new HolidayPackage();
-		holidayPackage.setName("alpiMe");
-		holidayPackage.setTourOperator(top);
-		holidayPackage.addService(overnightStay);
-		holidayPackage.setCustomerNumber(1);
-
-		tourOperatorService.save(top);
-		overnightStayService.save(overnightStay);
+		HolidayPackage holidayPackage=createHolidayPackage();
 		Long id = holidayPackageService.save(holidayPackage);
+		
 		HolidayPackage queried = holidayPackageService.findById(id);
-
 		assertThat(holidayPackage.getId(), is(equalTo(queried.getId())));
+		
 	}
 
 	/*
@@ -105,21 +90,21 @@ public class HolidayPackageTest {
 	 * poi quello di update e poi quello di delete.
 	 */
 	@Test
-	@Ignore("Mi da un problema con il lazy (inizialization exception)")
 	public void updateHP() {
 		String descr = "una prova di testing unit";
-		HolidayPackage holidayPackage = holidayPackageService.findById(1L);
+		HolidayPackage holidayPackage = createHolidayPackage();
+		Long Id=holidayPackageService.save(holidayPackage);
 
-		holidayPackage.setDescription(descr);
-		holidayPackageService.save(holidayPackage);
-
-		HolidayPackage hp = holidayPackageService.findById(1L);
-
-		assertThat(hp.getDescription(), is(notNullValue()));
-
-		hp = holidayPackageService.findById(2L);
-		assertThat(hp.getDescription(), is(nullValue()));
-
+		HolidayPackage hpTest=holidayPackageService.findById(Id);
+		assertThat(hpTest, notNullValue());
+		
+		hpTest.setDescription(descr);
+		holidayPackageService.update(holidayPackage);
+		
+		HolidayPackage hpUpdated = holidayPackageService.findById(Id);
+		
+		assertThat(hpTest.getDescription(), is(equalTo(hpUpdated.getDescription())));
+		
 	}
 
 	/*
@@ -130,21 +115,14 @@ public class HolidayPackageTest {
 	 */
 	@Test
 	public void deleteHolidayPackage() {
-		Long id = new Long(1);
-		Long w = 1l;
-		System.out.println(w);
-
+		Long id= holidayPackageService.save(createHolidayPackage());
 		HolidayPackage hp = holidayPackageService.findById(id);
-		assertThat(id, is(equalTo(hp.getId())));
 
 		List<HolidayPackage> queryList = holidayPackageService.findAll();
-		// TODO: ALTERNATIVA
-		// Integer rowCount = holidayPackageService.rowCount();
+		Long rowCount = holidayPackageService.rowCount();
 
-		// assertThat(queryList.size(), is(org.hamcrest.Matchers.not(null)));
-		assertThat(queryList.size(), is(1));
-		// TODO: ALTERNATIVA
-		// assertThat(rowCount, is(equalTo(1)));
+		assertThat(queryList, is(org.hamcrest.Matchers.not(null)));
+		assertThat(rowCount, is(equalTo(1L)));
 
 		for (HolidayPackage holidayPackage : queryList) {
 			holidayPackageService.delete(holidayPackage);
@@ -156,4 +134,36 @@ public class HolidayPackageTest {
 
 	}
 
+	
+	private OvernightStay createovernightStay(){
+		OvernightStay overnightStay = new OvernightStay();
+		overnightStay.setArrivalDate(new GregorianCalendar().getTime());
+		overnightStay.setLeavingDate(new GregorianCalendar().getTime());
+		overnightStay.setServiceType(ServiceType.FULL_SERVICE);
+		overnightStay.setPrice(35d);
+		return overnightStay;
+	}
+	
+	private TourOperator createTourOperator(){
+		TourOperator top = new TourOperator();
+		top.setName("Il Viaggio");
+		return top;
+		
+	}
+	
+	private HolidayPackage createHolidayPackage(){
+		HolidayPackage holidayPackage =new HolidayPackage();
+		TourOperator top = createTourOperator();
+		OvernightStay overnightStay=createovernightStay();
+
+		holidayPackage.setName("alpiMe");
+		holidayPackage.setTourOperator(top);
+		holidayPackage.addService(overnightStay);
+		holidayPackage.setCustomerNumber(1);
+		
+		overnightStayService.save(overnightStay);
+		tourOperatorService.save(top);
+		return holidayPackage;
+	}
+	
 }
