@@ -20,26 +20,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.service.backup;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import uturismu.dao.EventDao;
-import uturismu.dto.Event;
+package uturismu.dto.enumtype;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- * 
+ *
  */
-@Service
-@Transactional
-public class EventServiceImpl extends AbstractService<Event> implements EventService {
-
-	@Autowired
-	public EventServiceImpl(EventDao dao) {
-		super(dao);
+public enum OrdinalNumber {
+	FIRST {
+		
+	}, 
+	SECOND {
+		
+	},
+	THIRD {
+		
+	},
+	FOURTH {
+		
+	},
+	FIFTH {
+		
 	}
-
 }

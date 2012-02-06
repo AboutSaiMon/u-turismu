@@ -20,24 +20,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.dao;
-
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import uturismu.dto.Event;
+package uturismu.dto.enumtype;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- * 
+ *
  */
-@Repository
-public class EventDaoImpl extends AbstractDao<Event> implements EventDao {
+public enum WeekDay {
 
-	@Autowired
-	public EventDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
-	}
-
+	SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+	
 }

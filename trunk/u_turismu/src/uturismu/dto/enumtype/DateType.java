@@ -20,24 +20,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu;
-
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+package uturismu.dto.enumtype;
 
 /**
- * Questo test bypassa Spring ed effettua dei test sul database via Hibernate.
- * 
  * @author "LagrecaSpaccarotella" team.
+ *
  */
-public class HibernateTest {
+public enum DateType {
 
-	public static void main(String[] args) {
-		Session session = HibernateUtil.getSession();
-		Transaction transaction = session.beginTransaction();
-
-		transaction.commit();
-		session.close();
+	RELATIVE {
+		@Override
+		public String toString() {
+			return "relative";
+		}
+	}, 
+	
+	FIXED {
+		@Override
+		public String toString() {
+			return "fixed";
+		}
 	}
-
+	
 }

@@ -20,14 +20,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.service.backup;
+package uturismu.dao;
 
-import uturismu.dto.Event;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import uturismu.dto.OneOffEvent;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
-public interface EventService extends GenericService<Event> {
+@Repository
+public class OneOffEventDaoImpl extends AbstractDao<OneOffEvent> implements OneOffEventDao {
+
+	@Autowired
+	public OneOffEventDaoImpl(SessionFactory sessionFactory) {
+		super(sessionFactory);
+	}
 
 }

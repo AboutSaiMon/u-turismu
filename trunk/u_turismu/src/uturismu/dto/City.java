@@ -34,6 +34,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.ForeignKey;
 
@@ -50,9 +51,13 @@ public class City implements Serializable {
 	private String province;
 	private String description;
 	private Set<CityTag> cityTags;
+	private Set<PeriodicEvent> periodicEvents;
+	private Set<OneOffEvent> oneOffEvents;
 
 	public City() {
 		cityTags = new HashSet<CityTag>();
+		periodicEvents = new HashSet<PeriodicEvent>();
+		oneOffEvents = new HashSet<OneOffEvent>();
 	}
 
 	@Id
@@ -78,6 +83,16 @@ public class City implements Serializable {
 	@ForeignKey(name = "FK_CITYCLASSIFICATION_CITY", inverseName = "FK_CITYCLASSIFICATION_CITYTAG")
 	public Set<CityTag> getCityTags() {
 		return Collections.unmodifiableSet(cityTags);
+	}
+
+	@OneToMany(mappedBy = "city")
+	public Set<OneOffEvent> getOneOffEvents() {
+		return Collections.unmodifiableSet(oneOffEvents);
+	}
+
+	@OneToMany(mappedBy = "city")
+	public Set<PeriodicEvent> getPeriodicEvents() {
+		return Collections.unmodifiableSet(periodicEvents);
 	}
 
 	public void setId(Long id) {
@@ -106,6 +121,73 @@ public class City implements Serializable {
 
 	public boolean removeCityTag(CityTag cityTag) {
 		return this.cityTags.remove(cityTag);
+	}
+
+	protected void setOneOffEvents(Set<OneOffEvent> oneOffEvents) {
+		this.oneOffEvents = oneOffEvents;
+	}
+
+	public boolean addOneOffEvent(OneOffEvent oneOffEvent) {
+		return this.oneOffEvents.add(oneOffEvent);
+	}
+
+	public boolean removeOneOffEvent(OneOffEvent oneOffEvent) {
+		return this.oneOffEvents.remove(oneOffEvent);
+	}
+
+	protected void setPeriodicEvents(Set<PeriodicEvent> periodicEvents) {
+		this.periodicEvents = periodicEvents;
+	}
+
+	public boolean addPeriodicEvent(PeriodicEvent periodicEvent) {
+		return this.periodicEvents.add(periodicEvent);
+	}
+
+	public boolean removePeriodicEvent(PeriodicEvent periodicEvent) {
+		return this.periodicEvents.remove(periodicEvent);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cityTags == null) ? 0 : cityTags.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((province == null) ? 0 : province.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		City other = (City) obj;
+		if (cityTags == null) {
+			if (other.cityTags != null)
+				return false;
+		} else if (!cityTags.equals(other.cityTags))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (province == null) {
+			if (other.province != null)
+				return false;
+		} else if (!province.equals(other.province))
+			return false;
+		return true;
 	}
 
 }

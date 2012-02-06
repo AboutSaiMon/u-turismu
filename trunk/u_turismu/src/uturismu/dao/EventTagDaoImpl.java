@@ -20,24 +20,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu;
+package uturismu.dao;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import uturismu.dto.EventTag;
 
 /**
- * Questo test bypassa Spring ed effettua dei test sul database via Hibernate.
- * 
  * @author "LagrecaSpaccarotella" team.
+ * 
  */
-public class HibernateTest {
+@Repository
+public class EventTagDaoImpl extends AbstractDao<EventTag> implements EventTagDao {
 
-	public static void main(String[] args) {
-		Session session = HibernateUtil.getSession();
-		Transaction transaction = session.beginTransaction();
-
-		transaction.commit();
-		session.close();
+	@Autowired
+	public EventTagDaoImpl(SessionFactory sessionFactory) {
+		super(sessionFactory);
 	}
 
 }

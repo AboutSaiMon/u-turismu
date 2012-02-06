@@ -23,76 +23,53 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Entity(name = "CITY_TAG")
-public class CityTag implements Serializable {
+@Entity(name = "EVENT_TAG")
+public class EventTag implements Serializable {
 
-	private static final long serialVersionUID = 1414798209148299867L;
+	private static final long serialVersionUID = 6200674057320085535L;
 	private Long id;
-	private String name;
-	private String description;
-	private Set<City> cities;
+	private Long name;
+	private Long description;
 
-	public CityTag() {
-		cities = new HashSet<City>();
+	public EventTag() {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	public Long getId() {
 		return id;
 	}
 
 	@Column(nullable = false)
-	public String getName() {
+	public Long getName() {
 		return name;
 	}
 
 	@Column(nullable = false)
-	public String getDescription() {
+	public Long getDescription() {
 		return description;
-	}
-
-	@ManyToMany(mappedBy = "cityTags")
-	public Set<City> getCities() {
-		return cities;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public void setName(String name) {
+	public void setName(Long name) {
 		this.name = name;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(Long description) {
 		this.description = description;
-	}
-
-	protected void setCities(Set<City> cities) {
-		this.cities = cities;
-	}
-
-	public boolean addCity(City city) {
-		return this.cities.add(city);
-	}
-
-	public boolean removeCity(City city) {
-		return this.cities.remove(city);
 	}
 
 	@Override
@@ -100,7 +77,6 @@ public class CityTag implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -113,16 +89,11 @@ public class CityTag implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CityTag other = (CityTag) obj;
+		EventTag other = (EventTag) obj;
 		if (description == null) {
 			if (other.description != null)
 				return false;
 		} else if (!description.equals(other.description))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
 			return false;
 		if (name == null) {
 			if (other.name != null)
