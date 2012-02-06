@@ -146,7 +146,7 @@ public class Booker implements Serializable {
 		return account;
 	}
 
-	@OneToMany(mappedBy = "customer")
+	@OneToMany(mappedBy = "booker")
 	public Set<Booking> getBookings() {
 		return Collections.unmodifiableSet(bookings);
 	}

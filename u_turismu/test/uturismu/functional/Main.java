@@ -29,10 +29,8 @@ import uturismu.ServiceFactory;
 import uturismu.dto.Accommodation;
 import uturismu.dto.Account;
 import uturismu.dto.Booker;
-import uturismu.dto.City;
 import uturismu.dto.enumtype.AccommodationType;
 import uturismu.dto.enumtype.AccountType;
-import uturismu.service.BookerManagementService;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -45,19 +43,18 @@ public class Main {
 		a.setName("n");
 		a.setType(AccommodationType.BED_AND_BREAKFAST);
 		a.setVatNumber("asdòflkj");
-		
+
 		ServiceFactory.getAccommodationService().save(a);
 		/*
-		City city = new City();
-		city.setName("Springfield");
-		city.setProvince("USA");
-
-		BookerManagementService service = ServiceFactory.getBookerManagementService();
-		Account account = createAccount();
-		Booker booker = createBooker(account);
-		
-		service.createAccount(account, booker);
-		*/
+		 * City city = new City(); city.setName("Springfield");
+		 * city.setProvince("USA");
+		 * 
+		 * BookerManagementService service =
+		 * ServiceFactory.getBookerManagementService(); Account account =
+		 * createAccount(); Booker booker = createBooker(account);
+		 * 
+		 * service.createAccount(account, booker);
+		 */
 	}
 
 	private static Account createAccount() {

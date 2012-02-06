@@ -22,12 +22,12 @@
  */
 package uturismu.dao;
 
-import uturismu.dto.Event;
+import uturismu.dto.PeriodicEvent;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- * 
+ *
  */
-public interface EventDao extends GenericDao<Event> {
+public interface PeriodicEventDao extends GenericDao<PeriodicEvent> {
 
 }

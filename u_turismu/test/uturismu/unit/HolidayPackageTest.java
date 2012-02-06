@@ -25,7 +25,6 @@ package uturismu.unit;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.GregorianCalendar;
@@ -33,7 +32,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import uturismu.ServiceFactory;
@@ -72,15 +70,15 @@ public class HolidayPackageTest {
 	 */
 	@Before
 	public void create_HolidayPakage() {
-		
+
 		System.out.println("######## CIAO CIAO CIAO ########");
 
-		HolidayPackage holidayPackage=createHolidayPackage();
+		HolidayPackage holidayPackage = createHolidayPackage();
 		Long id = holidayPackageService.save(holidayPackage);
-		
+
 		HolidayPackage queried = holidayPackageService.findById(id);
 		assertThat(holidayPackage.getId(), is(equalTo(queried.getId())));
-		
+
 	}
 
 	/*
@@ -93,18 +91,18 @@ public class HolidayPackageTest {
 	public void updateHP() {
 		String descr = "una prova di testing unit";
 		HolidayPackage holidayPackage = createHolidayPackage();
-		Long Id=holidayPackageService.save(holidayPackage);
+		Long Id = holidayPackageService.save(holidayPackage);
 
-		HolidayPackage hpTest=holidayPackageService.findById(Id);
+		HolidayPackage hpTest = holidayPackageService.findById(Id);
 		assertThat(hpTest, notNullValue());
-		
+
 		hpTest.setDescription(descr);
 		holidayPackageService.update(holidayPackage);
-		
+
 		HolidayPackage hpUpdated = holidayPackageService.findById(Id);
-		
+
 		assertThat(hpTest.getDescription(), is(equalTo(hpUpdated.getDescription())));
-		
+
 	}
 
 	/*
@@ -115,7 +113,7 @@ public class HolidayPackageTest {
 	 */
 	@Test
 	public void deleteHolidayPackage() {
-		Long id= holidayPackageService.save(createHolidayPackage());
+		Long id = holidayPackageService.save(createHolidayPackage());
 		HolidayPackage hp = holidayPackageService.findById(id);
 
 		List<HolidayPackage> queryList = holidayPackageService.findAll();
@@ -134,8 +132,7 @@ public class HolidayPackageTest {
 
 	}
 
-	
-	private OvernightStay createovernightStay(){
+	private OvernightStay createovernightStay() {
 		OvernightStay overnightStay = new OvernightStay();
 		overnightStay.setArrivalDate(new GregorianCalendar().getTime());
 		overnightStay.setLeavingDate(new GregorianCalendar().getTime());
@@ -143,27 +140,27 @@ public class HolidayPackageTest {
 		overnightStay.setPrice(35d);
 		return overnightStay;
 	}
-	
-	private TourOperator createTourOperator(){
+
+	private TourOperator createTourOperator() {
 		TourOperator top = new TourOperator();
 		top.setName("Il Viaggio");
 		return top;
-		
+
 	}
-	
-	private HolidayPackage createHolidayPackage(){
-		HolidayPackage holidayPackage =new HolidayPackage();
+
+	private HolidayPackage createHolidayPackage() {
+		HolidayPackage holidayPackage = new HolidayPackage();
 		TourOperator top = createTourOperator();
-		OvernightStay overnightStay=createovernightStay();
+		OvernightStay overnightStay = createovernightStay();
 
 		holidayPackage.setName("alpiMe");
 		holidayPackage.setTourOperator(top);
 		holidayPackage.addService(overnightStay);
 		holidayPackage.setCustomerNumber(1);
-		
+
 		overnightStayService.save(overnightStay);
 		tourOperatorService.save(top);
 		return holidayPackage;
 	}
-	
+
 }
