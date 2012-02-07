@@ -30,4 +30,6 @@ import uturismu.dto.Account;
  */
 public interface AccountDao extends GenericDao<Account> {
 
+	public Account findByEmail(String email);
+
 }

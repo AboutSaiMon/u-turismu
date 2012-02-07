@@ -20,20 +20,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.service;
-
-import uturismu.dto.Account;
-import uturismu.dto.Booker;
-import uturismu.exception.InvalidCredentialException;
+package uturismu.exception;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public interface BookerManagementService {
+public class InvalidCredentialException extends Throwable {
 
-	public Long createAccount(Account account, Booker booker);
+	private static final long serialVersionUID = 3581525084778577757L;
+	private String message;
 
-	public Account login(String email, String password) throws InvalidCredentialException;
+	public InvalidCredentialException() {
+		this.message = ExceptionMessages.INCORRECT_ACCOUNT;
+	}
+
+	@Override
+	public String getMessage() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(message);
+		builder.append(super.getMessage());
+		return builder.toString();
+	}
 
 }
