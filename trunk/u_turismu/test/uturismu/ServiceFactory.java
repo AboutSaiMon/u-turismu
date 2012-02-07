@@ -26,6 +26,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import uturismu.service.BookerManagementService;
+import uturismu.service.TourOperatorManagementService;
 import uturismu.service.backup.AccommodationService;
 import uturismu.service.backup.CityService;
 import uturismu.service.backup.HolidayPackageService;
@@ -54,6 +55,10 @@ public class ServiceFactory {
 		return context.getBean(BookerManagementService.class);
 	}
 
+	public static TourOperatorManagementService getTourOperatorManagementService() {
+		return context.getBean(TourOperatorManagementService.class);
+	}
+	
 	public static AccommodationService getAccommodationService() {
 		return context.getBean(AccommodationService.class);
 	}
