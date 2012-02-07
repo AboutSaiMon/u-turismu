@@ -26,10 +26,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import uturismu.HashUtil;
 import uturismu.dao.AccountDao;
 import uturismu.dao.BookerDao;
 import uturismu.dto.Account;
 import uturismu.dto.Booker;
+import uturismu.exception.InvalidCredentialException;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -45,9 +47,24 @@ public class BookerManagementServiceImpl implements BookerManagementService {
 	private BookerDao bookerDao;
 
 	@Override
-	public void createAccount(Account account, Booker booker) {
-		accountDao.save(account);
+	public Long createAccount(Account account, Booker booker) {
+		Long id = accountDao.save(account);
 		bookerDao.save(booker);
+		return id;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Account login(String email, String password) throws InvalidCredentialException {
+		Account account = accountDao.findByEmail(email);
+		if (account == null) {
+			throw new InvalidCredentialException();
+		}
+		String salt = account.getSalt();
+		if (!HashUtil.getHash(password, salt).equals(account.getPassword())) {
+			throw new InvalidCredentialException();
+		}
+		return account;
 	}
 
 }

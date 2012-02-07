@@ -22,7 +22,9 @@
  */
 package uturismu.dao;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -38,6 +40,12 @@ public class AccountDaoImpl extends AbstractDao<Account> implements AccountDao {
 	@Autowired
 	public AccountDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
+	}
+
+	@Override
+	public Account findByEmail(String email) {
+		Criteria criteria = session().createCriteria(Account.class);
+		return (Account) criteria.add(Restrictions.eq("email", email)).uniqueResult();
 	}
 
 }

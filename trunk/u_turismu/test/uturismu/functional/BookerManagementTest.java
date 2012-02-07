@@ -22,9 +22,11 @@
  */
 package uturismu.functional;
 
-import java.util.Date;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
-import javax.servlet.Registration;
+import java.util.Date;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -38,6 +40,8 @@ import uturismu.dto.Customer;
 import uturismu.dto.enumtype.AccountType;
 import uturismu.dto.enumtype.Gender;
 import uturismu.dto.enumtype.IdType;
+import uturismu.exception.ExceptionMessages;
+import uturismu.exception.InvalidCredentialException;
 import uturismu.service.BookerManagementService;
 
 /**
@@ -48,7 +52,7 @@ public class BookerManagementTest {
 
 	private static BookerManagementService bookerService;
 	private static City city;
-	
+
 	@BeforeClass
 	public static void init() {
 		city = new City();
@@ -60,19 +64,26 @@ public class BookerManagementTest {
 
 	@Test
 	public void createBookerAccount() {
-		Account account = createAccount();
+		String email = "account@gmail.com";
+		String password = "livuoiqueikiwiyankeecoikisayayaiani";
+		Account account = createAccount(email, password);
 		Booker booker = createBooker(account);
-		bookerService.createAccount(account, booker);
+		Long id = bookerService.createAccount(account, booker);
+		try {
+			account = bookerService.login(email, password);
+			assertThat(account.getId(), is(equalTo(id)));
+		} catch (InvalidCredentialException e) {
+			assertThat(e.getMessage(), is(equalTo(ExceptionMessages.INCORRECT_ACCOUNT)));
+		}
 	}
 
-	private Account createAccount() {
+	private Account createAccount(String email, String password) {
 		Account account = new Account();
 		account.setActive(true);
-		account.setEmail("account@gmail.com");
+		account.setEmail(email);
 		String salt = HashUtil.generateSalt();
 		account.setSalt(salt);
-		String password = HashUtil.getHash("livuoiqueikiwiyankeecoikiwayawayani", salt);
-		account.setPassword(password);
+		account.setPassword(HashUtil.getHash(password, salt));
 		account.setLastAccessTimestamp(new Date());
 		account.setRegistrationTimestamp(new Date());
 		account.setType(AccountType.BOOKER);

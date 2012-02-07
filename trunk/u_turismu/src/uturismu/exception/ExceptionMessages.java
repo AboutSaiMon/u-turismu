@@ -20,20 +20,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.service;
-
-import uturismu.dto.Account;
-import uturismu.dto.Booker;
-import uturismu.exception.InvalidCredentialException;
+package uturismu.exception;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- * 
+ *
  */
-public interface BookerManagementService {
+public interface ExceptionMessages {
 
-	public Long createAccount(Account account, Booker booker);
-
-	public Account login(String email, String password) throws InvalidCredentialException;
-
+	public static final String INCORRECT_ACCOUNT = "Incorrect Account. Retry!";
+	
 }
