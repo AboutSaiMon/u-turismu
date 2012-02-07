@@ -1,7 +1,5 @@
 package uturismu.functional;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.Date;
@@ -25,12 +23,10 @@ import uturismu.service.backup.TourOperatorService;
 public class TourOperatorManagementTest {
 
 	private static TourOperatorManagementService touroperatorService;
-//	private static TourOperatorService touroperatorService;
 	private static City city;
 	
 	@BeforeClass
 	public static void init(){
-		
 		city = new City();
 		city.setName("Cosenza");
 		city.setProvince("Cosenza");
@@ -59,7 +55,7 @@ public class TourOperatorManagementTest {
 		TourOperator to=new TourOperator();
 		to.setHolderName("pippo Inzaghi");
 		to.setName("io Sono Il tour");
-		to.setVatNumber("1234567890123456");
+		to.setVatNumber("12345678910");
 		to.setAccount(account);
 		account.setTourOperator(to);
 		return to;
