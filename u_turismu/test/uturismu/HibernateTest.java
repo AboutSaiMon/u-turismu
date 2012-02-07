@@ -35,7 +35,7 @@ public class HibernateTest {
 	public static void main(String[] args) {
 		Session session = HibernateUtil.getSession();
 		Transaction transaction = session.beginTransaction();
-
+		
 		transaction.commit();
 		session.close();
 	}

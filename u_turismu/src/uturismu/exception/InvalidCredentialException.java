@@ -26,7 +26,7 @@ package uturismu.exception;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public class InvalidCredentialException extends Throwable {
+public class InvalidCredentialException extends RuntimeException {
 
 	private static final long serialVersionUID = 3581525084778577757L;
 	private String message;

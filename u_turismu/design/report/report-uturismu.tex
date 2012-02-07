@@ -1,0 +1,37 @@
+\documentclass[a4paper,11pt]{report}
+\usepackage[italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+
+\title{uTourism}
+\author{Giuseppe La Greca, Simone Spaccarotella\\\small{\{giulagreca, spa.simone\}@gmail.com}}
+\date{\small{Data di creazione: 14 gennaio 2012\\Data ultima modifica: \today}}
+
+\begin{document}
+
+  \maketitle
+  \tableofcontents
+
+  \begin{abstract}
+    uTurismu è un sistema a supporto degli operatori turistici Calabresi. Mediante questo strumento è possibile  
+    raccogliere ed organizzare tutta una serie di informazioni riguardanti i luoghi, le attività e/o gli eventi della 
+    Regione. L'obiettivo primario è quello di dare agli operatori uno strumento efficace per la promozione delle proprie 
+    offerte. Una vetrina sul mondo che consenta di offrire servizi sul territorio. Così facendo, si persegue quello che 
+    è l'obiettivo secondario - ma non meno importante - del progetto, ovvero la promozione del territorio e lo sviluppo 
+    del turismo in Calabria.
+
+    Gli operatori turistici possono registrarsi al sistema, inserire, modificare e/o cancellare le proprie offerte 
+    turistiche e venderle al cliente. È prevista un'interfaccia web mediante la quale è possibile consultare la base di 
+    dati sottostante, alla ricerca di informazioni utili sui comuni calabresi, gli eventi, e quant'altro. Gli utenti che 
+    vorranno registrarsi inoltre, potranno consultare i cataloghi degli operatori turistici e acquistare l'offerta più 
+    vantaggiosa.
+  \end{abstract}
+
+  \chapter{Introduzione}
+    Il sistema è stato progettato secondo le linee guida dell'architettura cosiddetta \textit{three-tier}. Nel nostro 
+    caso è più corretto parlare di architettura \textit{three-layers}. Per la gestione della persistenza è stato 
+    utilizzato Hibernate\footnote{\texttt{www.hibernate.org}}, mentre il livello di \textit{business logic} e quello di 
+    \textit{presentation} sono stati gestiti mediante l'ausilio di Spring\footnote{\texttt{www.springsource.org}}.
+    
+\end{document}
