@@ -36,11 +36,8 @@ import uturismu.ServiceFactory;
 import uturismu.dto.Account;
 import uturismu.dto.Booker;
 import uturismu.dto.City;
-import uturismu.dto.Customer;
 import uturismu.dto.enumtype.AccountType;
 import uturismu.dto.enumtype.Gender;
-import uturismu.dto.enumtype.IdType;
-import uturismu.exception.ExceptionMessages;
 import uturismu.exception.InvalidCredentialException;
 import uturismu.service.BookerManagementService;
 
@@ -53,6 +50,9 @@ public class BookerManagementTest {
 	private static BookerManagementService bookerService;
 	private static City city;
 
+	public static void main(String[] args) {
+	}
+
 	@BeforeClass
 	public static void init() {
 		city = new City();
@@ -62,22 +62,47 @@ public class BookerManagementTest {
 		bookerService = ServiceFactory.getBookerManagementService();
 	}
 
-	@Test
-	public void createBookerAccount() {
-		String email = "account@gmail.com";
+	/**
+	 * Create an account and check whether the login service works.
+	 */
+	@Test(expected = InvalidCredentialException.class)
+	public void checkCreationAndLogin() {
+		String email = "test@volunia.eu";
 		String password = "livuoiqueikiwiyankeecoikisayayaiani";
+		String taxCode = "SSSHHH80S33H324L";
+		// creates the account
 		Account account = createAccount(email, password);
-		Booker booker = createBooker(account);
+		// creates the booker
+		Booker booker = createBooker(taxCode, account);
+		// persist the account and the booker data
 		Long id = bookerService.createAccount(account, booker);
-		try {
-			account = bookerService.login(email, password);
-			assertThat(account.getId(), is(equalTo(id)));
-		} catch (InvalidCredentialException e) {
-			assertThat(e.getMessage(), is(equalTo(ExceptionMessages.INCORRECT_ACCOUNT)));
-		}
+		// log in the user
+		account = bookerService.login(email, password);
+
+		assertThat(account.getId(), is(equalTo(id)));
 	}
 
-	private Account createAccount(String email, String password) {
+	/**
+	 * Create an account and checks whether the login service throws an
+	 * InvalidCredentialException with an invalid password
+	 */
+	@Test(expected = InvalidCredentialException.class)
+	public void checkCreationAndLoginWithException() {
+		String email = "account@volunia.eu";
+		String password = "livuoiqueikiwiyankeecoikisayayaiani";
+		String invalidPassword = "invalidpassword";
+		String taxCode = "SSSHHH80S33H324L";
+		// creates the account
+		Account account = createAccount(email, password);
+		// creates the booker
+		Booker booker = createBooker(taxCode, account);
+		// persist the account and the booker data
+		bookerService.createAccount(account, booker);
+		// try to log in, but the password is invalid. An exception is expected.
+		account = bookerService.login(email, invalidPassword);
+	}
+
+	private static Account createAccount(String email, String password) {
 		Account account = new Account();
 		account.setActive(true);
 		account.setEmail(email);
@@ -90,24 +115,16 @@ public class BookerManagementTest {
 		return account;
 	}
 
-	private Customer createCustomer() {
-		Customer customer = new Customer();
-		customer.setTaxCode("SMPHMR89T31Z404B");
-		customer.setFirstName("Homer");
-		customer.setLastName("Simpson");
-		customer.setGender(Gender.MALE);
-		customer.setBirthPlace(city);
-		customer.setBirthDate(new Date());
-		customer.setIdentificationDocumentNumber("1103D2");
-		customer.setIdentificationDocumentType(IdType.PASSPORT);
-		customer.setIssuingAuthority("Police");
-		return customer;
-	}
-
-	private Booker createBooker(Account account) {
+	private static Booker createBooker(String taxCode, Account account) {
 		Booker booker = new Booker();
-		account.setBooker(booker);
+		booker.setFirstName("Name");
+		booker.setLastName("Surname");
+		booker.setTaxCode(taxCode);
+		booker.setBirthDate(new Date());
+		booker.setBirthPlace(city);
+		booker.setGender(Gender.FEMALE);
 		booker.setAccount(account);
+		account.setBooker(booker);
 		return booker;
 	}
 

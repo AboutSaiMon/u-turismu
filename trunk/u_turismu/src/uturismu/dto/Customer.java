@@ -108,7 +108,7 @@ public class Customer implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "id_birth_place")
-	@ForeignKey(name = "FK_BOOKER_CITY")
+	@ForeignKey(name = "FK_CUSTOMER_CITY")
 	public City getBirthPlace() {
 		return birthPlace;
 	}
