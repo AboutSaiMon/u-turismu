@@ -44,7 +44,7 @@ import uturismu.service.BookerManagementService;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-public class RegistrationTest {
+public class BookerManagementTest {
 
 	private static BookerManagementService bookerService;
 	private static City city;
