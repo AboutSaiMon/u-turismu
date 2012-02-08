@@ -65,7 +65,7 @@ public class BookerManagementTest {
 	/**
 	 * Create an account and check whether the login service works.
 	 */
-	@Test(expected = InvalidCredentialException.class)
+	@Test
 	public void checkCreationAndLogin() {
 		String email = "test@volunia.eu";
 		String password = "livuoiqueikiwiyankeecoikisayayaiani";
@@ -78,20 +78,20 @@ public class BookerManagementTest {
 		Long id = bookerService.createAccount(account, booker);
 		// log in the user
 		account = bookerService.login(email, password);
-
+		// asserts that the account is on the DB
 		assertThat(account.getId(), is(equalTo(id)));
 	}
 
 	/**
 	 * Create an account and checks whether the login service throws an
-	 * InvalidCredentialException with an invalid password
+	 * InvalidCredentialException in response of an invalid password.
 	 */
 	@Test(expected = InvalidCredentialException.class)
 	public void checkCreationAndLoginWithException() {
 		String email = "account@volunia.eu";
 		String password = "livuoiqueikiwiyankeecoikisayayaiani";
-		String invalidPassword = "invalidpassword";
 		String taxCode = "SSSHHH80S33H324L";
+		String invalidPassword = "invalidpassword";
 		// creates the account
 		Account account = createAccount(email, password);
 		// creates the booker
