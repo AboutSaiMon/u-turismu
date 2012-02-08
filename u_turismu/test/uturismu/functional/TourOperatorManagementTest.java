@@ -46,17 +46,40 @@ public class TourOperatorManagementTest {
 		
 		account=null;
 		account = touroperatorService.login(email, password);
-//		assertThat(account, org.hamcrest.Matchers.is));
 		assertThat(account, is(org.hamcrest.Matchers.notNullValue()));
 		System.out.println(account.getEmail());			
 		assertThat(id, is(equalTo(account.getId())));
 	}
+	
+	@Test(expected = InvalidCredentialException.class)
+	public void createTourOperatorWithException(){
+		String email="touroperatorException@gmail.com";
+		String password="password";
+		Account account=createAccount(email, password);
+		TourOperator tourOperator=createTourOperatorEX(account);
+		Long id = touroperatorService.createAccount(account, tourOperator);
+		
+		account=null;
+		password="passwordSbagliata";
+		account = touroperatorService.login(email, password);
+	}
+	
 	
 	private TourOperator createTourOperator(Account account){
 		TourOperator to=new TourOperator();
 		to.setHolderName("pippo Inzaghi");
 		to.setName("io Sono Il tour");
 		to.setVatNumber("12345678910");
+		to.setAccount(account);
+		account.setTourOperator(to);
+		return to;
+	}
+	
+	private TourOperator createTourOperatorEX(Account account){
+		TourOperator to=new TourOperator();
+		to.setHolderName("Eccezzione");
+		to.setName("io Sono un eccezzione");
+		to.setVatNumber("11111111111");
 		to.setAccount(account);
 		account.setTourOperator(to);
 		return to;

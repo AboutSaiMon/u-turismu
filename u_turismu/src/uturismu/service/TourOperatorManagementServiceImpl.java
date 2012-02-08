@@ -34,12 +34,10 @@ public class TourOperatorManagementServiceImpl implements TourOperatorManagement
 	public Account login(String email, String password) throws InvalidCredentialException{
 		Account account = accountDao.findByEmail(email);
 		if(account == null){
-			System.out.println("ACCOUNT NULLO");
 			throw new InvalidCredentialException();
 		}
 		String tmpPsw=HashUtil.getHash(password, account.getSalt());
 		if(!tmpPsw.equals(account.getPassword())){
-			System.out.println("PASSWORD SBAGLIATA");
 			throw new InvalidCredentialException();
 		}
 		return account;
