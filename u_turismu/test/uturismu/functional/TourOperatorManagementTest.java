@@ -1,6 +1,8 @@
 package uturismu.functional;
 
 import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 import java.util.Date;
 
@@ -42,13 +44,12 @@ public class TourOperatorManagementTest {
 		TourOperator tourOperator=createTourOperator(account);
 		Long id = touroperatorService.createAccount(account, tourOperator);
 		
-		
-//		try{
-//			account = touroperatorService.login(email, password);
-//			assertThat(id, is(equalTo(account.getId())));
-//		}catch (InvalidCredentialException e) {
-//			assertThat(e.getMessage(), is(equalTo(ExceptionMessages.INCORRECT_ACCOUNT)));
-//		}
+		account=null;
+		account = touroperatorService.login(email, password);
+//		assertThat(account, org.hamcrest.Matchers.is));
+		assertThat(account, is(org.hamcrest.Matchers.notNullValue()));
+		System.out.println(account.getEmail());			
+		assertThat(id, is(equalTo(account.getId())));
 	}
 	
 	private TourOperator createTourOperator(Account account){
@@ -68,7 +69,7 @@ public class TourOperatorManagementTest {
 		String salt=HashUtil.generateSalt();
 		account.setSalt(salt);
 		String psw=HashUtil.getHash(password, salt);
-		account.setPassword(password);
+		account.setPassword(psw);
 		account.setType(AccountType.TOUR_OPERATOR);
 		account.setLastAccessTimestamp(new Date());
 		account.setRegistrationTimestamp(new Date());
