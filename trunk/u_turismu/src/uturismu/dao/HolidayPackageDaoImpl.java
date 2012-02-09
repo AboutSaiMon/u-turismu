@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,6 @@ import uturismu.dto.enumtype.Status;
 @Repository
 public class HolidayPackageDaoImpl extends AbstractDao<HolidayPackage> implements HolidayPackageDao {
 
-	
 	@Autowired
 	public HolidayPackageDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
@@ -64,8 +64,21 @@ public class HolidayPackageDaoImpl extends AbstractDao<HolidayPackage> implement
 	}
 
 	@Override
-	public List<HolidayPackage> findAllDrafByTourOperator(Long id) {
-		Criteria criteria =this.session().createCriteria(HolidayPackage.class);
+	public List<HolidayPackage> findAllPublishedByTags(Long... tags) {
+		Criteria criteria = session().createCriteria(HolidayPackage.class);
+		criteria.add(Restrictions.eq("status", Status.PUBLISHED));
+		criteria.createCriteria("holidayPackages");
+		Conjunction conjunction = Restrictions.conjunction();
+		for (Long tagId : tags) {
+			conjunction.add(Restrictions.eq("id", tagId));
+		}
+		criteria.add(conjunction);
+		return criteria.list();
+	}
+
+	@Override
+	public List<HolidayPackage> findAllDraftByTourOperator(Long id) {
+		Criteria criteria = this.session().createCriteria(HolidayPackage.class);
 		Criterion criterionDraft = Restrictions.eq("status", Status.DRAFT);
 		Criterion criterionTour = Restrictions.eq("tourOperator.id", id);
 		criteria.add(Restrictions.and(criterionDraft, criterionTour));
@@ -74,7 +87,7 @@ public class HolidayPackageDaoImpl extends AbstractDao<HolidayPackage> implement
 
 	@Override
 	public List<HolidayPackage> findAllExpiredByTourOperator(Long id) {
-		Criteria criteria =this.session().createCriteria(HolidayPackage.class);
+		Criteria criteria = this.session().createCriteria(HolidayPackage.class);
 		Criterion criterionDraft = Restrictions.eq("status", Status.EXPIRED);
 		Criterion criterionTour = Restrictions.eq("tourOperator.id", id);
 		criteria.add(Restrictions.and(criterionDraft, criterionTour));
@@ -83,11 +96,11 @@ public class HolidayPackageDaoImpl extends AbstractDao<HolidayPackage> implement
 
 	@Override
 	public List<HolidayPackage> findAllByTourOperator(Long id) {
-		Criteria criteria=this.session().createCriteria(HolidayPackage.class);
+		Criteria criteria = this.session().createCriteria(HolidayPackage.class);
 		criteria.add(Restrictions.eq("tourOperator.id", id));
 		return criteria.list();
 	}
 
-	//TODO: Implementare Modifica HolidayPackage
-	
+	// TODO: Implementare Modifica HolidayPackage
+
 }

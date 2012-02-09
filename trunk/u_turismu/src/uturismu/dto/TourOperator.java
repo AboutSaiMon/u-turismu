@@ -129,10 +129,12 @@ public class TourOperator implements Serializable {
 	}
 
 	public boolean addHolidayPackage(HolidayPackage holidayPackage) {
+		holidayPackage.setTourOperator(this);
 		return holidayPackages.add(holidayPackage);
 	}
 
 	public boolean removeHolidayPackage(HolidayPackage holidayPackage) {
+		holidayPackage.setTourOperator(null);
 		return holidayPackages.remove(holidayPackage);
 	}
 
