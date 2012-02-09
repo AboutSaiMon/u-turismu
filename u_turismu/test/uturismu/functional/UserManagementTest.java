@@ -61,7 +61,7 @@ public class UserManagementTest {
 		city.setName("Springfield");
 		city.setProvince("USA");
 		getCityService().save(city);
-		
+
 		for (int i = 1; i <= 10; i++) {
 			HolidayTag tag = new HolidayTag();
 			tag.setName("tag" + i);

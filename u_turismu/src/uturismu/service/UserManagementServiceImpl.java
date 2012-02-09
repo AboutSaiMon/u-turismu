@@ -40,8 +40,9 @@ import uturismu.dto.TourOperator;
 import uturismu.exception.InvalidCredentialException;
 
 /**
- * @author "LagrecaSpaccarotella" team.
+ * Vedi la documentazione dell'interfaccia {@link UserManagementService}.
  * 
+ * @author "LagrecaSpaccarotella" team.
  */
 @Service
 @Transactional
@@ -89,6 +90,7 @@ public class UserManagementServiceImpl implements UserManagementService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<HolidayPackage> getHolidayPackagesByTourOperator(Long id) {
 		return holidayPackageDao.findAllPublishedByTourOperator(id);
 	}
