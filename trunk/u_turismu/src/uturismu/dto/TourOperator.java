@@ -37,6 +37,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
 
 /**
@@ -93,6 +95,7 @@ public class TourOperator implements Serializable {
 	}
 
 	@OneToMany(mappedBy = "tourOperator")
+	@Cascade({ CascadeType.SAVE_UPDATE })
 	public Set<HolidayPackage> getHolidayPackages() {
 		return Collections.unmodifiableSet(holidayPackages);
 	}
