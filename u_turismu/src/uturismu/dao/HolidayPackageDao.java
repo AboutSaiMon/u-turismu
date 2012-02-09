@@ -34,5 +34,8 @@ public interface HolidayPackageDao extends GenericDao<HolidayPackage> {
 
 	public List<HolidayPackage> findAllPublished();
 	public List<HolidayPackage> findAllPublishedByTourOperator(Long id);
+	public List<HolidayPackage>	findAllDrafByTourOperator(Long id);
+	public List<HolidayPackage>	findAllExpiredByTourOperator(Long id);
+	public List<HolidayPackage> findAllByTourOperator(Long id);
 	
 }

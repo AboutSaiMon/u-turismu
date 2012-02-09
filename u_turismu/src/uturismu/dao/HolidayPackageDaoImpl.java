@@ -62,4 +62,31 @@ public class HolidayPackageDaoImpl extends AbstractDao<HolidayPackage> implement
 		return criteria.list();
 	}
 
+	@Override
+	public List<HolidayPackage> findAllDrafByTourOperator(Long id) {
+		Criteria criteria =this.session().createCriteria(HolidayPackage.class);
+		Criterion criterionDraft = Restrictions.eq("status", Status.DRAFT);
+		Criterion criterionTour = Restrictions.eq("tourOperator.id", id);
+		criteria.add(Restrictions.and(criterionDraft, criterionTour));
+		return criteria.list();
+	}
+
+	@Override
+	public List<HolidayPackage> findAllExpiredByTourOperator(Long id) {
+		Criteria criteria =this.session().createCriteria(HolidayPackage.class);
+		Criterion criterionDraft = Restrictions.eq("status", Status.EXPIRED);
+		Criterion criterionTour = Restrictions.eq("tourOperator.id", id);
+		criteria.add(Restrictions.and(criterionDraft, criterionTour));
+		return criteria.list();
+	}
+
+	@Override
+	public List<HolidayPackage> findAllByTourOperator(Long id) {
+		Criteria criteria=this.session().createCriteria(HolidayPackage.class);
+		criteria.add(Restrictions.eq("tourOperator.id", id));
+		return criteria.list();
+	}
+	
+	//TODO: Implementare Modifica HolidayPackage
+	
 }
