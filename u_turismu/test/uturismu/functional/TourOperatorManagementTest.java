@@ -2,12 +2,14 @@ package uturismu.functional;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
 
+import static org.hamcrest.Matchers.is;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.type.SetType;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import uturismu.HashUtil;
@@ -15,8 +17,10 @@ import uturismu.ServiceFactory;
 import uturismu.dao.AccountDao;
 import uturismu.dto.Account;
 import uturismu.dto.City;
+import uturismu.dto.HolidayPackage;
 import uturismu.dto.TourOperator;
 import uturismu.dto.enumtype.AccountType;
+import uturismu.dto.enumtype.Status;
 import uturismu.exception.ExceptionMessages;
 import uturismu.exception.InvalidCredentialException;
 import uturismu.service.TourOperatorManagementService;
@@ -40,8 +44,9 @@ public class TourOperatorManagementTest {
 	public void createTourOperatorAccount(){
 		String email="tourop@gmail.com";
 		String password="password";
+		String vatNumber="11111111110";
 		Account account=createAccount(email, password);
-		TourOperator tourOperator=createTourOperator(account);
+		TourOperator tourOperator=createTourOperator(account,vatNumber,"UNO");
 		Long id = touroperatorService.createAccount(account, tourOperator);
 		
 		account=null;
@@ -55,8 +60,9 @@ public class TourOperatorManagementTest {
 	public void createTourOperatorWithException(){
 		String email="touroperatorException@gmail.com";
 		String password="password";
+		String vatNumber="12345678901";
 		Account account=createAccount(email, password);
-		TourOperator tourOperator=createTourOperatorEX(account);
+		TourOperator tourOperator=createTourOperator(account,vatNumber,"UNO");
 		Long id = touroperatorService.createAccount(account, tourOperator);
 		
 		account=null;
@@ -64,12 +70,62 @@ public class TourOperatorManagementTest {
 		account = touroperatorService.login(email, password);
 	}
 	
+	@Test
+	public void queryHolidayPackageTest(){
+		String email="tourop@gmail.com";
+		String password="password";
+		String vatNumber="22222222220";
+		Account account1=createAccount(email, password);
+		TourOperator TOP1=createTourOperator(account1,vatNumber,"UNO");
+		
+		TOP1.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package1", TOP1));
+		TOP1.addHolidayPackage(createHolidayPackage(Status.EXPIRED, "Package2", TOP1));
+		TOP1.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package3", TOP1));
+		
+		Long idTOP1=touroperatorService.createAccount(account1, TOP1);
+		
+		String email2="tourOperatorDUE@gmail.com";
+		String password2="passwordDUE";
+		String vatNumber2="01333333333";
+		Account account2=createAccount(email2, password2);
+		TourOperator TOP2=createTourOperator(account2,vatNumber2,"DUE");
+		
+		TOP2.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package2_1", TOP2));
+		TOP2.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package2_2", TOP2));
+		TOP2.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package2_3", TOP2));
+		
+		Long idTOP2=touroperatorService.createAccount(account2, TOP2);
+		
+		List<HolidayPackage> list1=touroperatorService.findAllHolidayPackages(idTOP1);
+//		assertThat(list1, org.hamcrest.Matchers.not(null));
+		assertThat(list1.size(), is(equalTo(3)));
+		
+		for (HolidayPackage holidayPackage : list1) {
+			assertThat(holidayPackage.getTourOperator(), is(equalTo(TOP1)));
+			System.out.println(holidayPackage.getStatus());
+		}
+		
+		list1=touroperatorService.findDraftHolidayPackages(idTOP1);
+		
+		
+	}
 	
-	private TourOperator createTourOperator(Account account){
+	
+	private HolidayPackage createHolidayPackage(Status status,String Name, TourOperator top){
+		HolidayPackage hp=new HolidayPackage();
+		hp.setAvailability(3);
+		hp.setCustomerNumber(2);
+		hp.setStatus(status);
+		hp.setDueDate(new Date());
+		hp.setName("pacchettovacanze_"+status+Name);
+		return hp;
+	}
+	
+	private TourOperator createTourOperator(Account account,String vatNumber,String name){
 		TourOperator to=new TourOperator();
 		to.setHolderName("pippo Inzaghi");
-		to.setName("io Sono Il tour");
-		to.setVatNumber("12345678910");
+		to.setName("Company "+name);
+		to.setVatNumber(vatNumber);
 		to.setAccount(account);
 		account.setTourOperator(to);
 		return to;

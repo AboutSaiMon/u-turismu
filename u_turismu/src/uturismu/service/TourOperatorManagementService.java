@@ -50,5 +50,12 @@ public interface TourOperatorManagementService {
 	 * @return una {@link List} di {@link HolidayPackage}
 	 */
 	public List<HolidayPackage> findExpiredHolidayPackages(Long id);
+	
+	/**
+	 * Aggiorna un {@link HolidayPackage} 
+	 * 
+	 * @param holidayPackage parametro {@link HolidayPackage} che rappresenta l'oggetto da aggiornare  
+	 */
+	public void updateDraftHolidayPackage(HolidayPackage holidayPackage);
 
 }

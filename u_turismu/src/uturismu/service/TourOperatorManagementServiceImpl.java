@@ -72,4 +72,10 @@ public class TourOperatorManagementServiceImpl implements TourOperatorManagement
 	public List<HolidayPackage> findExpiredHolidayPackages(Long id) {
 		return holidayPackageDao.findAllExpiredByTourOperator(id);
 	}
+
+	@Override
+	public void updateDraftHolidayPackage(HolidayPackage holidayPackage) {
+		holidayPackageDao.update(holidayPackage);
+	}
+	
 }

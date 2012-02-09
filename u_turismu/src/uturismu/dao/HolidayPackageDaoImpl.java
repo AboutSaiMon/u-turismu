@@ -41,6 +41,7 @@ import uturismu.dto.enumtype.Status;
 @Repository
 public class HolidayPackageDaoImpl extends AbstractDao<HolidayPackage> implements HolidayPackageDao {
 
+	
 	@Autowired
 	public HolidayPackageDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
@@ -86,7 +87,7 @@ public class HolidayPackageDaoImpl extends AbstractDao<HolidayPackage> implement
 		criteria.add(Restrictions.eq("tourOperator.id", id));
 		return criteria.list();
 	}
-	
+
 	//TODO: Implementare Modifica HolidayPackage
 	
 }
