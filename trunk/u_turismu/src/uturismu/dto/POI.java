@@ -87,8 +87,8 @@ public class POI implements Serializable {
 	}
 
 	@OneToMany(mappedBy = "pointOfInterest")
-	public Set<Reservation> getReservations() {
-		return Collections.unmodifiableSet(reservations);
+	protected Set<Reservation> getReservations() {
+		return reservations;
 	}
 
 	public void setId(Long id) {

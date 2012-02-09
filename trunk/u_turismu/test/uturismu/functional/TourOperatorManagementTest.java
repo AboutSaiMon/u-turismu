@@ -41,6 +41,7 @@ public class TourOperatorManagementTest {
 	}
 	
 	@Test
+	@Ignore
 	public void createTourOperatorAccount(){
 		String email="tourop@gmail.com";
 		String password="password";
@@ -57,6 +58,7 @@ public class TourOperatorManagementTest {
 	}
 	
 	@Test(expected = InvalidCredentialException.class)
+	@Ignore
 	public void createTourOperatorWithException(){
 		String email="touroperatorException@gmail.com";
 		String password="password";
@@ -97,19 +99,51 @@ public class TourOperatorManagementTest {
 		Long idTOP2=touroperatorService.createAccount(account2, TOP2);
 		
 		List<HolidayPackage> list1=touroperatorService.findAllHolidayPackages(idTOP1);
-//		assertThat(list1, org.hamcrest.Matchers.not(null));
+		assertThat(list1, org.hamcrest.Matchers.notNullValue());
 		assertThat(list1.size(), is(equalTo(3)));
 		
 		for (HolidayPackage holidayPackage : list1) {
-			assertThat(holidayPackage.getTourOperator(), is(equalTo(TOP1)));
+			assertThat(holidayPackage.getTourOperator().getId(), is(equalTo(TOP1.getId())));
 			System.out.println(holidayPackage.getStatus());
 		}
 		
 		list1=touroperatorService.findDraftHolidayPackages(idTOP1);
+		for (HolidayPackage holidayPackage : list1) {
+			assertThat(holidayPackage.getStatus(), is(equalTo(Status.DRAFT)));
+		}
+		
+		list1=touroperatorService.findExpiredHolidayPackages(idTOP1);
+		for (HolidayPackage holidayPackage : list1) {
+			assertThat(holidayPackage.getStatus(), is(equalTo(Status.EXPIRED)));
+		}
+		
+		list1=touroperatorService.findPublishedHolidayPackages(idTOP2);
+		for (HolidayPackage holidayPackage : list1) {
+			assertThat(holidayPackage.getStatus(), is(equalTo(Status.PUBLISHED)));
+		}
+	}
+	
+	
+	public void updateHolidayPackage(){
+		String email="TESTING_UPDATE@gmail.com";
+		String password="password";
+		String vatNumber="98765432122";
+		Account account1=createAccount(email, password);
+		TourOperator TOP1=createTourOperator(account1,vatNumber,"UNO");
+		
+		TOP1.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package1", TOP1));
+		TOP1.addHolidayPackage(createHolidayPackage(Status.EXPIRED, "Package2", TOP1));
+		TOP1.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package3", TOP1));
+		
+		Long ID=touroperatorService.createAccount(account1, TOP1);
+		
+		List<HolidayPackage> list= touroperatorService.findDraftHolidayPackages(ID);
+		
+		
+		
 		
 		
 	}
-	
 	
 	private HolidayPackage createHolidayPackage(Status status,String Name, TourOperator top){
 		HolidayPackage hp=new HolidayPackage();
