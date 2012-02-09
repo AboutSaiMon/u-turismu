@@ -15,6 +15,7 @@ import org.junit.Test;
 import uturismu.HashUtil;
 import uturismu.ServiceFactory;
 import uturismu.dao.AccountDao;
+import uturismu.dao.HolidayPackageDao;
 import uturismu.dto.Account;
 import uturismu.dto.City;
 import uturismu.dto.HolidayPackage;
@@ -124,6 +125,7 @@ public class TourOperatorManagementTest {
 	}
 	
 	
+	@Test
 	public void updateHolidayPackage(){
 		String email="TESTING_UPDATE@gmail.com";
 		String password="password";
@@ -132,17 +134,24 @@ public class TourOperatorManagementTest {
 		TourOperator TOP1=createTourOperator(account1,vatNumber,"UNO");
 		
 		TOP1.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package1", TOP1));
-		TOP1.addHolidayPackage(createHolidayPackage(Status.EXPIRED, "Package2", TOP1));
+		TOP1.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package2", TOP1));
 		TOP1.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package3", TOP1));
 		
 		Long ID=touroperatorService.createAccount(account1, TOP1);
 		
 		List<HolidayPackage> list= touroperatorService.findDraftHolidayPackages(ID);
+		assertThat(list.size(), is(equalTo(2)));
+		HolidayPackage hpToUpdate=list.get(1);
+		String description="setto la descrizione di update ";
+		hpToUpdate.setDescription(description);
+		hpToUpdate.setAvailability(10);
+		hpToUpdate.setStatus(Status.PUBLISHED);
+		ServiceFactory.getHolidayPackageService().update(hpToUpdate);
 		
-		
-		
-		
-		
+		list=touroperatorService.findDraftHolidayPackages(ID);
+		assertThat(list.size(), is(equalTo(1)));
+		list=touroperatorService.findPublishedHolidayPackages(ID);
+		assertThat(list.get(1).getDescription(), is(equalTo(description)));
 	}
 	
 	private HolidayPackage createHolidayPackage(Status status,String Name, TourOperator top){
