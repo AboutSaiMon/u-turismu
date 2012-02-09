@@ -22,15 +22,34 @@
  */
 package uturismu.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+
+import uturismu.dto.Account;
+import uturismu.dto.Booker;
+import uturismu.dto.HolidayPackage;
+import uturismu.dto.TourOperator;
+import uturismu.exception.InvalidCredentialException;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Service
-@Transactional
-public class BookerManagementServiceImpl implements BookerManagementService {
+public interface UserManagementService {
+
+	public void createAccount(Account account, Booker booker);
+
+	public void createAccount(Account account, TourOperator tourOperator);
+
+	public Account login(String email, String password) throws InvalidCredentialException;
+	
+	public List<HolidayPackage> getHolidayPackages();
+	
+	public List<HolidayPackage> getHolidayPackagesByTourOperator(Long id);
+	
+	public List<HolidayPackage> getHolidayPackagesByTags(Long ...tags);
+	
+	public List<HolidayPackage> getHolidayPackagesByTourOperatorAndTags(Long id, Long ...tags);
+	
+	public List<TourOperator> getTourOperators();
 
 }

@@ -22,11 +22,17 @@
  */
 package uturismu.dao;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import uturismu.dto.HolidayPackage;
+import uturismu.dto.enumtype.Status;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -38,6 +44,22 @@ public class HolidayPackageDaoImpl extends AbstractDao<HolidayPackage> implement
 	@Autowired
 	public HolidayPackageDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
+	}
+
+	@Override
+	public List<HolidayPackage> findAllPublished() {
+		Criteria criteria = session().createCriteria(HolidayPackage.class);
+		criteria.add(Restrictions.eq("status", Status.PUBLISHED));
+		return criteria.list();
+	}
+
+	@Override
+	public List<HolidayPackage> findAllPublishedByTourOperator(Long id) {
+		Criteria criteria = session().createCriteria(HolidayPackage.class);
+		Criterion isPublished = Restrictions.eq("status", Status.PUBLISHED);
+		Criterion tourOperatorBinded = Restrictions.eq("tourOperator.id", id);
+		criteria.add(Restrictions.and(isPublished, tourOperatorBinded));
+		return criteria.list();
 	}
 
 }

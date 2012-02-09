@@ -27,9 +27,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import uturismu.service.BookerManagementService;
 import uturismu.service.TourOperatorManagementService;
+import uturismu.service.UserManagementService;
 import uturismu.service.backup.AccommodationService;
 import uturismu.service.backup.CityService;
 import uturismu.service.backup.HolidayPackageService;
+import uturismu.service.backup.HolidayTagService;
 import uturismu.service.backup.OvernightStayService;
 import uturismu.service.backup.TourOperatorService;
 
@@ -50,6 +52,14 @@ public class ServiceFactory {
 
 	private ServiceFactory() {
 	}
+	
+	public static HolidayTagService getHolidayTagService() {
+		return context.getBean(HolidayTagService.class);
+	}
+
+	public static UserManagementService getUserManagementService() {
+		return context.getBean(UserManagementService.class);
+	}
 
 	public static BookerManagementService getBookerManagementService() {
 		return context.getBean(BookerManagementService.class);
@@ -58,7 +68,7 @@ public class ServiceFactory {
 	public static TourOperatorManagementService getTourOperatorManagementService() {
 		return context.getBean(TourOperatorManagementService.class);
 	}
-	
+
 	public static AccommodationService getAccommodationService() {
 		return context.getBean(AccommodationService.class);
 	}
