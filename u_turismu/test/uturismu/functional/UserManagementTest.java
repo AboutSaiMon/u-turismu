@@ -150,34 +150,31 @@ public class UserManagementTest {
 		Account account1 = createAccount("email@prova.it", "password1");
 		TourOperator to1 = createTourOperator("111DK2", account1);
 		// creo il secondo account
-		Account account2 = createAccount("lola@prova.it", "password2");
-		TourOperator to2 = createTourOperator("AJ3992LK", account2);
+		Account account2 = createAccount("ciccio@prova.it", "password2");
+		TourOperator to2 = createTourOperator("111DK3", account2);
 		// creo un holiday package
 		HolidayPackage pack1 = createHolidayPackage("Pack 1", Status.PUBLISHED, to1);
-		HolidayPackage pack2 = createHolidayPackage("Pack 2", Status.PUBLISHED, to1);
-		HolidayPackage pack3 = createHolidayPackage("Pack 3", Status.PUBLISHED, to2);
+		HolidayPackage pack2 = createHolidayPackage("Pack2", Status.PUBLISHED, to1);
+		HolidayPackage pack3 = createHolidayPackage("Pack3", Status.PUBLISHED, to2);
 
 		HolidayTag tag1 = new HolidayTag();
 		tag1.setName("tag1");
 		tag1.setDescription("desc1");
 		HolidayTag tag2 = new HolidayTag();
 		tag2.setName("tag2");
-		tag1.setDescription("desc2");
-		HolidayTag tag3 = new HolidayTag();
-		tag3.setName("tag3");
-		tag1.setDescription("desc3");
-
+		tag2.setDescription("desc2");
+		
 		pack1.addHolidayTag(tag1);
-		pack1.addHolidayTag(tag3);
-
-		pack2.addHolidayTag(tag3);
-
+		pack1.addHolidayTag(tag2);
+		pack2.addHolidayTag(tag2);
 		pack3.addHolidayTag(tag1);
-		pack3.addHolidayTag(tag2);
-		pack3.addHolidayTag(tag3);
-
+		
 		ServiceFactory.getUserManagementService().createAccount(account1, to1);
 		ServiceFactory.getUserManagementService().createAccount(account2, to2);
+		
+		HolidayPackage pack4 = createHolidayPackage("Pack4", Status.PUBLISHED, to2);
+		ServiceFactory.getTourOperatorService().update(to2);
+		//ServiceFactory.getHolidayPackageService().save(pack4);
 	}
 
 	private static Account createAccount(String email, String password) {
@@ -221,10 +218,10 @@ public class UserManagementTest {
 		HolidayPackage pack = new HolidayPackage();
 		pack.setName(name);
 		pack.setStatus(status);
-		tourOperator.addHolidayPackage(pack);
 		pack.setDueDate(new Date());
 		pack.setCustomerNumber(2);
 		pack.setAvailability(10);
+		tourOperator.addHolidayPackage(pack);
 		return pack;
 	}
 
