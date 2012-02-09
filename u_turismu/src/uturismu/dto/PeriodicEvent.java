@@ -112,8 +112,8 @@ public class PeriodicEvent implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "PERIODIC_EVENT_CLASSIFICATION", joinColumns = @JoinColumn(name = "id_periodic_event"), inverseJoinColumns = @JoinColumn(name = "id_event_tag"))
 	@ForeignKey(name = "FK_PERIODICEVENTCLASSIFICATION_PERIODICEVENT", inverseName = "FK_PERIODICEVENTCLASSIFICATION_EVENTTAG")
-	public Set<EventTag> getEventTags() {
-		return Collections.unmodifiableSet(eventTags);
+	protected Set<EventTag> getEventTags() {
+		return eventTags;
 	}
 
 	public void setId(Long id) {

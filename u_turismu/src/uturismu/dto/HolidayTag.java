@@ -68,8 +68,8 @@ public class HolidayTag implements Serializable {
 	}
 
 	@ManyToMany(mappedBy = "holidayTags")
-	public Set<HolidayPackage> getHolidayPackages() {
-		return Collections.unmodifiableSet(holidayPackages);
+	protected Set<HolidayPackage> getHolidayPackages() {
+		return holidayPackages;
 	}
 
 	public void setId(Long id) {

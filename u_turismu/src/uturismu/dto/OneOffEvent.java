@@ -103,7 +103,7 @@ public class OneOffEvent implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "ONEOFF_EVENT_CLASSIFICATION", joinColumns = @JoinColumn(name = "id_oneoff_event"), inverseJoinColumns = @JoinColumn(name = "id_event_tag"))
 	@ForeignKey(name = "FK_ONEOFFEVENTCLASSIFICATION_ONEOFFEVENT", inverseName = "FK_ONEOFFEVENTCLASSIFICATION_EVENTTAG")
-	public Set<EventTag> getEventTags() {
+	protected Set<EventTag> getEventTags() {
 		return eventTags;
 	}
 
