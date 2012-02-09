@@ -29,6 +29,7 @@ import static uturismu.ServiceFactory.getCityService;
 import static uturismu.ServiceFactory.getUserManagementService;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -149,32 +150,45 @@ public class UserManagementTest {
 		// creo il primo account
 		Account account1 = createAccount("email@prova.it", "password1");
 		TourOperator to1 = createTourOperator("111DK2", account1);
+		to1.setId(1L);
 		// creo il secondo account
 		Account account2 = createAccount("ciccio@prova.it", "password2");
 		TourOperator to2 = createTourOperator("111DK3", account2);
+		to2.setId(2L);
 		// creo un holiday package
 		HolidayPackage pack1 = createHolidayPackage("Pack 1", Status.PUBLISHED, to1);
-		HolidayPackage pack2 = createHolidayPackage("Pack2", Status.PUBLISHED, to1);
-		HolidayPackage pack3 = createHolidayPackage("Pack3", Status.PUBLISHED, to2);
+		pack1.setId(1L);
+		HolidayPackage pack2 = createHolidayPackage("Pack 2", Status.PUBLISHED, to1);
+		pack2.setId(2L);
+		HolidayPackage pack3 = createHolidayPackage("Pack 3", Status.PUBLISHED, to2);
+		pack3.setId(3L);
 
 		HolidayTag tag1 = new HolidayTag();
+		tag1.setId(1L);
 		tag1.setName("tag1");
 		tag1.setDescription("desc1");
 		HolidayTag tag2 = new HolidayTag();
+		tag2.setId(2L);
 		tag2.setName("tag2");
 		tag2.setDescription("desc2");
-		
+
 		pack1.addHolidayTag(tag1);
 		pack1.addHolidayTag(tag2);
 		pack2.addHolidayTag(tag2);
 		pack3.addHolidayTag(tag1);
-		
+
 		ServiceFactory.getUserManagementService().createAccount(account1, to1);
 		ServiceFactory.getUserManagementService().createAccount(account2, to2);
+
+		HolidayPackage pack4 = createHolidayPackage("Pack 4", Status.PUBLISHED, to2);
+		pack4.setId(4L);
+		pack4.addHolidayTag(tag1);
+		ServiceFactory.getHolidayPackageService().save(pack4);
 		
-		HolidayPackage pack4 = createHolidayPackage("Pack4", Status.PUBLISHED, to2);
-		ServiceFactory.getTourOperatorService().update(to2);
-		//ServiceFactory.getHolidayPackageService().save(pack4);
+		List<HolidayPackage> list = ServiceFactory.getUserManagementService().getHolidayPackagesByTags(tag1.getId());
+		for( HolidayPackage h : list) {
+			System.out.println(h.getName());
+		}
 	}
 
 	private static Account createAccount(String email, String password) {

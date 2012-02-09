@@ -67,7 +67,7 @@ public class HolidayPackageDaoImpl extends AbstractDao<HolidayPackage> implement
 	public List<HolidayPackage> findAllPublishedByTags(Long... tags) {
 		Criteria criteria = session().createCriteria(HolidayPackage.class);
 		criteria.add(Restrictions.eq("status", Status.PUBLISHED));
-		criteria.createCriteria("holidayPackages");
+		criteria = criteria.createCriteria("holidayTags");
 		Conjunction conjunction = Restrictions.conjunction();
 		for (Long tagId : tags) {
 			conjunction.add(Restrictions.eq("id", tagId));
