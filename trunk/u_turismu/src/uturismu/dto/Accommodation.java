@@ -23,7 +23,6 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -74,7 +73,7 @@ public class Accommodation implements Serializable {
 	public String getName() {
 		return name;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
@@ -90,8 +89,8 @@ public class Accommodation implements Serializable {
 	}
 
 	@OneToMany(mappedBy = "accommodation")
-	public Set<OvernightStay> getOvernightsStay() {
-		return Collections.unmodifiableSet(overnightsStay);
+	protected Set<OvernightStay> getOvernightsStay() {
+		return overnightsStay;
 	}
 
 	public void setId(Long id) {
@@ -105,7 +104,7 @@ public class Accommodation implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public void setDescription(String description) {
 		this.description = description;
 	}

@@ -23,7 +23,6 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -86,8 +85,8 @@ public class Booking implements Serializable {
 	}
 
 	@OneToMany(mappedBy = "booking")
-	public Set<Confirmation> getConfirmations() {
-		return Collections.unmodifiableSet(confirmations);
+	protected Set<Confirmation> getConfirmations() {
+		return confirmations;
 	}
 
 	public void setId(Long id) {

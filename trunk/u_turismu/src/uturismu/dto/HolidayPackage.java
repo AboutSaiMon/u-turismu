@@ -23,7 +23,6 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -131,21 +130,21 @@ public class HolidayPackage implements Serializable {
 	}
 
 	@OneToMany(mappedBy = "holidayPackage")
-	public Set<Booking> getBookings() {
-		return Collections.unmodifiableSet(bookings);
+	protected Set<Booking> getBookings() {
+		return bookings;
 	}
 
 	@OneToMany(mappedBy = "holidayPackage")
-	public Set<Service> getServices() {
-		return Collections.unmodifiableSet(services);
+	protected Set<Service> getServices() {
+		return services;
 	}
 
 	@ManyToMany
 	@Cascade({ CascadeType.SAVE_UPDATE })
 	@JoinTable(name = "HOLIDAY_CLASSIFICATION", joinColumns = @JoinColumn(name = "id_holiday_package"), inverseJoinColumns = @JoinColumn(name = "id_holiday_tag"))
 	@ForeignKey(name = "FK_HOLIDAYCLASSIFICATION_HOLIDAYPACKAGE", inverseName = "FK_HOLIDAYCLASSIFICATION_HOLIDAYTAG")
-	public Set<HolidayTag> getHolidayTags() {
-		return Collections.unmodifiableSet(holidayTags);
+	protected Set<HolidayTag> getHolidayTags() {
+		return holidayTags;
 	}
 
 	public void setId(Long id) {

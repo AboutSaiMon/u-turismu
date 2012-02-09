@@ -23,7 +23,6 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -81,18 +80,18 @@ public class City implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "CITY_CLASSIFICATION", joinColumns = @JoinColumn(name = "id_city"), inverseJoinColumns = @JoinColumn(name = "id_city_tag"))
 	@ForeignKey(name = "FK_CITYCLASSIFICATION_CITY", inverseName = "FK_CITYCLASSIFICATION_CITYTAG")
-	public Set<CityTag> getCityTags() {
-		return Collections.unmodifiableSet(cityTags);
+	protected Set<CityTag> getCityTags() {
+		return cityTags;
 	}
 
 	@OneToMany(mappedBy = "city")
-	public Set<OneOffEvent> getOneOffEvents() {
-		return Collections.unmodifiableSet(oneOffEvents);
+	protected Set<OneOffEvent> getOneOffEvents() {
+		return oneOffEvents;
 	}
 
 	@OneToMany(mappedBy = "city")
 	public Set<PeriodicEvent> getPeriodicEvents() {
-		return Collections.unmodifiableSet(periodicEvents);
+		return periodicEvents;
 	}
 
 	public void setId(Long id) {

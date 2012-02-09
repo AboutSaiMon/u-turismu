@@ -23,7 +23,6 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -96,8 +95,8 @@ public class TourOperator implements Serializable {
 
 	@OneToMany(mappedBy = "tourOperator")
 	@Cascade({ CascadeType.SAVE_UPDATE })
-	public Set<HolidayPackage> getHolidayPackages() {
-		return Collections.unmodifiableSet(holidayPackages);
+	protected Set<HolidayPackage> getHolidayPackages() {
+		return holidayPackages;
 	}
 
 	public void setId(Long id) {

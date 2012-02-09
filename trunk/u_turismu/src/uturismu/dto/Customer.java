@@ -143,7 +143,7 @@ public class Customer implements Serializable {
 	}
 
 	@OneToMany(mappedBy = "customer")
-	public Set<Confirmation> getConfirmations() {
+	protected Set<Confirmation> getConfirmations() {
 		return confirmations;
 	}
 

@@ -67,7 +67,7 @@ public class CityTag implements Serializable {
 	}
 
 	@ManyToMany(mappedBy = "cityTags")
-	public Set<City> getCities() {
+	protected Set<City> getCities() {
 		return cities;
 	}
 
