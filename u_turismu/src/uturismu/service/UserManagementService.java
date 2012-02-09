@@ -96,7 +96,7 @@ public interface UserManagementService {
 	 * @param tags
 	 * @return
 	 */
-	public List<HolidayPackage> getHolidayPackagesByTags(Long... tags);
+	public List<HolidayPackage> getHolidayPackagesByTags(Long ...tags);
 
 	public List<HolidayPackage> getHolidayPackagesByTourOperatorAndTags(Long id, Long... tags);
 

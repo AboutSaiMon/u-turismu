@@ -96,8 +96,9 @@ public class UserManagementServiceImpl implements UserManagementService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<HolidayPackage> getHolidayPackagesByTags(Long... tags) {
-		return null;
+		return holidayPackageDao.findAllPublishedByTags(tags);
 	}
 
 	@Override
