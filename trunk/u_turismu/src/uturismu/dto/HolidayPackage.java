@@ -24,11 +24,14 @@ package uturismu.dto;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,9 +41,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.ForeignKey;
+
+import uturismu.dto.enumtype.Status;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -55,10 +62,12 @@ public class HolidayPackage implements Serializable {
 	private String name;
 	private String description;
 	private Integer customerNumber;
-	//il numero di pacchetti vacanza messi a disposizione
+	// il numero di pacchetti vacanza messi a disposizione
 	private Integer availability;
 	// tiene il conto di quanti pacchetti sono stati venduti
 	private Integer counter;
+	private Date dueDate;
+	private Status status;
 	private TourOperator tourOperator;
 	private Set<Booking> bookings;
 	private Set<Service> services;
@@ -68,6 +77,8 @@ public class HolidayPackage implements Serializable {
 		bookings = new HashSet<Booking>();
 		services = new HashSet<Service>();
 		holidayTags = new HashSet<HolidayTag>();
+		status = Status.DRAFT;
+		counter = 0;
 	}
 
 	@Id
@@ -90,12 +101,24 @@ public class HolidayPackage implements Serializable {
 		return customerNumber;
 	}
 
+	@Column(nullable = false)
 	public Integer getAvailability() {
 		return availability;
 	}
 
 	public Integer getCounter() {
 		return counter;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "due_date", nullable = false)
+	public Date getDueDate() {
+		return dueDate;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public Status getStatus() {
+		return status;
 	}
 
 	@ManyToOne
@@ -142,8 +165,25 @@ public class HolidayPackage implements Serializable {
 		this.availability = availability;
 	}
 
-	public void setCounter(Integer counter) {
+	protected void setCounter(Integer counter) {
 		this.counter = counter;
+	}
+
+	public void incrementCounter() {
+		if (counter < availability) {
+			counter++;
+			if (counter == availability) {
+				status = Status.EXPIRED;
+			}
+		}
+	}
+
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public void setTourOperator(TourOperator tourOperator) {
@@ -155,10 +195,12 @@ public class HolidayPackage implements Serializable {
 	}
 
 	public boolean addBooking(Booking booking) {
+		booking.setHolidayPackage(this);
 		return bookings.add(booking);
 	}
 
 	public boolean removeBooking(Booking booking) {
+		booking.setHolidayPackage(null);
 		return bookings.remove(booking);
 	}
 
@@ -167,10 +209,12 @@ public class HolidayPackage implements Serializable {
 	}
 
 	public boolean addHolidayTag(HolidayTag holidayTag) {
+		holidayTag.addHolidayPackage(this);
 		return holidayTags.add(holidayTag);
 	}
 
 	public boolean removeHolidayTag(HolidayTag holidayTag) {
+		holidayTag.removeHolidayPackage(this);
 		return holidayTags.remove(holidayTag);
 	}
 
@@ -179,10 +223,12 @@ public class HolidayPackage implements Serializable {
 	}
 
 	public boolean addService(Service service) {
+		service.setHolidayPackage(this);
 		return services.add(service);
 	}
 
 	public boolean removeService(Service service) {
+		service.setHolidayPackage(null);
 		return services.remove(service);
 	}
 
@@ -194,8 +240,10 @@ public class HolidayPackage implements Serializable {
 		result = prime * result + ((counter == null) ? 0 : counter.hashCode());
 		result = prime * result + ((customerNumber == null) ? 0 : customerNumber.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((dueDate == null) ? 0 : dueDate.hashCode());
 		result = prime * result + ((holidayTags == null) ? 0 : holidayTags.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((tourOperator == null) ? 0 : tourOperator.hashCode());
 		return result;
 	}
@@ -229,6 +277,11 @@ public class HolidayPackage implements Serializable {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
+		if (dueDate == null) {
+			if (other.dueDate != null)
+				return false;
+		} else if (!dueDate.equals(other.dueDate))
+			return false;
 		if (holidayTags == null) {
 			if (other.holidayTags != null)
 				return false;
@@ -238,6 +291,8 @@ public class HolidayPackage implements Serializable {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
+			return false;
+		if (status != other.status)
 			return false;
 		if (tourOperator == null) {
 			if (other.tourOperator != null)

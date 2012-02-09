@@ -20,17 +20,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uturismu.service;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+package uturismu.dto.enumtype;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- * 
+ *
  */
-@Service
-@Transactional
-public class BookerManagementServiceImpl implements BookerManagementService {
+public enum Status {
 
+	DRAFT {
+		@Override
+		public String toString() {
+			return "draft";
+		}
+	},
+	
+	PUBLISHED {
+		@Override
+		public String toString() {
+			return "published";
+		}
+	},
+	
+	EXPIRED {
+		@Override
+		public String toString() {
+			return "expired";
+		}
+	}
+	
 }

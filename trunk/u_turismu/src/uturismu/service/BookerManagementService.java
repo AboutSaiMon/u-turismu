@@ -22,18 +22,11 @@
  */
 package uturismu.service;
 
-import uturismu.dto.Account;
-import uturismu.dto.Booker;
-import uturismu.exception.InvalidCredentialException;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
 public interface BookerManagementService {
-
-	public Long createAccount(Account account, Booker booker);
-
-	public Account login(String email, String password) throws InvalidCredentialException;
 
 }

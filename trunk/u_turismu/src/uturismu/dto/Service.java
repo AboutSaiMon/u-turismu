@@ -88,7 +88,7 @@ public abstract class Service implements Serializable {
 		this.description = description;
 	}
 
-	protected void setHolidayPackage(HolidayPackage holidayPackage) {
+	public void setHolidayPackage(HolidayPackage holidayPackage) {
 		this.holidayPackage = holidayPackage;
 	}
 

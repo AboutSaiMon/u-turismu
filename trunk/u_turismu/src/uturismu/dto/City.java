@@ -116,10 +116,12 @@ public class City implements Serializable {
 	}
 
 	public boolean addCityTag(CityTag cityTag) {
+		cityTag.addCity(this);
 		return this.cityTags.add(cityTag);
 	}
 
 	public boolean removeCityTag(CityTag cityTag) {
+		cityTag.removeCity(this);
 		return this.cityTags.remove(cityTag);
 	}
 
@@ -128,10 +130,12 @@ public class City implements Serializable {
 	}
 
 	public boolean addOneOffEvent(OneOffEvent oneOffEvent) {
+		oneOffEvent.setCity(this);
 		return this.oneOffEvents.add(oneOffEvent);
 	}
 
 	public boolean removeOneOffEvent(OneOffEvent oneOffEvent) {
+		oneOffEvent.setCity(null);
 		return this.oneOffEvents.remove(oneOffEvent);
 	}
 
@@ -140,10 +144,12 @@ public class City implements Serializable {
 	}
 
 	public boolean addPeriodicEvent(PeriodicEvent periodicEvent) {
+		periodicEvent.setCity(this);
 		return this.periodicEvents.add(periodicEvent);
 	}
 
 	public boolean removePeriodicEvent(PeriodicEvent periodicEvent) {
+		periodicEvent.setCity(null);
 		return this.periodicEvents.remove(periodicEvent);
 	}
 

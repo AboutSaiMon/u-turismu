@@ -60,6 +60,7 @@ public class Account implements Serializable {
 	private Booker booker;
 
 	public Account() {
+		active = true;
 	}
 
 	@Id

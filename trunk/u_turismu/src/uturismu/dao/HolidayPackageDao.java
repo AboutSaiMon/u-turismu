@@ -22,6 +22,8 @@
  */
 package uturismu.dao;
 
+import java.util.List;
+
 import uturismu.dto.HolidayPackage;
 
 /**
@@ -30,4 +32,7 @@ import uturismu.dto.HolidayPackage;
  */
 public interface HolidayPackageDao extends GenericDao<HolidayPackage> {
 
+	public List<HolidayPackage> findAllPublished();
+	public List<HolidayPackage> findAllPublishedByTourOperator(Long id);
+	
 }
