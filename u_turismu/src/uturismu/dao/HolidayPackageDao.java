@@ -31,8 +31,10 @@ import uturismu.dto.HolidayPackage;
  * 
  */
 public interface HolidayPackageDao extends GenericDao<HolidayPackage> {
-
+	
 	public List<HolidayPackage> findAllPublished();
+	
+	public Long getAllPublishedNumber();
 
 	public List<HolidayPackage> findAllPublishedByTourOperator(Long id);
 

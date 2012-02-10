@@ -91,6 +91,12 @@ public class UserManagementServiceImpl implements UserManagementService {
 
 	@Override
 	@Transactional(readOnly = true)
+	public Long getHolidayPackagesNumber() {
+		return holidayPackageDao.getAllPublishedNumber();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
 	public List<HolidayPackage> getHolidayPackagesByTourOperator(Long id) {
 		return holidayPackageDao.findAllPublishedByTourOperator(id);
 	}
@@ -99,11 +105,6 @@ public class UserManagementServiceImpl implements UserManagementService {
 	@Transactional(readOnly = true)
 	public List<HolidayPackage> getHolidayPackagesByTags(Long... tags) {
 		return holidayPackageDao.findAllPublishedByTags(tags);
-	}
-
-	@Override
-	public List<HolidayPackage> getHolidayPackagesByTourOperatorAndTags(Long id, Long... tags) {
-		return null;
 	}
 
 	@Override

@@ -68,10 +68,12 @@ public class Customer implements Serializable {
 	private IdType identificationDocumentType;
 	private String issuingAuthority;
 	private String email;
+	private Boolean booker;
 	private Set<Confirmation> confirmations;
 
 	public Customer() {
 		confirmations = new HashSet<Confirmation>();
+		booker = false;
 	}
 
 	@Id
@@ -142,6 +144,10 @@ public class Customer implements Serializable {
 		return email;
 	}
 
+	public Boolean isBooker() {
+		return booker;
+	}
+
 	@OneToMany(mappedBy = "customer")
 	protected Set<Confirmation> getConfirmations() {
 		return confirmations;
@@ -195,6 +201,10 @@ public class Customer implements Serializable {
 		this.email = email;
 	}
 
+	public void setBooker(Boolean booker) {
+		this.booker = booker;
+	}
+
 	protected void setConfirmations(Set<Confirmation> confirmations) {
 		this.confirmations = confirmations;
 	}
@@ -211,6 +221,7 @@ public class Customer implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((booker == null) ? 0 : booker.hashCode());
 		result = prime * result + ((birthDate == null) ? 0 : birthDate.hashCode());
 		result = prime * result + ((birthPlace == null) ? 0 : birthPlace.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
@@ -241,6 +252,11 @@ public class Customer implements Serializable {
 			if (other.birthDate != null)
 				return false;
 		} else if (!birthDate.equals(other.birthDate))
+			return false;
+		if (booker == null) {
+			if (other.booker != null)
+				return false;
+		} else if (!booker.equals(other.booker))
 			return false;
 		if (birthPlace == null) {
 			if (other.birthPlace != null)

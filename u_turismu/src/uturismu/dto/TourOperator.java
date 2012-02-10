@@ -30,7 +30,6 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -61,7 +60,7 @@ public class TourOperator implements Serializable {
 	}
 
 	@Id
-	//@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	public Long getId() {
 		return id;
 	}
@@ -95,7 +94,7 @@ public class TourOperator implements Serializable {
 
 	@OneToMany(mappedBy = "tourOperator")
 	@Cascade({ CascadeType.SAVE_UPDATE })
-	protected Set<HolidayPackage> getHolidayPackages() {
+	public Set<HolidayPackage> getHolidayPackages() {
 		return holidayPackages;
 	}
 
