@@ -23,14 +23,13 @@
 package uturismu.dto;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
@@ -52,7 +51,7 @@ public class HolidayTag implements Serializable {
 	}
 
 	@Id
-	//@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	public Long getId() {
 		return id;
 	}
@@ -67,8 +66,20 @@ public class HolidayTag implements Serializable {
 		return description;
 	}
 
-	@ManyToMany(mappedBy = "holidayTags")
-	protected Set<HolidayPackage> getHolidayPackages() {
+	/*
+	 * By default Hibernate will lazy load collections. In other words, it won't
+	 * go to the database to retrieve the list of holiday packages until it
+	 * absolutely needs to. What that means is the returned object from your dao
+	 * layer won't have the holidayPackage list initialized until you try to access it.
+	 * 
+	 * When you do try to access it, you're no longer within the session, and so
+	 * you get the exception.You can explicitly disable lazy fetching on that
+	 * list property by setting lazy="false" in the hibernate mapping, which will
+	 * make sure the entire property is populated before returning from your dao
+	 * layer
+	 */
+	@ManyToMany(mappedBy = "holidayTags", fetch = FetchType.EAGER)
+	public Set<HolidayPackage> getHolidayPackages() {
 		return holidayPackages;
 	}
 

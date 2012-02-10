@@ -26,6 +26,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static uturismu.ServiceFactory.getCityService;
+import static uturismu.ServiceFactory.getHolidayTagService;
 import static uturismu.ServiceFactory.getUserManagementService;
 
 import java.util.Date;
@@ -62,6 +63,14 @@ public class UserManagementTest {
 		city.setName("Springfield");
 		city.setProvince("USA");
 		getCityService().save(city);
+
+		HolidayTag tag = null;
+		for (int i = 1; i <= 10; i++) {
+			tag = new HolidayTag();
+			tag.setName("tag" + i);
+			tag.setDescription("desc1");
+			getHolidayTagService().save(tag);
+		}
 	}
 
 	/**
@@ -108,87 +117,50 @@ public class UserManagementTest {
 
 	@Test
 	public void showHolidayPackage() {
+		// retrieves all the holiday tags
+		List<HolidayTag> tags = ServiceFactory.getHolidayTagService().findAll();
+		// create the first account
+		Account account1 = createAccount("homer@simpson.com", "dehihiho");
+		TourOperator to1 = createTourOperator("1023489", account1);
+		// create the second account
+		Account account2 = createAccount("marge@bouvier.com", "mmmmmmmmmm");
+		TourOperator to2 = createTourOperator("0193809", account2);
+		// create five holiday package and two of those aren't published yet.
+		HolidayPackage pack1 = createHolidayPackage("Cetraro Beach", Status.PUBLISHED, to1);
+		pack1.addHolidayTag(tags.get(0));
+		pack1.addHolidayTag(tags.get(1));
+		pack1.addHolidayTag(tags.get(2));
+		pack1.addHolidayTag(tags.get(3));
+
+		HolidayPackage pack2 = createHolidayPackage("La riviera dei cedri", Status.PUBLISHED, to1);
+		pack2.addHolidayTag(tags.get(0));
+
+		HolidayPackage pack3 = createHolidayPackage("Settimana di piacere", Status.DRAFT, to1);
+		pack3.addHolidayTag(tags.get(1));
+
+		HolidayPackage pack4 = createHolidayPackage("U Sazizzu", Status.PUBLISHED, to2);
+		pack4.addHolidayTag(tags.get(2));
+
+		HolidayPackage pack5 = createHolidayPackage("Simu i Cusenza e facimu tendenza", Status.DRAFT,
+				to2);
+		pack5.addHolidayTag(tags.get(3));
+
+		// save the detached objects on the DB
+		getUserManagementService().createAccount(account1, to1);
+		getUserManagementService().createAccount(account2, to2);
+
+		// the total amount of published holiday packages is 3, even though the total
+		// rows number in the HolidayPackage table is 5.
+		assertThat(getUserManagementService().getHolidayPackagesNumber(), is(3L));
 		/*
-		 * // retrieves all the holiday tags List<HolidayTag> tags =
-		 * ServiceFactory.getHolidayTagService().findAll(); // create the first
-		 * account Account account1 = createAccount("email1", "password1");
-		 * TourOperator to1 = createTourOperator("vat1", account1); // create the
-		 * second account Account account2 = createAccount("email2", "password2");
-		 * TourOperator to2 = createTourOperator("vat2", account2); // create five
-		 * holiday package and two of those aren't published yet. HolidayPackage
-		 * pack1 = createHolidayPackage("pack1", Status.PUBLISHED, to1);
-		 * pack1.addHolidayTag(tags.get(0)); pack1.addHolidayTag(tags.get(1));
-		 * pack1.addHolidayTag(tags.get(2)); pack1.addHolidayTag(tags.get(3));
-		 * HolidayPackage pack2 = createHolidayPackage("pack2", Status.PUBLISHED,
-		 * to1); pack2.addHolidayTag(tags.get(0)); HolidayPackage pack3 =
-		 * createHolidayPackage("pack3", Status.DRAFT, to1);
-		 * pack3.addHolidayTag(tags.get(1)); HolidayPackage pack4 =
-		 * createHolidayPackage("pack4", Status.PUBLISHED, to2);
-		 * pack4.addHolidayTag(tags.get(2)); HolidayPackage pack5 =
-		 * createHolidayPackage("pack5", Status.DRAFT, to2);
-		 * pack5.addHolidayTag(tags.get(3)); // save the detached objects on the
-		 * DB getUserManagementService().createAccount(account1, to1);
-		 * getUserManagementService().createAccount(account2, to2);
-		 * ServiceFactory.getHolidayPackageService().save(pack1);
-		 * ServiceFactory.getHolidayPackageService().save(pack2);
-		 * ServiceFactory.getHolidayPackageService().save(pack3);
-		 * ServiceFactory.getHolidayPackageService().save(pack4);
-		 * ServiceFactory.getHolidayPackageService().save(pack5);
-		 * 
-		 * // the total amount of published holiday packages is 3, even if the
-		 * total // rows number in the HolidayPackage table is 5.
-		 * assertThat(getUserManagementService().getHolidayPackages().size(),
-		 * is(3)); // the published packages of the first tour operator are two
-		 * assertThat
-		 * (getUserManagementService().getHolidayPackagesByTourOperator(1L
-		 * ).size(), is(2)); // the selected holiday packages will be: pack1,
-		 * pack2, pack3 List<HolidayPackage> packages =
+		 * // the published packages of the first tour operator are two
+		 * assertThat(
+		 * getUserManagementService().getHolidayPackagesByTourOperator(1L).size(),
+		 * is(2)); // the selected holiday packages will be: pack1, pack2, pack3
+		 * List<HolidayPackage> packages =
 		 * ServiceFactory.getUserManagementService()
 		 * .getHolidayPackagesByTags(tags.get(0).getId(), tags.get(1).getId());
 		 */
-
-		// creo il primo account
-		Account account1 = createAccount("email@prova.it", "password1");
-		TourOperator to1 = createTourOperator("111DK2", account1);
-		to1.setId(1L);
-		// creo il secondo account
-		Account account2 = createAccount("ciccio@prova.it", "password2");
-		TourOperator to2 = createTourOperator("111DK3", account2);
-		to2.setId(2L);
-		// creo un holiday package
-		HolidayPackage pack1 = createHolidayPackage("Pack 1", Status.PUBLISHED, to1);
-		pack1.setId(1L);
-		HolidayPackage pack2 = createHolidayPackage("Pack 2", Status.PUBLISHED, to1);
-		pack2.setId(2L);
-		HolidayPackage pack3 = createHolidayPackage("Pack 3", Status.PUBLISHED, to2);
-		pack3.setId(3L);
-
-		HolidayTag tag1 = new HolidayTag();
-		tag1.setId(1L);
-		tag1.setName("tag1");
-		tag1.setDescription("desc1");
-		HolidayTag tag2 = new HolidayTag();
-		tag2.setId(2L);
-		tag2.setName("tag2");
-		tag2.setDescription("desc2");
-
-		pack1.addHolidayTag(tag1);
-		pack1.addHolidayTag(tag2);
-		pack2.addHolidayTag(tag2);
-		pack3.addHolidayTag(tag1);
-
-		ServiceFactory.getUserManagementService().createAccount(account1, to1);
-		ServiceFactory.getUserManagementService().createAccount(account2, to2);
-
-		HolidayPackage pack4 = createHolidayPackage("Pack 4", Status.PUBLISHED, to2);
-		pack4.setId(4L);
-		pack4.addHolidayTag(tag1);
-		ServiceFactory.getHolidayPackageService().save(pack4);
-		
-		List<HolidayPackage> list = ServiceFactory.getUserManagementService().getHolidayPackagesByTags(tag1.getId());
-		for( HolidayPackage h : list) {
-			System.out.println(h.getName());
-		}
 	}
 
 	private static Account createAccount(String email, String password) {

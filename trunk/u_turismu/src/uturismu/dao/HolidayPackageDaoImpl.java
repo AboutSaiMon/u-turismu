@@ -22,17 +22,20 @@
  */
 package uturismu.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import uturismu.dto.HolidayPackage;
+import uturismu.dto.HolidayTag;
 import uturismu.dto.enumtype.Status;
 
 /**
@@ -55,25 +58,57 @@ public class HolidayPackageDaoImpl extends AbstractDao<HolidayPackage> implement
 	}
 
 	@Override
+	public Long getAllPublishedNumber() {
+		Criteria criteria = session().createCriteria(HolidayPackage.class);
+		criteria.add(Restrictions.eq("status", Status.PUBLISHED));
+		criteria.setProjection(Projections.rowCount());
+		return (Long) criteria.uniqueResult();
+		/*
+		 * String queryString = "select count(*) from HolidayPackage p"; Query
+		 * query = session().createQuery(queryString); //
+		 * query.setParameter("status", Status.PUBLISHED); return (Integer)
+		 * query.uniqueResult();
+		 */
+	}
+
+	@Override
 	public List<HolidayPackage> findAllPublishedByTourOperator(Long id) {
 		Criteria criteria = session().createCriteria(HolidayPackage.class);
-		Criterion isPublished = Restrictions.eq("status", Status.PUBLISHED);
-		Criterion tourOperatorBinded = Restrictions.eq("tourOperator.id", id);
-		criteria.add(Restrictions.and(isPublished, tourOperatorBinded));
+		criteria.add(Restrictions.eq("status", Status.PUBLISHED));
+		criteria.add(Restrictions.eq("tourOperator.id", id));
 		return criteria.list();
 	}
 
 	@Override
 	public List<HolidayPackage> findAllPublishedByTags(Long... tags) {
-		Criteria criteria = session().createCriteria(HolidayPackage.class);
-		criteria.add(Restrictions.eq("status", Status.PUBLISHED));
-		criteria = criteria.createCriteria("holidayTags");
-		Conjunction conjunction = Restrictions.conjunction();
-		for (Long tagId : tags) {
-			conjunction.add(Restrictions.eq("id", tagId));
+		// carica l'oggetto persistente che rappresenta il tag
+		HolidayTag tag = (HolidayTag) session().load(HolidayTag.class, tags[0]);
+		// acquisisce gli holiday package a cui il tag è associato
+		Set<HolidayPackage> packages = tag.getHolidayPackages();
+		// setta il primo risultato parziale
+		List<HolidayPackage> result = new ArrayList<HolidayPackage>(packages);
+		// dichiara la variabile temporanea
+		List<HolidayPackage> temp = null;
+		// per ogni tag passato in input (tranne il primo)
+		for (int i = 1; i < tags.length; i++) {
+			// carica l'oggetto persistente che rappresenta il tag
+			tag = (HolidayTag) session().load(HolidayTag.class, tags[i]);
+			// acquisisce gli holiday package a cui il tag è associato
+			packages = tag.getHolidayPackages();
+			// inizializza la variabile temporanea
+			temp = new ArrayList<HolidayPackage>();
+			// per ogni holiday package
+			for (HolidayPackage holidayPackage : packages) {
+				// se è presente nel risultato parziale, vuol dire che il tag annota
+				// entrambi gli holiday package. Allora va aggiunto alla variabile
+				// temporanea.
+				if (result.contains(holidayPackage)) {
+					temp.add(holidayPackage);
+				}
+			}
+			result = temp;
 		}
-		criteria.add(conjunction);
-		return criteria.list();
+		return result;
 	}
 
 	@Override

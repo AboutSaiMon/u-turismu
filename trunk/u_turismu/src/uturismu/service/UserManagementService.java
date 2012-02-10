@@ -67,7 +67,7 @@ public interface UserManagementService {
 	 *           l'indirizzo di posta elettronica utilizzato come username.
 	 * @param password
 	 *           la password utilizzata per accedere al sistema.
-	 * @return restituisce un oggetto persistente {@link Account}
+	 * @return restituisce l'oggetto {@link Account} appena creato.
 	 * @throws InvalidCredentialException
 	 *            viene lanciata quando si tenta di accedere con delle
 	 *            credenziali errate (email e/o password errata)
@@ -77,9 +77,17 @@ public interface UserManagementService {
 	/**
 	 * Restituisce gli holiday package <b>pubblici</b> di tutti i tour operator.
 	 * 
-	 * @return restituisce una {@link List} di {@link HolidayPackage}.
+	 * @return {@link List}<{@link HolidayPackage}>
 	 */
 	public List<HolidayPackage> getHolidayPackages();
+
+	/**
+	 * Restituisce il numero di holiday package <b>pubblici</b> di tutti i tour
+	 * operator.
+	 * 
+	 * @return {@link Integer}
+	 */
+	public Long getHolidayPackagesNumber();
 
 	/**
 	 * Restituisce gli holiday package <b>pubblici</b> dello specifico tour
@@ -87,18 +95,19 @@ public interface UserManagementService {
 	 * 
 	 * @param id
 	 *           l'id del tour operator.
-	 * @return restituisce una {@link List} di {@link HolidayPackage}
+	 * @return {@link List}<{@link HolidayPackage}>
 	 */
 	public List<HolidayPackage> getHolidayPackagesByTourOperator(Long id);
 
 	/**
+	 * Restituisce gli holiday package <b>pubblici</b> annotati con i tag passati
+	 * in input al metodo.
 	 * 
 	 * @param tags
-	 * @return
+	 *           un array di tag id
+	 * @return {@link List}<{@link HolidayPackage}>
 	 */
-	public List<HolidayPackage> getHolidayPackagesByTags(Long ...tags);
-
-	public List<HolidayPackage> getHolidayPackagesByTourOperatorAndTags(Long id, Long... tags);
+	public List<HolidayPackage> getHolidayPackagesByTags(Long... tags);
 
 	public List<TourOperator> getTourOperators();
 

@@ -31,8 +31,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -83,7 +83,7 @@ public class HolidayPackage implements Serializable {
 	}
 
 	@Id
-	//@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	public Long getId() {
 		return id;
 	}
@@ -143,7 +143,7 @@ public class HolidayPackage implements Serializable {
 	@Cascade({ CascadeType.SAVE_UPDATE })
 	@JoinTable(name = "HOLIDAY_CLASSIFICATION", joinColumns = @JoinColumn(name = "id_holiday_package"), inverseJoinColumns = @JoinColumn(name = "id_holiday_tag"))
 	@ForeignKey(name = "FK_HOLIDAYCLASSIFICATION_HOLIDAYPACKAGE", inverseName = "FK_HOLIDAYCLASSIFICATION_HOLIDAYTAG")
-	protected Set<HolidayTag> getHolidayTags() {
+	public Set<HolidayTag> getHolidayTags() {
 		return holidayTags;
 	}
 
