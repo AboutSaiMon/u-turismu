@@ -48,7 +48,7 @@ public interface UserManagementService {
 	 * @param booker
 	 *           contiene le informazioni anagrafiche.
 	 */
-	public void createAccount(Account account, Booker booker);
+	public void createUser(Account account, Booker booker);
 
 	/**
 	 * Crea l'account dell'utente <b>Tour Operator</b>.
@@ -58,7 +58,7 @@ public interface UserManagementService {
 	 * @param tourOperator
 	 *           contiene le informazioni anagrafiche.
 	 */
-	public void createAccount(Account account, TourOperator tourOperator);
+	public void createUser(Account account, TourOperator tourOperator);
 
 	/**
 	 * Effettua il login di un qualsiasi utente registrato al sistema.
@@ -72,7 +72,7 @@ public interface UserManagementService {
 	 *            viene lanciata quando si tenta di accedere con delle
 	 *            credenziali errate (email e/o password errata)
 	 */
-	public Account login(String email, String password) throws InvalidCredentialException;
+	public Account logIn(String email, String password) throws InvalidCredentialException;
 
 	/**
 	 * Restituisce gli holiday package <b>pubblici</b> di tutti i tour operator.
@@ -109,6 +109,11 @@ public interface UserManagementService {
 	 */
 	public List<HolidayPackage> getHolidayPackagesByTags(Long... tags);
 
+	/**
+	 * Restituisce i tour operator registrati al sito.
+	 * 
+	 * @return {@link List}<{@link TourOperator}>
+	 */
 	public List<TourOperator> getTourOperators();
 
 }

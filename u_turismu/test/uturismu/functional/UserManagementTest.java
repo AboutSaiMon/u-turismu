@@ -33,11 +33,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import uturismu.HashUtil;
-import uturismu.ServiceFactory;
 import uturismu.dto.Account;
 import uturismu.dto.Booker;
 import uturismu.dto.City;
@@ -51,7 +49,6 @@ import uturismu.exception.InvalidCredentialException;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- * 
  */
 public class UserManagementTest {
 
@@ -63,7 +60,6 @@ public class UserManagementTest {
 		city.setName("Springfield");
 		city.setProvince("USA");
 		getCityService().save(city);
-
 		HolidayTag tag = null;
 		for (int i = 1; i <= 10; i++) {
 			tag = new HolidayTag();
@@ -77,7 +73,6 @@ public class UserManagementTest {
 	 * Create a booker account and check whether the login service works.
 	 */
 	@Test
-	@Ignore
 	public void createBookerAccountAndLogin() {
 		String email = "test@volunia.eu";
 		String password = "livuoiqueikiwiyankeecoikisayayaiani";
@@ -87,9 +82,9 @@ public class UserManagementTest {
 		// creates the booker
 		Booker booker = createBooker(taxCode, account);
 		// persist the account and the booker objects
-		getUserManagementService().createAccount(account, booker);
+		getUserManagementService().createUser(account, booker);
 		// log in the user
-		Account sameAccount = getUserManagementService().login(email, password);
+		Account sameAccount = getUserManagementService().logIn(email, password);
 		// asserts that the account is on the DB
 		assertThat(account.getId(), is(equalTo(sameAccount.getId())));
 	}
@@ -99,7 +94,6 @@ public class UserManagementTest {
 	 * InvalidCredentialException in response of an invalid password.
 	 */
 	@Test(expected = InvalidCredentialException.class)
-	@Ignore
 	public void createBookerAccountAndLoginWithException() {
 		String email = "account@volunia.eu";
 		String password = "livuoiqueikiwiyankeecoikisayayaiani";
@@ -110,21 +104,21 @@ public class UserManagementTest {
 		// creates the booker
 		Booker booker = createBooker(taxCode, account);
 		// persist the account and the booker data
-		getUserManagementService().createAccount(account, booker);
+		getUserManagementService().createUser(account, booker);
 		// try to log in, but the password is invalid. An exception is expected.
-		account = getUserManagementService().login(email, invalidPassword);
+		account = getUserManagementService().logIn(email, invalidPassword);
 	}
 
 	@Test
 	public void showHolidayPackage() {
 		// retrieves all the holiday tags
-		List<HolidayTag> tags = ServiceFactory.getHolidayTagService().findAll();
+		List<HolidayTag> tags = getHolidayTagService().findAll();
 		// create the first account
 		Account account1 = createAccount("homer@simpson.com", "dehihiho");
-		TourOperator to1 = createTourOperator("1023489", account1);
+		TourOperator to1 = createTourOperator("to1", account1);
 		// create the second account
 		Account account2 = createAccount("marge@bouvier.com", "mmmmmmmmmm");
-		TourOperator to2 = createTourOperator("0193809", account2);
+		TourOperator to2 = createTourOperator("to2", account2);
 		// create five holiday package and two of those aren't published yet.
 		HolidayPackage pack1 = createHolidayPackage("Cetraro Beach", Status.PUBLISHED, to1);
 		pack1.addHolidayTag(tags.get(0));
@@ -137,30 +131,31 @@ public class UserManagementTest {
 
 		HolidayPackage pack3 = createHolidayPackage("Settimana di piacere", Status.DRAFT, to1);
 		pack3.addHolidayTag(tags.get(1));
+		pack3.addHolidayTag(tags.get(2));
 
 		HolidayPackage pack4 = createHolidayPackage("U Sazizzu", Status.PUBLISHED, to2);
 		pack4.addHolidayTag(tags.get(2));
+		pack4.addHolidayTag(tags.get(3));
 
-		HolidayPackage pack5 = createHolidayPackage("Simu i Cusenza e facimu tendenza", Status.DRAFT,
-				to2);
+		HolidayPackage pack5 = createHolidayPackage("Simu i Cusenza", Status.DRAFT, to2);
 		pack5.addHolidayTag(tags.get(3));
 
 		// save the detached objects on the DB
-		getUserManagementService().createAccount(account1, to1);
-		getUserManagementService().createAccount(account2, to2);
+		getUserManagementService().createUser(account1, to1);
+		getUserManagementService().createUser(account2, to2);
 
-		// the total amount of published holiday packages is 3, even though the total
-		// rows number in the HolidayPackage table is 5.
-		assertThat(getUserManagementService().getHolidayPackagesNumber(), is(3L));
-		/*
-		 * // the published packages of the first tour operator are two
-		 * assertThat(
-		 * getUserManagementService().getHolidayPackagesByTourOperator(1L).size(),
-		 * is(2)); // the selected holiday packages will be: pack1, pack2, pack3
-		 * List<HolidayPackage> packages =
-		 * ServiceFactory.getUserManagementService()
-		 * .getHolidayPackagesByTags(tags.get(0).getId(), tags.get(1).getId());
-		 */
+		// the total amount of published holiday packages is 3, even though the
+		// total rows number in the HolidayPackage table is 5.
+		assertThat(getUserManagementService().getHolidayPackagesNumber(), is(equalTo(3L)));
+		// the published packages of the Tour Operator with id number 1 are two
+		List<HolidayPackage> list = getUserManagementService().getHolidayPackagesByTourOperator(
+				to1.getId());
+		assertThat(list.size(), is(equalTo(2)));
+		// the published packages annotated with the third tag of the list are
+		// two, because the one called "Settimana di piacere" annotated with the
+		// same tag is a DRAFT.
+		list = getUserManagementService().getHolidayPackagesByTags(tags.get(2).getId());
+		assertThat(list.size(), is(equalTo(2)));
 	}
 
 	private static Account createAccount(String email, String password) {
