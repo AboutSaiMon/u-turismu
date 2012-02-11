@@ -130,13 +130,13 @@ public class HolidayPackage implements Serializable {
 	}
 
 	@OneToMany(mappedBy = "holidayPackage")
-	protected Set<Booking> getBookings() {
+	public Set<Booking> getBookings() {
 		return bookings;
 	}
 
 	@OneToMany(mappedBy = "holidayPackage", fetch = FetchType.EAGER)
 	@Cascade({ CascadeType.SAVE_UPDATE })
-	protected Set<Service> getServices() {
+	public Set<Service> getServices() {
 		return services;
 	}
 
