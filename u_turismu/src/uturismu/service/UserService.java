@@ -38,7 +38,7 @@ import uturismu.exception.InvalidCredentialException;
  * 
  * @author "LagrecaSpaccarotella" team.
  */
-public interface UserManagementService {
+public interface UserService {
 
 	/**
 	 * Crea l'account dell'utente <b>Booker</b>.

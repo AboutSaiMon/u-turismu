@@ -23,19 +23,16 @@
 package uturismu.service.backup;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import uturismu.dao.TourOperatorDao;
 import uturismu.dto.TourOperator;
 
 /**
  * @author "LagrecaSpaccarotella" team.
- *
+ * 
  */
-@Service
-@Transactional
-public class TourOperatorServiceImpl extends AbstractService<TourOperator> implements TourOperatorService {
+public class TourOperatorServiceImpl extends AbstractService<TourOperator> implements
+		TourOperatorService {
 	@Autowired
 	public TourOperatorServiceImpl(TourOperatorDao dao) {
 		super(dao);
