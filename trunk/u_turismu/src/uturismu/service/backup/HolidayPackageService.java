@@ -30,5 +30,6 @@ import uturismu.dto.HolidayPackage;
  * 
  */
 public interface HolidayPackageService extends GenericService<HolidayPackage> {
+	
 
 }

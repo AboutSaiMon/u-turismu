@@ -129,13 +129,13 @@ public class HolidayPackage implements Serializable {
 		return tourOperator;
 	}
 
-	@OneToMany(mappedBy = "holidayPackage")
-	protected Set<Booking> getBookings() {
+	@OneToMany(mappedBy = "holidayPackage" ,fetch=FetchType.EAGER)
+	public Set<Booking> getBookings() {
 		return bookings;
 	}
 
-	@OneToMany(mappedBy = "holidayPackage")
-	protected Set<Service> getServices() {
+	@OneToMany(mappedBy = "holidayPackage",fetch=FetchType.EAGER)
+	public Set<Service> getServices() {
 		return services;
 	}
 
@@ -238,15 +238,20 @@ public class HolidayPackage implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((availability == null) ? 0 : availability.hashCode());
+		result = prime * result
+				+ ((availability == null) ? 0 : availability.hashCode());
 		result = prime * result + ((counter == null) ? 0 : counter.hashCode());
-		result = prime * result + ((customerNumber == null) ? 0 : customerNumber.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result
+				+ ((customerNumber == null) ? 0 : customerNumber.hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((dueDate == null) ? 0 : dueDate.hashCode());
-		result = prime * result + ((holidayTags == null) ? 0 : holidayTags.hashCode());
+		result = prime * result
+				+ ((holidayTags == null) ? 0 : holidayTags.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((tourOperator == null) ? 0 : tourOperator.hashCode());
+		result = prime * result
+				+ ((tourOperator == null) ? 0 : tourOperator.hashCode());
 		return result;
 	}
 
@@ -256,7 +261,7 @@ public class HolidayPackage implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof HolidayPackage))
 			return false;
 		HolidayPackage other = (HolidayPackage) obj;
 		if (availability == null) {
@@ -303,5 +308,9 @@ public class HolidayPackage implements Serializable {
 			return false;
 		return true;
 	}
-
 }
+
+
+
+
+

@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 import static org.hamcrest.Matchers.is;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.type.SetType;
@@ -19,17 +20,22 @@ import uturismu.dao.HolidayPackageDao;
 import uturismu.dto.Account;
 import uturismu.dto.City;
 import uturismu.dto.HolidayPackage;
+import uturismu.dto.OvernightStay;
+import uturismu.dto.Service;
 import uturismu.dto.TourOperator;
+import uturismu.dto.Transport;
 import uturismu.dto.enumtype.AccountType;
 import uturismu.dto.enumtype.Status;
 import uturismu.exception.ExceptionMessages;
 import uturismu.exception.InvalidCredentialException;
 import uturismu.service.TourOperatorManagementService;
+import uturismu.service.backup.HolidayPackageService;
 import uturismu.service.backup.TourOperatorService;
 
 public class TourOperatorManagementTest {
 
 	private static TourOperatorManagementService touroperatorService;
+	private static HolidayPackageService serviceHolidayPackage;
 	private static City city;
 	
 	@BeforeClass
@@ -39,6 +45,7 @@ public class TourOperatorManagementTest {
 		city.setProvince("Cosenza");
 		ServiceFactory.getCityService().save(city);
 		touroperatorService=ServiceFactory.getTourOperatorManagementService();
+		serviceHolidayPackage=ServiceFactory.getHolidayPackageService();
 	}
 	
 	@Test
@@ -74,6 +81,7 @@ public class TourOperatorManagementTest {
 	}
 	
 	@Test
+	@Ignore
 	public void queryHolidayPackageTest(){
 		String email="tourop@gmail.com";
 		String password="password";
@@ -124,6 +132,65 @@ public class TourOperatorManagementTest {
 		}
 	}
 	
+	@Test
+	@Ignore
+	public void addServices(){
+		Service serviceONE = new OvernightStay();
+		Service serviceTWO = new Transport();
+		serviceONE.setId(1L);
+		serviceONE.setPrice(35d);
+		serviceONE.setDescription("SERVIZIO ALBERGHIERO");
+		
+		serviceTWO.setId(2L);
+		serviceTWO.setPrice(500.0);
+		serviceTWO.setDescription("SERVIZIO DI TRASPORTO FERROVIARIO");
+		
+		String email="TESTING_ADDSERVICES@gmail.com";
+		String password="password";
+		String vatNumber="33333";
+		Account account1=createAccount(email, password);
+		TourOperator TOP1=createTourOperator(account1,vatNumber,email);
+		
+		HolidayPackage hp1= createHolidayPackage(Status.DRAFT,"Pack_0", TOP1);
+//		hp1.setId(1L);
+		HolidayPackage hp2=createHolidayPackage(Status.DRAFT, "Package1", TOP1);
+//		hp2.setId(2L);
+		HolidayPackage hp3=createHolidayPackage(Status.DRAFT, "Package2", TOP1);
+//		hp3.setId(3L);
+		HolidayPackage hp4=createHolidayPackage(Status.PUBLISHED, "Package3", TOP1);
+//		hp4.setId(4L);
+		
+		hp1.addService(serviceONE);
+		
+		TOP1.addHolidayPackage(hp1);
+		TOP1.addHolidayPackage(hp2);
+		TOP1.addHolidayPackage(hp3);
+		TOP1.addHolidayPackage(hp4);
+
+//		TOP1.setId(11L);
+		Long id=touroperatorService.createAccount(account1, TOP1);
+		
+		List<HolidayPackage> list=touroperatorService.findDraftHolidayPackages(id);
+		assertThat(list.size(), is(equalTo(3)));
+		for (HolidayPackage holidayPackage : list) {
+			System.out.println(holidayPackage.getStatus());
+		}
+		
+		HolidayPackage hpGet=list.get(0);
+		
+		hpGet.addService(serviceTWO);
+//		ServiceFactory.getHolidayPackageService().update(hpGet);
+		touroperatorService.updateHolidayPackage(hpGet);
+		
+//		HolidayPackage hpTest=ServiceFactory.getHolidayPackageService().findById(hpGet.getId());
+		assertThat(hp1.hashCode(),is(equalTo(hpGet.hashCode())));
+		assertThat(hpGet.getTourOperator(),is(equalTo(TOP1)));		
+		
+		for ( Service servizio : hpGet.getServices()) {
+			System.out.println(hpGet.getName() + "  "+servizio.getDescription()+ " prezzo "+servizio.getPrice());
+		}
+		
+	}
 	
 	@Test
 	public void updateHolidayPackage(){
@@ -131,27 +198,41 @@ public class TourOperatorManagementTest {
 		String password="password";
 		String vatNumber="98765432122";
 		Account account1=createAccount(email, password);
+
 		TourOperator TOP1=createTourOperator(account1,vatNumber,"UNO");
 		
-		TOP1.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package1", TOP1));
-		TOP1.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package2", TOP1));
-		TOP1.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package3", TOP1));
+		HolidayPackage PAck1=createHolidayPackage(Status.DRAFT, "Package1", TOP1);
+		HolidayPackage PAck2=createHolidayPackage(Status.DRAFT, "Package2", TOP1);
+		HolidayPackage PAck3=createHolidayPackage(Status.PUBLISHED, "Package3", TOP1);
 		
+		TOP1.addHolidayPackage(PAck1);
+		TOP1.addHolidayPackage(PAck2);
+		TOP1.addHolidayPackage(PAck3);
+
 		Long ID=touroperatorService.createAccount(account1, TOP1);
 		
-		List<HolidayPackage> list= touroperatorService.findDraftHolidayPackages(ID);
+		List<HolidayPackage> list= touroperatorService.findDraftHolidayPackages(ID);		
 		assertThat(list.size(), is(equalTo(2)));
-		HolidayPackage hpToUpdate=list.get(1);
+		
+		HolidayPackage hpToUpdate=list.get(0);
+		
+		System.out.println(PAck1.getId()+ " "+PAck1.getName()+" "+PAck1.getTourOperator().getName());
+		System.out.println(hpToUpdate.getId()+ " "+hpToUpdate.getName()+" "+hpToUpdate.getTourOperator().getName());
+		
 		String description="setto la descrizione di update ";
 		hpToUpdate.setDescription(description);
 		hpToUpdate.setAvailability(10);
 		hpToUpdate.setStatus(Status.PUBLISHED);
-		ServiceFactory.getHolidayPackageService().update(hpToUpdate);
+		touroperatorService.updateHolidayPackage(hpToUpdate);
 		
-		list=touroperatorService.findDraftHolidayPackages(ID);
-		assertThat(list.size(), is(equalTo(1)));
-		list=touroperatorService.findPublishedHolidayPackages(ID);
-		assertThat(list.get(1).getDescription(), is(equalTo(description)));
+		
+//		HolidayPackage HP_test=ServiceFactory.getHolidayPackageService().findById(hpToUpdate.getId());
+		
+		
+		HolidayPackage HP_test=touroperatorService.hpQueryID(1L);
+		System.out.println(HP_test.getId()+ " "+HP_test.getName()+" "+HP_test.getTourOperator()+" "+HP_test.getDescription()+" "+HP_test.getAvailability());
+		
+		
 	}
 	
 	private HolidayPackage createHolidayPackage(Status status,String Name, TourOperator top){
@@ -201,3 +282,10 @@ public class TourOperatorManagementTest {
 	
 	
 }
+
+
+
+
+
+
+

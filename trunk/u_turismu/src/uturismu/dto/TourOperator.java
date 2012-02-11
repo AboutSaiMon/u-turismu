@@ -29,6 +29,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -37,6 +38,7 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.ForeignKey;
 
 /**
@@ -92,7 +94,7 @@ public class TourOperator implements Serializable {
 		return account;
 	}
 
-	@OneToMany(mappedBy = "tourOperator")
+	@OneToMany(mappedBy = "tourOperator", fetch=FetchType.EAGER)
 	@Cascade({ CascadeType.SAVE_UPDATE })
 	public Set<HolidayPackage> getHolidayPackages() {
 		return holidayPackages;

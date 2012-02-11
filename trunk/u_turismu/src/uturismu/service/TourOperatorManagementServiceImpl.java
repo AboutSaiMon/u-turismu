@@ -13,6 +13,7 @@ import uturismu.dao.TourOperatorDao;
 import uturismu.dto.Account;
 import uturismu.dto.HolidayPackage;
 import uturismu.dto.TourOperator;
+import uturismu.dto.enumtype.Status;
 import uturismu.exception.InvalidCredentialException;
 
 @Service
@@ -20,11 +21,11 @@ import uturismu.exception.InvalidCredentialException;
 public class TourOperatorManagementServiceImpl implements TourOperatorManagementService {
 
 	@Autowired
-	AccountDao accountDao;
+	private AccountDao accountDao;
 	@Autowired
-	TourOperatorDao tourOperatorDao;
+	private TourOperatorDao tourOperatorDao;
 	@Autowired
-	HolidayPackageDao holidayPackageDao;
+	private HolidayPackageDao holidayPackageDao;
 
 	@Override
 	public Long createAccount(Account account, TourOperator tourOperator) {
@@ -72,10 +73,30 @@ public class TourOperatorManagementServiceImpl implements TourOperatorManagement
 	}
 
 	@Override
-	public void updateDraftHolidayPackage(HolidayPackage holidayPackage) {
-		holidayPackageDao.update(holidayPackage);
+	public void updateHolidayPackage(HolidayPackage holidayPackage) {
+		HolidayPackage hp=holidayPackageDao.findById(holidayPackage.getId());
+		if(hp.getStatus()==Status.DRAFT){
+			holidayPackageDao.update(holidayPackage);
+		}
+	}
+
+	@Override
+	public void addHolidayPackage(HolidayPackage holidayPackage) {
+		holidayPackageDao.save(holidayPackage);
 		
 	}
+
+	@Override
+	public void deleteHolidayPackage(HolidayPackage holidayPackage) {
+		holidayPackageDao.delete(holidayPackage);
+		
+	}
+
+	@Override
+	public HolidayPackage hpQueryID(Long hpID) {
+		return holidayPackageDao.findById(hpID);
+	}	
+	
 	
 	
 }
