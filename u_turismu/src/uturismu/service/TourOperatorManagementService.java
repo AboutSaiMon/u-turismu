@@ -56,6 +56,11 @@ public interface TourOperatorManagementService {
 	 * 
 	 * @param holidayPackage parametro {@link HolidayPackage} che rappresenta l'oggetto da aggiornare  
 	 */
-	public void updateDraftHolidayPackage(HolidayPackage holidayPackage);
+	public void updateHolidayPackage(HolidayPackage holidayPackage);
+	//TODO : commentare 
+	public void addHolidayPackage(HolidayPackage holidayPackage);
+	//TODO : commentare 
+	public void deleteHolidayPackage(HolidayPackage holidayPackage);
+	public HolidayPackage hpQueryID(Long hpID);
 
 }
