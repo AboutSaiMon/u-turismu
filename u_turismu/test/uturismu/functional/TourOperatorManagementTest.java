@@ -11,6 +11,7 @@ import static uturismu.ServiceFactory.getUserService;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -156,8 +157,7 @@ public class TourOperatorManagementTest {
 		TourOperator tourOperator = createTourOperator(account1, vatNumber, "UNO");
 		tourOperator.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package1", tourOperator));
 		tourOperator.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package2", tourOperator));
-		tourOperator.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package3",
-				tourOperator));
+		tourOperator.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package3",tourOperator));
 		getUserService().createUser(account1, tourOperator);
 
 		List<HolidayPackage> result = null;
@@ -187,6 +187,16 @@ public class TourOperatorManagementTest {
 		service.setHolidayPackage(hpToUpdate);
 		
 		ServiceFactory.getOvernightStayService().save(service);
+		
+		List<HolidayPackage> hpResult=getTourOperatorService().findPublishedHolidayPackages(tourOperator.getId());
+		
+//		for (HolidayPackage holidayPackage : hpResult) {
+//			System.out.print("Package :"+holidayPackage.getName()+" services :");
+//			Set<Service> services=holidayPackage.getServices();
+//			for (Service service2 : services) {
+//				System.out.print(" "+service2.getPrice());
+//			}
+//		}
 	}
 
 	private HolidayPackage createHolidayPackage(Status status, String Name, TourOperator top) {
