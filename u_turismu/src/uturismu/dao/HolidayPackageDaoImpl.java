@@ -22,20 +22,20 @@
  */
 package uturismu.dao;
 
-import java.util.ArrayList;
+import java.math.BigInteger;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import uturismu.dto.HolidayPackage;
-import uturismu.dto.HolidayTag;
 import uturismu.dto.enumtype.Status;
 
 /**
@@ -81,35 +81,55 @@ public class HolidayPackageDaoImpl extends AbstractDao<HolidayPackage> implement
 
 	@Override
 	public List<HolidayPackage> findAllPublishedByTags(Long... tags) {
-		// carica l'oggetto persistente che rappresenta il tag
-		HolidayTag tag = (HolidayTag) session().load(HolidayTag.class, tags[0]);
-		// acquisisce gli holiday package a cui il tag è associato
-		Set<HolidayPackage> packages = tag.getHolidayPackages();
-		// setta il primo risultato parziale
-		List<HolidayPackage> result = new ArrayList<HolidayPackage>(packages);
-		// dichiara la variabile temporanea
-		List<HolidayPackage> temp = null;
-		// per ogni tag passato in input (tranne il primo)
-		for (int i = 1; i < tags.length; i++) {
-			// carica l'oggetto persistente che rappresenta il tag
-			tag = (HolidayTag) session().load(HolidayTag.class, tags[i]);
-			// acquisisce gli holiday package a cui il tag è associato
-			packages = tag.getHolidayPackages();
-			// inizializza la variabile temporanea
-			temp = new ArrayList<HolidayPackage>();
-			// per ogni holiday package
-			for (HolidayPackage holidayPackage : packages) {
-				// se è presente nel risultato parziale, vuol dire che il tag annota
-				// entrambi gli holiday package. Allora va aggiunto alla variabile
-				// temporanea.
-				if (result.contains(holidayPackage)) {
-					temp.add(holidayPackage);
-				}
-			}
-			result = temp;
+		StringBuilder queryBuilder = new StringBuilder(
+				"select distinct package.id from HOLIDAY_PACKAGE package");
+		for (int i = 1; i <= tags.length; i++) {
+			queryBuilder.append(", HOLIDAY_CLASSIFICATION c").append(i);
 		}
-		return result;
+		queryBuilder
+				.append(" where package.status = 'PUBLISHED' and package.id = c1.id_holiday_package");
+		for (int i = 1; i < tags.length; i++) {
+			queryBuilder.append(" and c").append(i).append(".id_holiday_package = c").append(i + 1)
+					.append(".id_holiday_package");
+		}
+		for (int i = 1; i <= tags.length; i++) {
+			queryBuilder.append(" and c").append(i).append(".id_holiday_tag = ?");
+		}
+		SQLQuery query = session().createSQLQuery(queryBuilder.toString());
+		for (int i = 0; i < tags.length; i++) {
+			query.setParameter(i, tags[i]);
+		}
+		List<BigInteger> holidayPackages = query.list();
+		Criteria criteria = session().createCriteria(HolidayPackage.class);
+		Disjunction disjunction = Restrictions.disjunction();
+		for (BigInteger id : holidayPackages) {
+			disjunction.add(Restrictions.idEq(id.longValue()));
+		}
+		criteria.add(disjunction);
+		return criteria.list();
 	}
+
+	/*
+	 * @Override public List<HolidayPackage> findAllPublishedByTags(Long... tags)
+	 * { // carica l'oggetto persistente che rappresenta il tag HolidayTag tag =
+	 * (HolidayTag) session().load(HolidayTag.class, tags[0]); // acquisisce gli
+	 * holiday package a cui il tag è associato Set<HolidayPackage> packages =
+	 * tag.getHolidayPackages(); // setta il primo risultato parziale
+	 * List<HolidayPackage> result = new ArrayList<HolidayPackage>(packages); //
+	 * dichiara la variabile temporanea List<HolidayPackage> temp = null; // per
+	 * ogni tag passato in input (tranne il primo) for (int i = 1; i <
+	 * tags.length; i++) { // carica l'oggetto persistente che rappresenta il tag
+	 * tag = (HolidayTag) session().load(HolidayTag.class, tags[i]); //
+	 * acquisisce gli holiday package a cui il tag è associato packages =
+	 * tag.getHolidayPackages(); // inizializza la variabile temporanea temp =
+	 * new ArrayList<HolidayPackage>(); // per ogni holiday package for
+	 * (HolidayPackage holidayPackage : packages) { // se è presente nel
+	 * risultato parziale, vuol dire che il tag annota // entrambi gli holiday
+	 * package. Allora va aggiunto alla variabile // temporanea, ma solo se è
+	 * pubblicato. if (result.contains(holidayPackage) &&
+	 * holidayPackage.getStatus().equals(Status.PUBLISHED)) {
+	 * temp.add(holidayPackage); } } result = temp; } return result; }
+	 */
 
 	@Override
 	public List<HolidayPackage> findAllDraftByTourOperator(Long id) {
@@ -135,4 +155,7 @@ public class HolidayPackageDaoImpl extends AbstractDao<HolidayPackage> implement
 		criteria.add(Restrictions.eq("tourOperator.id", id));
 		return criteria.list();
 	}
+
+	// TODO: Implementare Modifica HolidayPackage
+
 }
