@@ -70,7 +70,8 @@ public class HolidayTag implements Serializable {
 	 * By default Hibernate will lazy load collections. In other words, it won't
 	 * go to the database to retrieve the list of holiday packages until it
 	 * absolutely needs to. What that means is the returned object from your dao
-	 * layer won't have the holidayPackage list initialized until you try to access it.
+	 * layer won't have the holidayPackage list initialized until you try to
+	 * access it.
 	 * 
 	 * When you do try to access it, you're no longer within the session, and so
 	 * you get the exception.You can explicitly disable lazy fetching on that
@@ -78,7 +79,7 @@ public class HolidayTag implements Serializable {
 	 * make sure the entire property is populated before returning from your dao
 	 * layer
 	 */
-	@ManyToMany(mappedBy = "holidayTags")
+	@ManyToMany(mappedBy = "holidayTags", fetch = FetchType.EAGER)
 	public Set<HolidayPackage> getHolidayPackages() {
 		return holidayPackages;
 	}
@@ -111,8 +112,7 @@ public class HolidayTag implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -123,7 +123,7 @@ public class HolidayTag implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof HolidayTag))
+		if (getClass() != obj.getClass())
 			return false;
 		HolidayTag other = (HolidayTag) obj;
 		if (description == null) {
