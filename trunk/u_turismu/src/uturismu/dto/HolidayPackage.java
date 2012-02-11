@@ -31,6 +31,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -133,7 +134,8 @@ public class HolidayPackage implements Serializable {
 		return bookings;
 	}
 
-	@OneToMany(mappedBy = "holidayPackage")
+	@OneToMany(mappedBy = "holidayPackage", fetch = FetchType.EAGER)
+	@Cascade({ CascadeType.SAVE_UPDATE })
 	protected Set<Service> getServices() {
 		return services;
 	}

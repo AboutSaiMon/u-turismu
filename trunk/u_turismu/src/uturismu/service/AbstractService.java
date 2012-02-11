@@ -22,15 +22,57 @@
  */
 package uturismu.service;
 
-import org.springframework.stereotype.Service;
+import java.io.Serializable;
+import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
+
+import uturismu.dao.GenericDao;
 
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
-@Service
 @Transactional
-public class BookerManagementServiceImpl implements BookerManagementService {
+public abstract class AbstractService<T extends Serializable> implements GenericService<T> {
+
+	private GenericDao<T> dao;
+
+	public AbstractService(GenericDao<T> dao) {
+		this.dao = dao;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public T findById(Long id) {
+		return dao.findById(id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<T> findAll() {
+		return dao.findAll();
+	}
+
+	@Override
+	public Long save(T entity) {
+		return dao.save(entity);
+	}
+
+	@Override
+	public void delete(T entity) {
+		dao.delete(entity);
+	}
+
+	@Override
+	public void update(T entity) {
+		dao.update(entity);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Long rowCount() {
+		return dao.rowCount();
+	}
 
 }

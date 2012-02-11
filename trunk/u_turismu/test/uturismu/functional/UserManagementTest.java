@@ -27,7 +27,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static uturismu.ServiceFactory.getCityService;
 import static uturismu.ServiceFactory.getHolidayTagService;
-import static uturismu.ServiceFactory.getUserManagementService;
+import static uturismu.ServiceFactory.getUserService;
 
 import java.util.Date;
 import java.util.List;
@@ -82,9 +82,9 @@ public class UserManagementTest {
 		// creates the booker
 		Booker booker = createBooker(taxCode, account);
 		// persist the account and the booker objects
-		getUserManagementService().createUser(account, booker);
+		getUserService().createUser(account, booker);
 		// log in the user
-		Account sameAccount = getUserManagementService().logIn(email, password);
+		Account sameAccount = getUserService().logIn(email, password);
 		// asserts that the account is on the DB
 		assertThat(account.getId(), is(equalTo(sameAccount.getId())));
 	}
@@ -104,9 +104,9 @@ public class UserManagementTest {
 		// creates the booker
 		Booker booker = createBooker(taxCode, account);
 		// persist the account and the booker data
-		getUserManagementService().createUser(account, booker);
+		getUserService().createUser(account, booker);
 		// try to log in, but the password is invalid. An exception is expected.
-		account = getUserManagementService().logIn(email, invalidPassword);
+		account = getUserService().logIn(email, invalidPassword);
 	}
 
 	@Test
@@ -141,20 +141,19 @@ public class UserManagementTest {
 		pack5.addHolidayTag(tags.get(3));
 
 		// save the detached objects on the DB
-		getUserManagementService().createUser(account1, to1);
-		getUserManagementService().createUser(account2, to2);
+		getUserService().createUser(account1, to1);
+		getUserService().createUser(account2, to2);
 
 		// the total amount of published holiday packages is 3, even though the
 		// total rows number in the HolidayPackage table is 5.
-		assertThat(getUserManagementService().getHolidayPackagesNumber(), is(equalTo(3L)));
+		assertThat(getUserService().getHolidayPackagesNumber(), is(equalTo(3L)));
 		// the published packages of the Tour Operator with id number 1 are two
-		List<HolidayPackage> list = getUserManagementService().getHolidayPackagesByTourOperator(
-				to1.getId());
+		List<HolidayPackage> list = getUserService().getHolidayPackagesByTourOperator(to1.getId());
 		assertThat(list.size(), is(equalTo(2)));
 		// the published packages annotated with the third tag of the list are
 		// two, because the one called "Settimana di piacere" annotated with the
 		// same tag is a DRAFT.
-		list = getUserManagementService().getHolidayPackagesByTags(tags.get(2).getId());
+		list = getUserService().getHolidayPackagesByTags(tags.get(2).getId());
 		assertThat(list.size(), is(equalTo(2)));
 	}
 

@@ -40,13 +40,13 @@ import uturismu.dto.TourOperator;
 import uturismu.exception.InvalidCredentialException;
 
 /**
- * Vedi la documentazione dell'interfaccia {@link UserManagementService}.
+ * Vedi la documentazione dell'interfaccia {@link UserService}.
  * 
  * @author "LagrecaSpaccarotella" team.
  */
 @Service
 @Transactional
-public class UserManagementServiceImpl implements UserManagementService {
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private AccountDao accountDao;

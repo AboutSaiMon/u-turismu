@@ -25,15 +25,13 @@ package uturismu;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import uturismu.service.BookerManagementService;
-import uturismu.service.TourOperatorManagementService;
-import uturismu.service.UserManagementService;
+import uturismu.service.TourOperatorService;
+import uturismu.service.UserService;
 import uturismu.service.backup.AccommodationService;
 import uturismu.service.backup.CityService;
 import uturismu.service.backup.HolidayPackageService;
 import uturismu.service.backup.HolidayTagService;
 import uturismu.service.backup.OvernightStayService;
-import uturismu.service.backup.TourOperatorService;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -57,16 +55,12 @@ public class ServiceFactory {
 		return context.getBean(HolidayTagService.class);
 	}
 
-	public static UserManagementService getUserManagementService() {
-		return context.getBean(UserManagementService.class);
+	public static UserService getUserService() {
+		return context.getBean(UserService.class);
 	}
 
-	public static BookerManagementService getBookerManagementService() {
-		return context.getBean(BookerManagementService.class);
-	}
-
-	public static TourOperatorManagementService getTourOperatorManagementService() {
-		return context.getBean(TourOperatorManagementService.class);
+	public static TourOperatorService getTourOperatorService() {
+		return context.getBean(TourOperatorService.class);
 	}
 
 	public static AccommodationService getAccommodationService() {
@@ -79,10 +73,6 @@ public class ServiceFactory {
 
 	public static OvernightStayService getOvernightStayService() {
 		return context.getBean(OvernightStayService.class);
-	}
-
-	public static TourOperatorService getTourOperatorService() {
-		return context.getBean(TourOperatorService.class);
 	}
 
 	public static CityService getCityService() {
