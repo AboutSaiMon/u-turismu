@@ -58,20 +58,20 @@ public class UserManagementServiceImpl implements UserManagementService {
 	private HolidayPackageDao holidayPackageDao;
 
 	@Override
-	public void createAccount(Account account, Booker booker) {
+	public void createUser(Account account, Booker booker) {
 		accountDao.save(account);
 		bookerDao.save(booker);
 	}
 
 	@Override
-	public void createAccount(Account account, TourOperator tourOperator) {
+	public void createUser(Account account, TourOperator tourOperator) {
 		accountDao.save(account);
 		tourOperatorDao.save(tourOperator);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Account login(String email, String password) throws InvalidCredentialException {
+	public Account logIn(String email, String password) throws InvalidCredentialException {
 		Account account = accountDao.findByEmail(email);
 		if (account == null) {
 			throw new InvalidCredentialException();
@@ -109,7 +109,7 @@ public class UserManagementServiceImpl implements UserManagementService {
 
 	@Override
 	public List<TourOperator> getTourOperators() {
-		return null;
+		return tourOperatorDao.findAll();
 	}
 
 }

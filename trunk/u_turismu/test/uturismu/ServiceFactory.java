@@ -52,7 +52,7 @@ public class ServiceFactory {
 
 	private ServiceFactory() {
 	}
-	
+
 	public static HolidayTagService getHolidayTagService() {
 		return context.getBean(HolidayTagService.class);
 	}
