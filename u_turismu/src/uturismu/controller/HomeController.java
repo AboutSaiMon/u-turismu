@@ -48,7 +48,6 @@ public class HomeController {
 	
 	@RequestMapping(value="/holidayDetails")
 	public String showHolidayPackageDetail(@RequestParam("holidayId") Long id, Model model) {
-		userService.get
 		return "holidayDetail";
 	}
 	
