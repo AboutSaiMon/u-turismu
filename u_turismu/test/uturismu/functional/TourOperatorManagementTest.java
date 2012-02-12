@@ -45,7 +45,6 @@ public class TourOperatorManagementTest {
 	}
 
 	@Test
-	@Ignore
 	public void createTourOperatorAccount() {
 		String email = "tourop@gmail.com";
 		String password = "password";
@@ -60,7 +59,6 @@ public class TourOperatorManagementTest {
 	}
 
 	@Test(expected = InvalidCredentialException.class)
-	@Ignore
 	public void createTourOperatorWithException() {
 		String email = "touroperatorException@gmail.com";
 		String password = "password";
@@ -73,7 +71,6 @@ public class TourOperatorManagementTest {
 	}
 
 	@Test
-	@Ignore
 	public void queryHolidayPackageTest() {
 		String email = "tourop@gmail.com";
 		String password = "password";
@@ -210,6 +207,7 @@ public class TourOperatorManagementTest {
 	}
 	
 	@Test
+	@Ignore
 	public void deletePackage(){
 		String email = "TESTING_UPDATE@gmail.com";
 		String password = "password";
@@ -230,6 +228,7 @@ public class TourOperatorManagementTest {
 	}
 	
 	@Test
+	@Ignore
 	public void addPackageTest(){
 		String email = "TESTING_ADD@gmail.com";
 		String password = "password";
