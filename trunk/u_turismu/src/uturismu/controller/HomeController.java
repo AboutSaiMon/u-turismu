@@ -22,9 +22,12 @@
  */
 package uturismu.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import uturismu.service.UserService;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -33,8 +36,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
+	@Autowired
+	private UserService userService;
+	
 	@RequestMapping({ "/", "home" })
 	public String showHomePage(Model model) {
+		model.addAttribute("packageList", userService.getHolidayPackages());
 		return "home";
 	}
 	
