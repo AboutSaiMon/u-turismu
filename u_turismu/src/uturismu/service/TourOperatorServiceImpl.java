@@ -51,4 +51,13 @@ public class TourOperatorServiceImpl implements TourOperatorService {
 		holidayPackageDao.update(holidayPackage);
 	}
 
+	@Override
+	public void deleteHolidayPackage(HolidayPackage holidayPackage) {	
+		holidayPackageDao.delete(holidayPackage);
+	}
+
+	@Override
+	public Long addHolidayPackage(HolidayPackage holidayPackage) {
+		return holidayPackageDao.save(holidayPackage);
+	}
 }

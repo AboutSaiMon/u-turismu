@@ -56,4 +56,9 @@ public interface TourOperatorService {
 	 */
 	public void updateHolidayPackage(HolidayPackage holidayPackage);
 
+	public void deleteHolidayPackage(HolidayPackage holidayPackage);
+	
+	public Long addHolidayPackage(HolidayPackage holidayPackage);
+	
+	
 }
