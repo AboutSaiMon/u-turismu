@@ -10,8 +10,8 @@
 	<h1>Home Page</h1>
 	<div id="holidayPackages">
 		<ul>
-			<c:forEach var="package" items="${packageList}">
-				<li>${package. }</li>
+			<c:forEach var="holidayPackage" items="${packageList}">
+				<li><a href="">${holidayPackage.name} - ${holidayPackage.description}</a></li>
 			</c:forEach>
 		</ul>
 	</div>
