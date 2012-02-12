@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import uturismu.service.UserService;
 
@@ -43,6 +44,12 @@ public class HomeController {
 	public String showHomePage(Model model) {
 		model.addAttribute("packageList", userService.getHolidayPackages());
 		return "home";
+	}
+	
+	@RequestMapping(value="/holidayDetails")
+	public String showHolidayPackageDetail(@RequestParam("holidayId") Long id, Model model) {
+		userService.get
+		return "holidayDetail";
 	}
 	
 }
