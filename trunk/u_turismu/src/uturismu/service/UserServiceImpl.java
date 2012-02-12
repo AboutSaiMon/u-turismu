@@ -112,4 +112,11 @@ public class UserServiceImpl implements UserService {
 		return tourOperatorDao.findAll();
 	}
 
+	@Override
+	public HolidayPackage getHolidayPackageByID(Long idHolidayPackage) {
+		return holidayPackageDao.findById(idHolidayPackage);
+	}
+	
+	
+
 }

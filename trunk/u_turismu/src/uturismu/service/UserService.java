@@ -115,5 +115,13 @@ public interface UserService {
 	 * @return {@link List}<{@link TourOperator}>
 	 */
 	public List<TourOperator> getTourOperators();
+	
+	/**
+	 * Restitusce un {@link HolidayPackage} dato il suo id
+	 * 
+	 * @param idHolidayPackage
+	 * @return {@link HolidayPackage}
+	 */
+	public HolidayPackage getHolidayPackageByID(Long idHolidayPackage);
 
 }
