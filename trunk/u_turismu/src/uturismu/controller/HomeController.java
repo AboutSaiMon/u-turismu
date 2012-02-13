@@ -22,12 +22,19 @@
  */
 package uturismu.controller;
 
+import org.apache.catalina.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import uturismu.command.Credenzial;
+import uturismu.dto.Account;
+import uturismu.dto.enumtype.AccountType;
 import uturismu.service.UserService;
 
 /**
@@ -42,13 +49,30 @@ public class HomeController {
 	
 	@RequestMapping({ "/", "home" })
 	public String showHomePage(Model model) {
-		model.addAttribute("packageList", userService.getHolidayPackages());
+		Credenzial credenzial=new Credenzial();
+		model.addAttribute("credenzial", credenzial);
+//		model.addAttribute("packageList", userService.getHolidayPackages());
 		return "home";
 	}
 	
 	@RequestMapping(value="/holidayDetails")
 	public String showHolidayPackageDetail(@RequestParam("holidayId") Long id, Model model) {
 		return "holidayDetail";
+	}
+	
+	@RequestMapping(method=RequestMethod.POST)
+	public String onSubmit(@ModelAttribute("credenzial") Credenzial credenzial,Model model ){
+		System.out.println(credenzial.getEmail()+" : "+credenzial.getPassword());
+		String redirectPage="";
+		Account account=userService.logIn(credenzial.getEmail(), credenzial.getPassword());
+		if(account.getType().equals(AccountType.TOUR_OPERATOR)){
+			redirectPage="tourOperator/home";
+		} else if(account.getType().equals(AccountType.BOOKER)){
+			redirectPage="tourOperator/home";
+		}
+		model.addAttribute("loginFlag",true);
+		model.addAttribute("account", account);
+		return "homeAccount";
 	}
 	
 }
