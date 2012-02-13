@@ -34,6 +34,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -107,7 +108,7 @@ public class Booker implements Serializable {
 		return birthDate;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_birth_place")
 	@ForeignKey(name = "FK_BOOKER_CITY")
 	public City getBirthPlace() {
