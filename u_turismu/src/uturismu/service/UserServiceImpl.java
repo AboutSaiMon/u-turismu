@@ -107,12 +107,12 @@ public class UserServiceImpl implements UserService {
 		return holidayPackageDao.findAllPublishedByTags(tags);
 	}
 
-	@Override
+	@Override @Transactional(readOnly=true)
 	public List<TourOperator> getTourOperators() {
 		return tourOperatorDao.findAll();
 	}
 
-	@Override
+	@Override @Transactional(readOnly=true)
 	public HolidayPackage getHolidayPackageByID(Long idHolidayPackage) {
 		return holidayPackageDao.findById(idHolidayPackage);
 	}

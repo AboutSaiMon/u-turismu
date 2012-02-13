@@ -305,4 +305,35 @@ public class HolidayPackage implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("HolidayPackage [id=");
+		builder.append(id);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", description=");
+		builder.append(description);
+		builder.append(", customerNumber=");
+		builder.append(customerNumber);
+		builder.append(", availability=");
+		builder.append(availability);
+		builder.append(", counter=");
+		builder.append(counter);
+		builder.append(", dueDate=");
+		builder.append(dueDate);
+		builder.append(", status=");
+		builder.append(status);
+		builder.append(", tourOperator=");
+		builder.append(tourOperator);
+		builder.append(", bookings=");
+		builder.append(bookings);
+		builder.append(", services=");
+		builder.append(services);
+		builder.append(", holidayTags=");
+		builder.append(holidayTags);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

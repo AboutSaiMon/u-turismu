@@ -8,7 +8,6 @@ import static org.junit.Assert.assertThat;
 import static uturismu.ServiceFactory.getCityService;
 import static uturismu.ServiceFactory.getTourOperatorService;
 import static uturismu.ServiceFactory.getUserService;
-import static uturismu.ServiceFactory.getHolidayPackageService;
 
 import java.util.Date;
 import java.util.List;
@@ -30,7 +29,6 @@ import uturismu.dto.enumtype.AccountType;
 import uturismu.dto.enumtype.ServiceType;
 import uturismu.dto.enumtype.Status;
 import uturismu.exception.InvalidCredentialException;
-import uturismu.service.TourOperatorService;
 
 public class TourOperatorManagementTest {
 
@@ -71,6 +69,7 @@ public class TourOperatorManagementTest {
 	}
 
 	@Test
+	@Ignore
 	public void queryHolidayPackageTest() {
 		String email = "tourop@gmail.com";
 		String password = "password";
@@ -161,7 +160,8 @@ public class TourOperatorManagementTest {
 		TourOperator tourOperator = createTourOperator(account1, vatNumber, "UNO");
 		tourOperator.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package1", tourOperator));
 		tourOperator.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package2", tourOperator));
-		tourOperator.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package3",tourOperator));
+		tourOperator.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package3",
+				tourOperator));
 		getUserService().createUser(account1, tourOperator);
 
 		List<HolidayPackage> result = null;
@@ -178,10 +178,10 @@ public class TourOperatorManagementTest {
 		result = getTourOperatorService().findDraftHolidayPackages(tourOperator.getId());
 		assertThat(result.size(), is(equalTo(1)));
 		result = getTourOperatorService().findPublishedHolidayPackages(tourOperator.getId());
-		
+
 		result = getTourOperatorService().findDraftHolidayPackages(tourOperator.getId());
 		hpToUpdate = result.get(0);
-		
+
 		OvernightStay service = new OvernightStay();
 		service.setArrivalDate(new Date());
 		service.setDescription("L'hotel ha la vista sul mare");
@@ -189,26 +189,28 @@ public class TourOperatorManagementTest {
 		service.setLeavingDate(new Date());
 		service.setServiceType(ServiceType.ONLY_BREAKFAST);
 		service.setHolidayPackage(hpToUpdate);
-		
+
 		hpToUpdate.setStatus(Status.PUBLISHED);
 		getTourOperatorService().updateHolidayPackage(hpToUpdate);
 		ServiceFactory.getOvernightStayService().save(service);
-		
-		List<HolidayPackage> hpResult=getTourOperatorService().findAllHolidayPackages(tourOperator.getId());
-		
+
+		List<HolidayPackage> hpResult = getTourOperatorService().findAllHolidayPackages(
+				tourOperator.getId());
+
 		for (HolidayPackage holidayPackage : hpResult) {
-			System.out.print("Pack :"+holidayPackage.getName()+" "+holidayPackage.getStatus()+" services : ");
-			Set<Service> services=holidayPackage.getServices();
+			System.out.print("Pack :" + holidayPackage.getName() + " " + holidayPackage.getStatus()
+					+ " services : ");
+			Set<Service> services = holidayPackage.getServices();
 			for (Service service2 : services) {
-				System.out.print(" "+service2.getPrice());
+				System.out.print(" " + service2.getPrice());
 			}
 			System.out.println();
 		}
 	}
-	
+
 	@Test
 	@Ignore
-	public void deletePackage(){
+	public void deletePackage() {
 		String email = "TESTING_UPDATE@gmail.com";
 		String password = "password";
 		String vatNumber = "1234567";
@@ -216,39 +218,60 @@ public class TourOperatorManagementTest {
 		TourOperator tourOperator = createTourOperator(account1, vatNumber, "UNO");
 		tourOperator.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package1", tourOperator));
 		tourOperator.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package2", tourOperator));
-		tourOperator.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package3",tourOperator));
+		tourOperator.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package3",
+				tourOperator));
 		getUserService().createUser(account1, tourOperator);
-		
-		HolidayPackage toDelete = getTourOperatorService().findDraftHolidayPackages(tourOperator.getId()).get(0);
-		Long deletedPackID=toDelete.getId();
+
+		HolidayPackage toDelete = getTourOperatorService().findDraftHolidayPackages(
+				tourOperator.getId()).get(0);
+		Long deletedPackID = toDelete.getId();
 		getTourOperatorService().deleteHolidayPackage(toDelete);
-		
-//		getHolidayPackageService().findById(deletedPackID);
-//		assertThat(getHolidayPackageService().findById(deletedPackID), is(nullValue()));
+
+		// getHolidayPackageService().findById(deletedPackID);
+		// assertThat(getHolidayPackageService().findById(deletedPackID),
+		// is(nullValue()));
 	}
-	
+
 	@Test
 	@Ignore
-	public void addPackageTest(){
+	public void addPackageTest() {
 		String email = "TESTING_ADD@gmail.com";
 		String password = "password";
 		String vatNumber = "123456789";
 		Account account1 = createAccount(email, password);
 		TourOperator tourOperator = createTourOperator(account1, vatNumber, "UNO");
 		getUserService().createUser(account1, tourOperator);
-		
+
 		HolidayPackage hpToADD = createHolidayPackage(Status.DRAFT, "PackAdd", tourOperator);
-		
-		Long hpID=getTourOperatorService().addHolidayPackage(hpToADD);
-				
-		List<HolidayPackage> list=getTourOperatorService().findAllHolidayPackages(tourOperator.getId());
-		hpToADD=getUserService().getHolidayPackageByID(hpID);
-		
-//		assertThat(hpToADD.getTourOperator().getId(), is(equalTo(tourOperator.getId())));
-//		System.out.println(getUserService().getHolidayPackagesByTourOperator(tourOperator.getId()).get(0).getName());
-		
+
+		Long hpID = getTourOperatorService().addHolidayPackage(hpToADD);
+
+		List<HolidayPackage> list = getTourOperatorService().findAllHolidayPackages(
+				tourOperator.getId());
+		hpToADD = getUserService().getHolidayPackageByID(hpID);
+
+		// assertThat(hpToADD.getTourOperator().getId(),
+		// is(equalTo(tourOperator.getId())));
+		// System.out.println(getUserService().getHolidayPackagesByTourOperator(tourOperator.getId()).get(0).getName());
+
 	}
-	
+
+	@Test
+	public void prova() {
+		String email = "myemail@volunia.it";
+		String password = "pazzword";
+		String vatNumber = "1010dkdkdk";
+
+		Account account = createAccount(email, password);
+		TourOperator tourOperator = createTourOperator(account, vatNumber, "Ciuccia");
+		getUserService().createUser(account, tourOperator);
+
+		HolidayPackage pack = createHolidayPackage(Status.PUBLISHED, "CiucciaTanto", tourOperator);
+		getTourOperatorService().addHolidayPackage(pack);
+
+		HolidayPackage paccarella = getUserService().getHolidayPackageByID(pack.getId());
+		System.out.println(paccarella);
+	}
 
 	private HolidayPackage createHolidayPackage(Status status, String Name, TourOperator top) {
 		HolidayPackage hp = new HolidayPackage();
