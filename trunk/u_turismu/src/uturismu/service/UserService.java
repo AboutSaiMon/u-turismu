@@ -49,7 +49,7 @@ public interface UserService {
 	 *           contiene le informazioni anagrafiche.
 	 */
 	public void createUser(Account account, Booker booker);
-
+	
 	/**
 	 * Crea l'account dell'utente <b>Tour Operator</b>.
 	 * 
@@ -124,4 +124,7 @@ public interface UserService {
 	 */
 	public HolidayPackage getHolidayPackageByID(Long idHolidayPackage);
 
+	public void removeAccount(Account account);
+	
+	
 }
