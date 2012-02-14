@@ -5,18 +5,37 @@
 <div id="access" class="topPage">
 	<div id="Loginsfield">
 		
-			<sf:form method="POST" modelAttribute="credenzial">
+			<sf:form id="form" name="form1" method="POST" modelAttribute="credential" action="login">
 				<fieldset>
 					<label> E-mail : </label>
 					<sf:input path="email" size="20"/>
-					<sf:errors path="email" class="error" />
+<%-- 					<sf:errors path="email" class="error" /> --%>
 					<label> Password : </label>
 					<sf:password path="password" size = "20"/>
-					<sf:errors path="password" class="error"/>
-					<input type="submit"  value="login"/>
+<%-- 					<sf:errors path="password" class="error"/> --%>
+					<input type="submit" value="login" />
+					
+<!-- 						<input id="button1" type="button" name="buttonlogin" value="login">  -->
 					
 				</fieldset>
 			</sf:form>
+			
+			<div id="toFill">
+				
+			</div>
+						
+			<script type="text/javascript">
+				function write(){
+					$("#toFill").append("<p> AIUTO !! </p>");
+				}
+			
+				$("#button1").bind("click",function(){
+						write();
+						$.postJSON("test",$("#form").serialize(),function(data){
+							$("#toFill").append("<p> CIAO </p>");
+						});
+				});
+			</script>
 	</div>
 </div>
 

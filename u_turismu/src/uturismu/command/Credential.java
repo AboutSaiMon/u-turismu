@@ -1,6 +1,6 @@
 package uturismu.command;
 
-public class Credenzial {
+public class Credential {
 	
 	String email;
 	String password;

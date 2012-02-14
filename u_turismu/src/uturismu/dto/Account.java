@@ -69,6 +69,8 @@ public class Account implements Serializable {
 		return id;
 	}
 
+	
+	@Column(unique=true, nullable=false)
 	public String getEmail() {
 		return email;
 	}

@@ -117,6 +117,10 @@ public class UserServiceImpl implements UserService {
 		return holidayPackageDao.findById(idHolidayPackage);
 	}
 	
+	@Override
+	public void removeAccount(Account account) {
+		accountDao.delete(account);
+	}
 	
 
 }

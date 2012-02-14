@@ -7,8 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	welcome tour operator
-
-
+	<h2> Siamo Spiacenti si E vrificato un errore </h2>
+	<p > <a href="index"> torna alla home </a> </p>
 </body>
 </html>
