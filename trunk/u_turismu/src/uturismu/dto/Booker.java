@@ -108,7 +108,7 @@ public class Booker implements Serializable {
 		return birthDate;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_birth_place")
 	@ForeignKey(name = "FK_BOOKER_CITY")
 	public City getBirthPlace() {

@@ -16,7 +16,7 @@ public interface TourOperatorService {
 	 *           l'id del tour operator
 	 * @return {@link List}<{@link HolidayPackage}>
 	 */
-	public List<HolidayPackage> findAllHolidayPackages(Long id);
+	public List<HolidayPackage> getAllHolidayPackages(Long id);
 
 	/**
 	 * Restituisce tutti gli HolidayPackage con {@link Status} PUBLISHED per un
@@ -26,7 +26,7 @@ public interface TourOperatorService {
 	 *           l'id del tour operator
 	 * @return {@link List}<{@link HolidayPackage}>
 	 */
-	public List<HolidayPackage> findPublishedHolidayPackages(Long id);
+	public List<HolidayPackage> getPublishedHolidayPackages(Long id);
 
 	/**
 	 * Restituisce tutti gli HolidayPackage con {@link Status} DRAFT per un dato
@@ -36,7 +36,7 @@ public interface TourOperatorService {
 	 *           l'id del tour operator
 	 * @return {@link List}<{@link HolidayPackage}>
 	 */
-	public List<HolidayPackage> findDraftHolidayPackages(Long id);
+	public List<HolidayPackage> getDraftHolidayPackages(Long id);
 
 	/**
 	 * Restituisce tutti gli HolidayPackage con {@link Status} EXPIRED per un
@@ -46,7 +46,7 @@ public interface TourOperatorService {
 	 *           l'id del tour operator
 	 * @return {@link List}<{@link HolidayPackage}>
 	 */
-	public List<HolidayPackage> findExpiredHolidayPackages(Long id);
+	public List<HolidayPackage> getExpiredHolidayPackages(Long id);
 
 	/**
 	 * Aggiorna un {@link HolidayPackage} se il suo {@link Status} è DRAFT.
@@ -57,8 +57,7 @@ public interface TourOperatorService {
 	public void updateHolidayPackage(HolidayPackage holidayPackage);
 
 	public void deleteHolidayPackage(HolidayPackage holidayPackage);
-	
-	public Long addHolidayPackage(HolidayPackage holidayPackage);
-	
-	
+
+	public Long createHolidayPackage(HolidayPackage holidayPackage);
+
 }

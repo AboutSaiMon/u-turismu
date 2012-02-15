@@ -28,7 +28,6 @@ import uturismu.dto.Account;
 import uturismu.dto.Booker;
 import uturismu.dto.HolidayPackage;
 import uturismu.dto.TourOperator;
-import uturismu.exception.InvalidCredentialException;
 
 /**
  * Questa interfaccia rappresenta il servizio per la gestione delle funzionalità
@@ -48,8 +47,8 @@ public interface UserService {
 	 * @param booker
 	 *           contiene le informazioni anagrafiche.
 	 */
-	public void createUser(Account account, Booker booker);
-	
+	public void createAccount(Account account, Booker booker);
+
 	/**
 	 * Crea l'account dell'utente <b>Tour Operator</b>.
 	 * 
@@ -58,7 +57,7 @@ public interface UserService {
 	 * @param tourOperator
 	 *           contiene le informazioni anagrafiche.
 	 */
-	public void createUser(Account account, TourOperator tourOperator);
+	public void createAccount(Account account, TourOperator tourOperator);
 
 	/**
 	 * Effettua il login di un qualsiasi utente registrato al sistema.
@@ -72,7 +71,15 @@ public interface UserService {
 	 *            viene lanciata quando si tenta di accedere con delle
 	 *            credenziali errate (email e/o password errata)
 	 */
-	public Account logIn(String email, String password) throws InvalidCredentialException;
+	public Account logIn(String email, String password);
+
+	/**
+	 * Disattiva l'account.
+	 * 
+	 * @param account
+	 *           l'account da disattivare
+	 */
+	public void deactivateAccount(Account account);
 
 	/**
 	 * Restituisce gli holiday package <b>pubblici</b> di tutti i tour operator.
@@ -115,7 +122,16 @@ public interface UserService {
 	 * @return {@link List}<{@link TourOperator}>
 	 */
 	public List<TourOperator> getTourOperators();
-	
+
+	/**
+	 * Restitusce un {@link TourOperator} in base al suo id.
+	 * 
+	 * @param id
+	 *           l'id del touroperator
+	 * @return {@link TourOperator}
+	 */
+	public TourOperator getTourOperatorById(Long id);
+
 	/**
 	 * Restitusce un {@link HolidayPackage} dato il suo id
 	 * 
@@ -124,7 +140,4 @@ public interface UserService {
 	 */
 	public HolidayPackage getHolidayPackageByID(Long idHolidayPackage);
 
-	public void removeAccount(Account account);
-	
-	
 }

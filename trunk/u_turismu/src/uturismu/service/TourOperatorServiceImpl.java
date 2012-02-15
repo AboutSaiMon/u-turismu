@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import uturismu.dao.AccountDao;
 import uturismu.dao.HolidayPackageDao;
-import uturismu.dao.TourOperatorDao;
 import uturismu.dto.HolidayPackage;
 
 @Service
@@ -16,33 +14,29 @@ import uturismu.dto.HolidayPackage;
 public class TourOperatorServiceImpl implements TourOperatorService {
 
 	@Autowired
-	private AccountDao accountDao;
-	@Autowired
-	private TourOperatorDao tourOperatorDao;
-	@Autowired
 	private HolidayPackageDao holidayPackageDao;
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<HolidayPackage> findAllHolidayPackages(Long id) {
+	public List<HolidayPackage> getAllHolidayPackages(Long id) {
 		return holidayPackageDao.findAllByTourOperator(id);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<HolidayPackage> findPublishedHolidayPackages(Long id) {
+	public List<HolidayPackage> getPublishedHolidayPackages(Long id) {
 		return holidayPackageDao.findAllPublishedByTourOperator(id);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<HolidayPackage> findDraftHolidayPackages(Long id) {
+	public List<HolidayPackage> getDraftHolidayPackages(Long id) {
 		return holidayPackageDao.findAllDraftByTourOperator(id);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<HolidayPackage> findExpiredHolidayPackages(Long id) {
+	public List<HolidayPackage> getExpiredHolidayPackages(Long id) {
 		return holidayPackageDao.findAllExpiredByTourOperator(id);
 	}
 
@@ -52,12 +46,12 @@ public class TourOperatorServiceImpl implements TourOperatorService {
 	}
 
 	@Override
-	public void deleteHolidayPackage(HolidayPackage holidayPackage) {	
+	public void deleteHolidayPackage(HolidayPackage holidayPackage) {
 		holidayPackageDao.delete(holidayPackage);
 	}
 
 	@Override
-	public Long addHolidayPackage(HolidayPackage holidayPackage) {
+	public Long createHolidayPackage(HolidayPackage holidayPackage) {
 		return holidayPackageDao.save(holidayPackage);
 	}
 }

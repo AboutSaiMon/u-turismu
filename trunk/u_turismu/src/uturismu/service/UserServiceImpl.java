@@ -37,7 +37,8 @@ import uturismu.dto.Account;
 import uturismu.dto.Booker;
 import uturismu.dto.HolidayPackage;
 import uturismu.dto.TourOperator;
-import uturismu.exception.InvalidCredentialException;
+import uturismu.exception.AccountException;
+import uturismu.exception.ExceptionMessages;
 
 /**
  * Vedi la documentazione dell'interfaccia {@link UserService}.
@@ -58,29 +59,38 @@ public class UserServiceImpl implements UserService {
 	private HolidayPackageDao holidayPackageDao;
 
 	@Override
-	public void createUser(Account account, Booker booker) {
+	public void createAccount(Account account, Booker booker) {
 		accountDao.save(account);
 		bookerDao.save(booker);
 	}
 
 	@Override
-	public void createUser(Account account, TourOperator tourOperator) {
+	public void createAccount(Account account, TourOperator tourOperator) {
 		accountDao.save(account);
 		tourOperatorDao.save(tourOperator);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Account logIn(String email, String password) throws InvalidCredentialException {
+	public Account logIn(String email, String password) {
 		Account account = accountDao.findByEmail(email);
 		if (account == null) {
-			throw new InvalidCredentialException();
+			throw new AccountException(ExceptionMessages.INCORRECT_CREDENTIAL);
+		}
+		if (!account.isActive()) {
+			throw new AccountException(ExceptionMessages.ACCOUNT_DISABLED);
 		}
 		String salt = account.getSalt();
 		if (!HashUtil.getHash(password, salt).equals(account.getPassword())) {
-			throw new InvalidCredentialException();
+			throw new AccountException(ExceptionMessages.INCORRECT_CREDENTIAL);
 		}
 		return account;
+	}
+
+	@Override
+	public void deactivateAccount(Account account) {
+		account.setActive(false);
+		accountDao.update(account);
 	}
 
 	@Override
@@ -107,20 +117,22 @@ public class UserServiceImpl implements UserService {
 		return holidayPackageDao.findAllPublishedByTags(tags);
 	}
 
-	@Override @Transactional(readOnly=true)
+	@Override
+	@Transactional(readOnly = true)
 	public List<TourOperator> getTourOperators() {
 		return tourOperatorDao.findAll();
 	}
 
-	@Override @Transactional(readOnly=true)
+	@Override
+	@Transactional(readOnly = true)
 	public HolidayPackage getHolidayPackageByID(Long idHolidayPackage) {
 		return holidayPackageDao.findById(idHolidayPackage);
 	}
-	
+
 	@Override
-	public void removeAccount(Account account) {
-		accountDao.delete(account);
+	@Transactional(readOnly = true)
+	public TourOperator getTourOperatorById(Long id) {
+		return tourOperatorDao.findById(id);
 	}
-	
 
 }

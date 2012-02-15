@@ -8,14 +8,12 @@ import static org.junit.Assert.assertThat;
 import static uturismu.ServiceFactory.getCityService;
 import static uturismu.ServiceFactory.getTourOperatorService;
 import static uturismu.ServiceFactory.getUserService;
-import static uturismu.ServiceFactory.getHolidayPackageService;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import uturismu.HashUtil;
@@ -29,8 +27,7 @@ import uturismu.dto.TourOperator;
 import uturismu.dto.enumtype.AccountType;
 import uturismu.dto.enumtype.ServiceType;
 import uturismu.dto.enumtype.Status;
-import uturismu.exception.InvalidCredentialException;
-import uturismu.service.TourOperatorService;
+import uturismu.exception.AccountException;
 
 public class TourOperatorManagementTest {
 
@@ -44,73 +41,67 @@ public class TourOperatorManagementTest {
 		getCityService().save(city);
 	}
 
-	public void deleteTourOperator(){
-		
-		
-	}
-	
 	@Test
-	@Ignore
 	public void createTourOperatorAccount() {
 		String email = "tourop@gmail.com";
 		String password = "password";
 		String vatNumber = "11111111110";
 		Account account = createAccount(email, password);
-		TourOperator tourOperator = createTourOperator(account, vatNumber, "UNO");
-		getUserService().createUser(account, tourOperator);
+		TourOperator tourOperator = createTourOperator(vatNumber, "UNO", account);
+		getUserService().createAccount(account, tourOperator);
 
 		Account accountCopy = getUserService().logIn(email, password);
 		assertThat(accountCopy, is(not(nullValue())));
 		assertThat(accountCopy.getId(), is(equalTo(account.getId())));
-		
+
 	}
 
-	@Test(expected = InvalidCredentialException.class)
+	@Test(expected = AccountException.class)
 	public void createTourOperatorWithException() {
 		String email = "touroperatorException@gmail.com";
 		String password = "password";
 		String vatNumber = "12345678901";
 		Account account = createAccount(email, password);
-		TourOperator tourOperator = createTourOperator(account, vatNumber, "UNO");
-		getUserService().createUser(account, tourOperator);
+		TourOperator tourOperator = createTourOperator(vatNumber, "UNO", account);
+		getUserService().createAccount(account, tourOperator);
 		password = "passwordSbagliata";
 		account = getUserService().logIn(email, password);
 	}
 
 	@Test
 	public void queryHolidayPackageTest() {
-		String email = "tourop@gmail.com";
+		String email = "touroperator@email.com";
 		String password = "password";
 		String vatNumber = "22222222220";
 		Account account1 = createAccount(email, password);
-		TourOperator top1 = createTourOperator(account1, vatNumber, "UNO");
+		TourOperator top1 = createTourOperator(vatNumber, "UNO", account1);
 		top1.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package1", top1));
 		top1.addHolidayPackage(createHolidayPackage(Status.EXPIRED, "Package2", top1));
 		top1.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package3", top1));
-		getUserService().createUser(account1, top1);
+		getUserService().createAccount(account1, top1);
 		Long idTop1 = top1.getId();
 
 		String email2 = "tourOperatorDUE@gmail.com";
 		String password2 = "passwordDUE";
 		String vatNumber2 = "01333333333";
 		Account account2 = createAccount(email2, password2);
-		TourOperator top2 = createTourOperator(account2, vatNumber2, "DUE");
+		TourOperator top2 = createTourOperator(vatNumber2, "DUE", account2);
 		top2.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package2_1", top2));
 		top2.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package2_2", top2));
 		top2.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package2_3", top2));
-		getUserService().createUser(account2, top2);
+		getUserService().createAccount(account2, top2);
 		Long idTop2 = top2.getId();
 
 		List<HolidayPackage> result = null;
 
-		result = getTourOperatorService().findAllHolidayPackages(idTop1);
+		result = getTourOperatorService().getAllHolidayPackages(idTop1);
 		assertThat(result, is(not(nullValue())));
 		assertThat(result.size(), is(equalTo(3)));
 		for (HolidayPackage holidayPackage : result) {
 			assertThat(holidayPackage.getTourOperator().getId(), is(equalTo(top1.getId())));
 		}
 
-		result = getTourOperatorService().findPublishedHolidayPackages(idTop1);
+		result = getTourOperatorService().getPublishedHolidayPackages(idTop1);
 		assertThat(result, is(not(nullValue())));
 		assertThat(result.size(), is(equalTo(1)));
 		for (HolidayPackage holidayPackage : result) {
@@ -118,7 +109,7 @@ public class TourOperatorManagementTest {
 			assertThat(holidayPackage.getStatus(), is(equalTo(Status.PUBLISHED)));
 		}
 
-		result = getTourOperatorService().findDraftHolidayPackages(idTop1);
+		result = getTourOperatorService().getDraftHolidayPackages(idTop1);
 		assertThat(result, is(not(nullValue())));
 		assertThat(result.size(), is(equalTo(1)));
 		for (HolidayPackage holidayPackage : result) {
@@ -126,7 +117,7 @@ public class TourOperatorManagementTest {
 			assertThat(holidayPackage.getStatus(), is(equalTo(Status.DRAFT)));
 		}
 
-		result = getTourOperatorService().findExpiredHolidayPackages(idTop1);
+		result = getTourOperatorService().getExpiredHolidayPackages(idTop1);
 		assertThat(result, is(not(nullValue())));
 		assertThat(result.size(), is(equalTo(1)));
 		for (HolidayPackage holidayPackage : result) {
@@ -134,14 +125,14 @@ public class TourOperatorManagementTest {
 			assertThat(holidayPackage.getStatus(), is(equalTo(Status.EXPIRED)));
 		}
 
-		result = getTourOperatorService().findAllHolidayPackages(idTop2);
+		result = getTourOperatorService().getAllHolidayPackages(idTop2);
 		assertThat(result, is(not(nullValue())));
 		assertThat(result.size(), is(equalTo(3)));
 		for (HolidayPackage holidayPackage : result) {
 			assertThat(holidayPackage.getTourOperator().getId(), is(equalTo(top2.getId())));
 		}
 
-		result = getTourOperatorService().findPublishedHolidayPackages(idTop2);
+		result = getTourOperatorService().getPublishedHolidayPackages(idTop2);
 		assertThat(result, is(not(nullValue())));
 		assertThat(result.size(), is(equalTo(2)));
 		for (HolidayPackage holidayPackage : result) {
@@ -149,7 +140,7 @@ public class TourOperatorManagementTest {
 			assertThat(holidayPackage.getStatus(), is(equalTo(Status.PUBLISHED)));
 		}
 
-		result = getTourOperatorService().findDraftHolidayPackages(idTop2);
+		result = getTourOperatorService().getDraftHolidayPackages(idTop2);
 		assertThat(result, is(not(nullValue())));
 		assertThat(result.size(), is(equalTo(1)));
 		for (HolidayPackage holidayPackage : result) {
@@ -159,20 +150,20 @@ public class TourOperatorManagementTest {
 	}
 
 	@Test
-	@Ignore
 	public void updateHolidayPackage() {
-		String email = "TESTING_UPDATE@gmail.com";
+		String email = "TESTING_UPDATE@yahoo.com";
 		String password = "password";
 		String vatNumber = "98765432122";
 		Account account1 = createAccount(email, password);
-		TourOperator tourOperator = createTourOperator(account1, vatNumber, "UNO");
+		TourOperator tourOperator = createTourOperator(vatNumber, "UNO", account1);
 		tourOperator.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package1", tourOperator));
 		tourOperator.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package2", tourOperator));
-		tourOperator.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package3",tourOperator));
-		getUserService().createUser(account1, tourOperator);
+		tourOperator.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package3",
+				tourOperator));
+		getUserService().createAccount(account1, tourOperator);
 
 		List<HolidayPackage> result = null;
-		result = getTourOperatorService().findDraftHolidayPackages(tourOperator.getId());
+		result = getTourOperatorService().getDraftHolidayPackages(tourOperator.getId());
 		assertThat(result.size(), is(equalTo(2)));
 
 		HolidayPackage hpToUpdate = result.get(1);
@@ -182,13 +173,13 @@ public class TourOperatorManagementTest {
 		hpToUpdate.setStatus(Status.PUBLISHED);
 		getTourOperatorService().updateHolidayPackage(hpToUpdate);
 
-		result = getTourOperatorService().findDraftHolidayPackages(tourOperator.getId());
+		result = getTourOperatorService().getDraftHolidayPackages(tourOperator.getId());
 		assertThat(result.size(), is(equalTo(1)));
-		result = getTourOperatorService().findPublishedHolidayPackages(tourOperator.getId());
-		
-		result = getTourOperatorService().findDraftHolidayPackages(tourOperator.getId());
+		result = getTourOperatorService().getPublishedHolidayPackages(tourOperator.getId());
+
+		result = getTourOperatorService().getDraftHolidayPackages(tourOperator.getId());
 		hpToUpdate = result.get(0);
-		
+
 		OvernightStay service = new OvernightStay();
 		service.setArrivalDate(new Date());
 		service.setDescription("L'hotel ha la vista sul mare");
@@ -196,110 +187,99 @@ public class TourOperatorManagementTest {
 		service.setLeavingDate(new Date());
 		service.setServiceType(ServiceType.ONLY_BREAKFAST);
 		service.setHolidayPackage(hpToUpdate);
-		
+
 		hpToUpdate.setStatus(Status.PUBLISHED);
 		getTourOperatorService().updateHolidayPackage(hpToUpdate);
 		ServiceFactory.getOvernightStayService().save(service);
-		
-		List<HolidayPackage> hpResult=getTourOperatorService().findAllHolidayPackages(tourOperator.getId());
-		
+
+		List<HolidayPackage> hpResult = getTourOperatorService().getAllHolidayPackages(
+				tourOperator.getId());
+
 		for (HolidayPackage holidayPackage : hpResult) {
-			System.out.print("Pack :"+holidayPackage.getName()+" "+holidayPackage.getStatus()+" services : ");
-			Set<Service> services=holidayPackage.getServices();
+			System.out.print("Pack :" + holidayPackage.getName() + " " + holidayPackage.getStatus()
+					+ " services : ");
+			Set<Service> services = holidayPackage.getServices();
 			for (Service service2 : services) {
-				System.out.print(" "+service2.getPrice());
+				System.out.print(" " + service2.getPrice());
 			}
 			System.out.println();
 		}
 	}
-	
+
 	@Test
-	@Ignore
-	public void deletePackage(){
-		String email = "TESTING_UPDATE@gmail.com";
+	public void deletePackage() {
+		String email = "TESTING_DELETE@gmail.com";
 		String password = "password";
-		String vatNumber = "1234567";
+		String vatNumber = "400567";
 		Account account1 = createAccount(email, password);
-		TourOperator tourOperator = createTourOperator(account1, vatNumber, "UNO");
+		TourOperator tourOperator = createTourOperator(vatNumber, "UNO", account1);
 		tourOperator.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package1", tourOperator));
 		tourOperator.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package2", tourOperator));
-		tourOperator.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package3",tourOperator));
-		getUserService().createUser(account1, tourOperator);
-		
-		HolidayPackage toDelete = getTourOperatorService().findDraftHolidayPackages(tourOperator.getId()).get(0);
-		Long deletedPackID=toDelete.getId();
+		tourOperator.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package3",
+				tourOperator));
+		getUserService().createAccount(account1, tourOperator);
+
+		HolidayPackage toDelete = getTourOperatorService().getDraftHolidayPackages(
+				tourOperator.getId()).get(0);
+		Long deletedPackID = toDelete.getId();
 		getTourOperatorService().deleteHolidayPackage(toDelete);
-		
-//		getHolidayPackageService().findById(deletedPackID);
-//		assertThat(getHolidayPackageService().findById(deletedPackID), is(nullValue()));
+		assertThat(getUserService().getHolidayPackageByID(deletedPackID), is(nullValue()));
 	}
-	
+
 	@Test
-	@Ignore
-	public void addPackageTest(){
+	public void addPackageTest() {
 		String email = "TESTING_ADD@gmail.com";
 		String password = "password";
-		String vatNumber = "123456789";
+		String vatNumber = "789";
 		Account account1 = createAccount(email, password);
-		TourOperator tourOperator = createTourOperator(account1, vatNumber, "UNO");
-		getUserService().createUser(account1, tourOperator);
-		
+		TourOperator tourOperator = createTourOperator(vatNumber, "UNO", account1);
+		getUserService().createAccount(account1, tourOperator);
+
 		HolidayPackage hpToADD = createHolidayPackage(Status.DRAFT, "PackAdd", tourOperator);
-		
-		Long hpID=getTourOperatorService().addHolidayPackage(hpToADD);
-				
-		List<HolidayPackage> list=getTourOperatorService().findAllHolidayPackages(tourOperator.getId());
-		hpToADD=getUserService().getHolidayPackageByID(hpID);
-		
-//		assertThat(hpToADD.getTourOperator().getId(), is(equalTo(tourOperator.getId())));
-//		System.out.println(getUserService().getHolidayPackagesByTourOperator(tourOperator.getId()).get(0).getName());
-		
-	}
-	
 
-	private HolidayPackage createHolidayPackage(Status status, String Name, TourOperator top) {
-		HolidayPackage hp = new HolidayPackage();
-		hp.setAvailability(3);
-		hp.setCustomerNumber(2);
-		hp.setStatus(status);
-		hp.setDueDate(new Date());
-		hp.setName(status + Name);
-		top.addHolidayPackage(hp);
-		return hp;
+		Long hpID = getTourOperatorService().createHolidayPackage(hpToADD);
+
+		List<HolidayPackage> list = getTourOperatorService().getAllHolidayPackages(
+				tourOperator.getId());
+		hpToADD = getUserService().getHolidayPackageByID(hpID);
+
+		assertThat(hpToADD.getTourOperator().getId(), is(equalTo(tourOperator.getId())));
 	}
 
-	private TourOperator createTourOperator(Account account, String vatNumber, String name) {
-		TourOperator to = new TourOperator();
-		to.setHolderName("pippo Inzaghi");
-		to.setName("Company " + name);
-		to.setVatNumber(vatNumber);
-		to.setAccount(account);
-		account.setTourOperator(to);
-		return to;
-	}
-
-	private TourOperator createTourOperatorEX(Account account) {
-		TourOperator to = new TourOperator();
-		to.setHolderName("Eccezzione");
-		to.setName("io Sono un eccezzione");
-		to.setVatNumber("11111111111");
-		to.setAccount(account);
-		account.setTourOperator(to);
-		return to;
-	}
-
-	private Account createAccount(String email, String password) {
+	private static Account createAccount(String email, String password) {
 		Account account = new Account();
 		account.setActive(true);
 		account.setEmail(email);
 		String salt = HashUtil.generateSalt();
 		account.setSalt(salt);
-		String psw = HashUtil.getHash(password, salt);
-		account.setPassword(psw);
-		account.setType(AccountType.TOUR_OPERATOR);
+		account.setPassword(HashUtil.getHash(password, salt));
 		account.setLastAccessTimestamp(new Date());
 		account.setRegistrationTimestamp(new Date());
+		account.setType(AccountType.BOOKER);
 		return account;
+	}
+
+	private static TourOperator createTourOperator(String vatNumber, String name, Account account) {
+		TourOperator tourOperator = new TourOperator();
+		tourOperator.setVatNumber(vatNumber);
+		tourOperator.setName("TourOperator" + name);
+		tourOperator.setHolderName("Dr. Lemuel Gulliver");
+		tourOperator.setAccount(account);
+		account.setTourOperator(tourOperator);
+		return tourOperator;
+	}
+
+	private static HolidayPackage createHolidayPackage(Status status, String name,
+			TourOperator tourOperator) {
+		HolidayPackage pack = new HolidayPackage();
+		pack.setName(name);
+		pack.setStatus(status);
+		pack.setDueDate(new Date());
+		pack.setCustomerNumber(2);
+		pack.setAvailability(10);
+		pack.setTourOperator(tourOperator);
+		tourOperator.addHolidayPackage(pack);
+		return pack;
 	}
 
 }
