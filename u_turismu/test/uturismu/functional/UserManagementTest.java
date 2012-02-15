@@ -45,7 +45,7 @@ import uturismu.dto.TourOperator;
 import uturismu.dto.enumtype.AccountType;
 import uturismu.dto.enumtype.Gender;
 import uturismu.dto.enumtype.Status;
-import uturismu.exception.InvalidCredentialException;
+import uturismu.exception.AccountException;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -82,7 +82,7 @@ public class UserManagementTest {
 		// creates the booker
 		Booker booker = createBooker(taxCode, account);
 		// persist the account and the booker objects
-		getUserService().createUser(account, booker);
+		getUserService().createAccount(account, booker);
 		// log in the user
 		Account sameAccount = getUserService().logIn(email, password);
 		// asserts that the account is on the DB
@@ -93,7 +93,7 @@ public class UserManagementTest {
 	 * Create a booker account and checks whether the login service throws an
 	 * InvalidCredentialException in response of an invalid password.
 	 */
-	@Test(expected = InvalidCredentialException.class)
+	@Test(expected = AccountException.class)
 	public void createBookerAccountAndLoginWithException() {
 		String email = "account@volunia.eu";
 		String password = "livuoiqueikiwiyankeecoikisayayaiani";
@@ -104,7 +104,7 @@ public class UserManagementTest {
 		// creates the booker
 		Booker booker = createBooker(taxCode, account);
 		// persist the account and the booker data
-		getUserService().createUser(account, booker);
+		getUserService().createAccount(account, booker);
 		// try to log in, but the password is invalid. An exception is expected.
 		account = getUserService().logIn(email, invalidPassword);
 	}
@@ -141,8 +141,8 @@ public class UserManagementTest {
 		pack5.addHolidayTag(tags.get(3));
 
 		// save the detached objects on the DB
-		getUserService().createUser(account1, to1);
-		getUserService().createUser(account2, to2);
+		getUserService().createAccount(account1, to1);
+		getUserService().createAccount(account2, to2);
 
 		// the total amount of published holiday packages is 3, even though the
 		// total rows number in the HolidayPackage table is 5.
@@ -201,6 +201,7 @@ public class UserManagementTest {
 		pack.setDueDate(new Date());
 		pack.setCustomerNumber(2);
 		pack.setAvailability(10);
+		pack.setTourOperator(tourOperator);
 		tourOperator.addHolidayPackage(pack);
 		return pack;
 	}

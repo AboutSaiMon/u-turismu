@@ -22,32 +22,18 @@
  */
 package uturismu.controller;
 
-import java.util.Collections;
-import java.util.Map;
-
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.catalina.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import uturismu.command.Credential;
 import uturismu.dto.Account;
 import uturismu.dto.enumtype.AccountType;
 import uturismu.service.UserService;
-import uturismu.validator.CredentialValidatorImpl;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -58,51 +44,53 @@ public class HomeController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@RequestMapping({ "/", "index" })
 	public String showHomePage(Model model) {
-		Credential credential=new Credential();
-		boolean TEST=false;
+		Credential credential = new Credential();
+		boolean TEST = false;
 		model.addAttribute("test", TEST);
 		model.addAttribute("credential", credential);
 		return "index";
 	}
-	
-	@RequestMapping(value="/holidayDetails")
+
+	@RequestMapping(value = "/holidayDetails")
 	public String showHolidayPackageDetail(@RequestParam("holidayId") Long id, Model model) {
 		System.out.println("HOME PAGE CONTROLLER");
-		
+
 		return "holidayDetail";
 	}
-	
-//	@RequestMapping(value="/test",method=RequestMethod.POST)
-//	public @ResponseBody Map<String, ? extends Object> testjQuery(@RequestBody Credential credential,HttpServletResponse response){
-//		System.out.println("TEST------");
-//		return Collections.singletonMap("testValue", "ciao Jquery");
-//	}
-	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String onSubmit(@ModelAttribute("credential") Credential credential,Model model ){
+
+	// @RequestMapping(value="/test",method=RequestMethod.POST)
+	// public @ResponseBody Map<String, ? extends Object> testjQuery(@RequestBody
+	// Credential credential,HttpServletResponse response){
+	// System.out.println("TEST------");
+	// return Collections.singletonMap("testValue", "ciao Jquery");
+	// }
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String onSubmit(@ModelAttribute("credential") Credential credential, Model model) {
 		System.out.println("######### ciao ###########");
-//		System.out.println("---------"+ test + "---------" );
-		System.out.println(credential.getEmail()+" : "+credential.getPassword());
-		
-		String redirectPage="redirect:";
-		redirectPage="";
-		try{
-			Account account=userService.logIn(credential.getEmail(), credential.getPassword());
-			System.out.println(account.getEmail()+" "+account.getSalt()+" "+account.getLastAccessTimestamp());
-			if(account.getType().equals(AccountType.TOUR_OPERATOR)){
-				redirectPage+="tourOperator/home";
-			} else if(account.getType().equals(AccountType.BOOKER)){
-				redirectPage+="booker/home";
+		// System.out.println("---------"+ test + "---------" );
+		System.out.println(credential.getEmail() + " : " + credential.getPassword());
+
+		String redirectPage = "redirect:";
+		redirectPage = "";
+		try {
+			Account account = userService.logIn(credential.getEmail(), credential.getPassword());
+			System.out.println(account.getEmail() + " " + account.getSalt() + " "
+					+ account.getLastAccessTimestamp());
+			if (account.getType().equals(AccountType.TOUR_OPERATOR)) {
+				redirectPage += "tourOperator/home";
+			} else if (account.getType().equals(AccountType.BOOKER)) {
+				redirectPage += "booker/home";
 			}
 			model.addAttribute("account", account);
-		}catch (Exception e ) {
-			redirectPage="errorPage";
+		} catch (Exception e) {
+			redirectPage = "errorPage";
 		}
 		return redirectPage;
-		
+
 	}
-	
+
 }

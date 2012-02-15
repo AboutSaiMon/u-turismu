@@ -55,7 +55,7 @@ public abstract class AbstractDao<T extends Serializable> implements GenericDao<
 
 	@Override
 	public T findById(Long id) {
-		return (T) session().load(persistentClass, id);
+		return (T) session().get(persistentClass, id);
 	}
 
 	@Override

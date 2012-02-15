@@ -28,6 +28,7 @@ package uturismu.exception;
  */
 public interface ExceptionMessages {
 
-	public static final String INCORRECT_ACCOUNT = "Incorrect Account. Retry!";
+	public static final String INCORRECT_CREDENTIAL = "Incorrect username and/or password.";
+	public static final String ACCOUNT_DISABLED = "The account is not active";
 	
 }
