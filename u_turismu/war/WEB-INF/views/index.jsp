@@ -36,15 +36,23 @@
 	</div>
 	<div id="signup">
 		<sf:form id="signupForm" method="post"
-			modelAttribute="tourOperatorAccount">
+			modelAttribute="accountRegistration">
 			<table id="signupTable">
 				<tr>
-					<td><label for="email">Email</label></td>
-					<td><sf:input id="email" path="email" /></td>
+					<td><label for="emailReg">Email</label></td>
+					<td><sf:input id="emailReg" path="email" /></td>
 				</tr>
 				<tr>
-					<td><label for="pwd">Password</label></td>
-					<td><sf:password id="pwd" path="password" />
+					<td><label for="passwordReg">Password</label></td>
+					<td><sf:password id="passwordReg" path="password" />
+				</tr>
+				<tr>
+					<td><label for="tourOperator">Tour Operator</label></td>
+					<td><sf:radiobuttons path="tourOperator" /> </td>
+				</tr>
+				<tr>
+					<td><label for="booker">Booker</label></td>
+					<td><sf:radiobutton id="booker" path="booker" /></td>
 				</tr>
 			</table>
 		</sf:form>
