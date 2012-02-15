@@ -15,7 +15,6 @@
 			</ul>
 		</nav>
 	</header>
-	<jsp:include page="${page}" />
 	<a href="registration"></a>
 </body>
 </html>

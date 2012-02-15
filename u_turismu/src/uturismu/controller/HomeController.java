@@ -28,11 +28,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import uturismu.command.Credential;
+import uturismu.bean.Credential;
 import uturismu.dto.Account;
 import uturismu.dto.enumtype.AccountType;
+import uturismu.exception.AccountException;
 import uturismu.service.UserService;
 
 /**
@@ -45,31 +45,26 @@ public class HomeController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping({ "/", "index" })
-	public String showHomePage(Model model) {
-		Credential credential = new Credential();
-		boolean TEST = false;
-		model.addAttribute("test", TEST);
-		model.addAttribute("credential", credential);
+	@RequestMapping("/")
+	public String showIndex(Model model) {
+		model.addAttribute("credential", new Credential());
 		return "index";
 	}
 
-	@RequestMapping(value = "/holidayDetails")
-	public String showHolidayPackageDetail(@RequestParam("holidayId") Long id, Model model) {
-		System.out.println("HOME PAGE CONTROLLER");
-
-		return "holidayDetail";
+	@RequestMapping(value = "/home", method = RequestMethod.POST)
+	public String login(Credential credential, Model model) {
+		Account account = null;
+		try {
+			account = userService.logIn(credential.getEmail(), credential.getPassword());
+		} catch (AccountException e) {
+			return "errorPage";
+		}
+		//model.addAttribute("page", "booker/bookerContent.jsp");
+		return "home";
+		
 	}
 
-	// @RequestMapping(value="/test",method=RequestMethod.POST)
-	// public @ResponseBody Map<String, ? extends Object> testjQuery(@RequestBody
-	// Credential credential,HttpServletResponse response){
-	// System.out.println("TEST------");
-	// return Collections.singletonMap("testValue", "ciao Jquery");
-	// }
-
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String onSubmit(@ModelAttribute("credential") Credential credential, Model model) {
+	private String onSubmit(@ModelAttribute("credential") Credential credential, Model model) {
 		System.out.println("######### ciao ###########");
 		// System.out.println("---------"+ test + "---------" );
 		System.out.println(credential.getEmail() + " : " + credential.getPassword());
