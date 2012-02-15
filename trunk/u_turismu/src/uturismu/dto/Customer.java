@@ -82,7 +82,7 @@ public class Customer implements Serializable {
 		return id;
 	}
 
-	@Column(name = "tax_code", length = 16, unique = true, nullable = false)
+	@Column(name = "tax_code", length = 16, nullable = false)
 	public String getTaxCode() {
 		return taxCode;
 	}
