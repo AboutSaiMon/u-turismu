@@ -54,13 +54,18 @@ public class HomeController {
 	@RequestMapping(value = "/home", method = RequestMethod.POST)
 	public String login(Credential credential, Model model) {
 		Account account = null;
+		String redirectPage="redirect:";
 		try {
 			account = userService.logIn(credential.getEmail(), credential.getPassword());
+			if(account.getType().equals(AccountType.TOUR_OPERATOR)){
+				redirectPage+="tourOperator/";
+			}
+			
 		} catch (AccountException e) {
 			return "errorPage";
 		}
 		//model.addAttribute("page", "booker/bookerContent.jsp");
-		return "home";
+		return redirectPage;
 		
 	}
 
