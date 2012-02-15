@@ -5,20 +5,19 @@
 <div id="access" class="topPage">
 	<div id="Loginsfield">
 		
-			<sf:form id="form" name="form1" method="POST" modelAttribute="credential" action="login">
-				<fieldset>
+<%-- 			<sf:form name="form1" method="POST" modelAttribute="credential" action="login"> --%>
+				
 					<label> E-mail : </label>
-					<sf:input path="email" size="20"/>
+					<input id="email" size="20"/>
 <%-- 					<sf:errors path="email" class="error" /> --%>
 					<label> Password : </label>
-					<sf:password path="password" size = "20"/>
+					<input type="password" id="password" size = "20"/>
 <%-- 					<sf:errors path="password" class="error"/> --%>
-					<input type="submit" value="login" />
+<!-- 					<input type="submit" value="login" /> -->
+						<input id="button1" type="button" name="buttonlogin" value="login"> 
 					
-<!-- 						<input id="button1" type="button" name="buttonlogin" value="login">  -->
-					
-				</fieldset>
-			</sf:form>
+				
+<%-- 			</sf:form> --%>
 			
 			<div id="toFill">
 				
@@ -31,9 +30,11 @@
 			
 				$("#button1").bind("click",function(){
 						write();
-						$.postJSON("test",$("#form").serialize(),function(data){
-							$("#toFill").append("<p> CIAO </p>");
-						});
+						$.postJSON("test",
+								{email: $("#email").val().serialize(),password:$("#password").val().serialize() },
+								function(data){
+									$("#toFill").append("<p> CIAO </p>");
+								});
 				});
 			</script>
 	</div>
