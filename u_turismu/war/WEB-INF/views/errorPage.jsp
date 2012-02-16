@@ -9,7 +9,7 @@
 <body>
 	<h2>Siamo Spiacenti si E vrificato un errore</h2>
 	<p>
-		<a href="/uTurismu">torna alla home</a>
+		<a href="/U_Turismu/">torna alla home</a>
 	</p>
 </body>
 </html>

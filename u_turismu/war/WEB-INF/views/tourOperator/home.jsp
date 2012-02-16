@@ -1,33 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>	
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<link type="text/css" rel="stylesheet" href="<c:url value="/resources/css/home.css"/>" />
+
+
+<title>U_Turismu - TourOperator</title>
+
 </head>
 <body>
 	<div id="topPage">
 		<div id="accountData"> </div>
 		<div id="accountFunction">
-			<a id="accountModify" class="button">Modifica Account</a>
-			<a id="accountModify" class="button" >Log Out</a>
+			<a id="accountModify" class="button" href="#">Modifica Account</a>
+			<a id="accountLogOut" class="button" href="#">Log Out</a>
 		</div>
 	</div>
 	
 	<div id="contentPage">
-		<div id="packagesList">
-			
-		</div>
-		<div id="packageFunction">
-			<a id="addPackage" class="button">Add Holiday Package</a>
-			<hr>
-			<p class="title">Visualizzazione Pacchetti</p> 
-			<a id="showAll" class="button" href="#">Visualizza Tutti</a>
-			<a id="showPublished" class="button" href="#">Visualizza Published</a>
-			<a id="showDraft" class="button" href="#">Visualizza Draft</a>
-			<a id="showExpired" class="button" href="#">Visualizza Expired</a>
-		</div>
+		<jsp:include page="touroperatorContent.jsp"></jsp:include>
 	 </div>
 </body>
 </html>
