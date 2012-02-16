@@ -5,6 +5,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%-- <link type="text/css" rel="stylesheet" href="<c:url value="/resources/css/home.css"/>" /> --%>
+<link type="text/css" rel="stylesheet" href="resources/css/home.css" />
 <meta charset="UTF-8">
 <style type="text/css">
 .error {
@@ -14,7 +16,7 @@
 <title>uTurismu</title>
 </head>
 <body>
-	<div id="login">
+	<div id="login" class="login">
 		<sf:form id="loginForm" action="home" method="post" modelAttribute="credential">
 			<label id="emailLoginLabel" for="emailLogin">Email</label>
 			<sf:input id="emailLogin" path="email" />
