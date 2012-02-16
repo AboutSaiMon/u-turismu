@@ -72,15 +72,14 @@ public class HomeController {
 			// effettua il login
 			Account account = userService.logIn(credential.getEmail(), credential.getPassword());
 			// dichiara il bean che verrà passato nella sessione
-			UTurismuBean bean;
+			UTurismuBean bean = null;
 			// se è un tour operator
 			if (account.getType().equals(AccountType.TOUR_OPERATOR)) {
 				// acquisisce il tour operator mediante il suo id
-				TourOperator tourOperator = userService.getTourOperatorById(account.getTourOperator()
-						.getId());
+				TourOperator tourOperator = userService.getTourOperatorById(account.getTourOperator().getId());
 				// codifica i due oggetti DTO in un bean
 				bean = BeanMapping.encode(account, tourOperator);
-			} else {
+			} else if (account.getType().equals(AccountType.BOOKER)) {
 				// acquisisce il booker mediante il suo id
 				Booker booker = userService.getBookerById(account.getBooker().getId());
 				// codifica i due oggetti DTO in un bean
