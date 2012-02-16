@@ -10,14 +10,16 @@
 </head>
 <body>
 	<div id="login" class="login">
-		<sf:form id="loginForm" action="home" method="post"
-			modelAttribute="credential">
+		<sf:form id="loginForm" action="home" method="post" modelAttribute="credential">
 			<label id="emailLoginLabel" for="emailLogin">Email</label>
 			<sf:input id="emailLogin" path="email" />
+			
 			<sf:errors path="email" cssClass="error" />
 			<label id="passwordLoginLabel" for="passwordLogin">Password</label>
+			
 			<sf:password id="passwordLogin" path="password" />
 			<sf:errors path="password" cssClass="error" />
+			
 			<input type="submit" value="Log In" />
 		</sf:form>
 	</div>
