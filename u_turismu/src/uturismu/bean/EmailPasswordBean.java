@@ -1,13 +1,20 @@
 package uturismu.bean;
 
-public class Credential {
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+public class EmailPasswordBean implements UTurismuBean {
+
+	private static final long serialVersionUID = -8856627016704270678L;
+	@NotNull
 	private String email;
+	@NotNull
+	@Size(min = 6, max = 15)
 	private String password;
 
-	public Credential() {
+	public EmailPasswordBean() {
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}

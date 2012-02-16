@@ -15,47 +15,37 @@
 </head>
 <body>
 	<div id="login">
-		<sf:form id="loginForm" action="home" method="post"
-			modelAttribute="credential">
-			<label for="email">Email</label>
-			<sf:input id="email" path="email" />
+		<sf:form id="loginForm" action="home" method="post" modelAttribute="credential">
+			<label id="emailLoginLabel" for="emailLogin">Email</label>
+			<sf:input id="emailLogin" path="email" />
 			<sf:errors path="email" cssClass="error" />
-			<label for="password">Password</label>
-			<sf:password id="password" path="password" />
+			<label id="passwordLoginLabel" for="passwordLogin">Password</label>
+			<sf:password id="passwordLogin" path="password" />
 			<sf:errors path="password" cssClass="error" />
 			<input type="submit" value="Log In" />
 		</sf:form>
 	</div>
+	<div id="signup">
+		<sf:form id="signupForm" action="home" method="post" modelAttribute="signup">
+			<label id="emailSignupLabel" for="emailSignup">Email</label>
+			<sf:input id="emailSignup" path="email" />
+			<sf:errors path="email" cssClass="error" />
+			<label id="passwordSignupLabel" for="passwordSignup">Password</label>
+			<sf:password id="passwordSignup" path="password" />
+			<sf:errors path="password" cssClass="error" />
+			<label id="bookerLabel" for="booker">Booker</label>
+			<input id="booker" type="radio" name="type" value="booker" checked="checked" />
+			<label id="touroperatorLabel" for="touroperator">Tour Operator</label>
+			<input id="touroperator" type="radio" name="type" value="touroperator" />
+			<input type="submit" value="Sign Up" />
+		</sf:form>
+	</div>
 	<div id="packageList">
-		<span>Scegli la tua vacanza</span>
 		<ul>
 			<c:forEach var="holiday" items="${holidayList}">
 				<li>${holiday.name} (${holiday.description})</li>
 			</c:forEach>
 		</ul>
-	</div>
-	<div id="signup">
-		<sf:form id="signupForm" method="post"
-			modelAttribute="accountRegistration">
-			<table id="signupTable">
-				<tr>
-					<td><label for="emailReg">Email</label></td>
-					<td><sf:input id="emailReg" path="email" /></td>
-				</tr>
-				<tr>
-					<td><label for="passwordReg">Password</label></td>
-					<td><sf:password id="passwordReg" path="password" />
-				</tr>
-				<tr>
-					<td><label for="tourOperator">Tour Operator</label></td>
-					<td><sf:radiobuttons path="tourOperator" /> </td>
-				</tr>
-				<tr>
-					<td><label for="booker">Booker</label></td>
-					<td><sf:radiobutton id="booker" path="booker" /></td>
-				</tr>
-			</table>
-		</sf:form>
 	</div>
 </body>
 </html>

@@ -49,8 +49,8 @@ import uturismu.dto.enumtype.Gender;
 import uturismu.dto.enumtype.IdType;
 
 /**
- * @author "LagrecaSpaccarotella" team.
  * 
+ * @author "LagrecaSpaccarotella" team. 
  */
 @Entity(name = "CUSTOMER")
 public class Customer implements Serializable {
