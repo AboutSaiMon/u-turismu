@@ -32,8 +32,6 @@ import uturismu.dto.Booker;
 import uturismu.dto.Booking;
 import uturismu.dto.City;
 import uturismu.dto.CityTag;
-import uturismu.dto.Confirmation;
-import uturismu.dto.Customer;
 import uturismu.dto.EventTag;
 import uturismu.dto.HolidayPackage;
 import uturismu.dto.HolidayTag;
@@ -68,8 +66,6 @@ public class HibernateUtil {
 			configuration.addAnnotatedClass(Booking.class);
 			configuration.addAnnotatedClass(City.class);
 			configuration.addAnnotatedClass(CityTag.class);
-			configuration.addAnnotatedClass(Confirmation.class);
-			configuration.addAnnotatedClass(Customer.class);
 			configuration.addAnnotatedClass(EventTag.class);
 			configuration.addAnnotatedClass(HolidayPackage.class);
 			configuration.addAnnotatedClass(HolidayTag.class);

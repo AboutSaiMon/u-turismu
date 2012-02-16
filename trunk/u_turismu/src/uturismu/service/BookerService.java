@@ -22,10 +22,15 @@
  */
 package uturismu.service;
 
+import uturismu.dto.Booker;
+import uturismu.dto.HolidayPackage;
+
 /**
  * @author "LagrecaSpaccarotella" team.
  *
  */
 public interface BookerService {
 
+	public void book(Booker booker, HolidayPackage holidayPackage);
+	
 }

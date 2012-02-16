@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*
 package uturismu.dao;
 
 import org.hibernate.SessionFactory;
@@ -28,11 +29,6 @@ import org.springframework.stereotype.Repository;
 
 import uturismu.dto.Confirmation;
 
-/**
- * @author "LagrecaSpaccarotella" team.
- *
- */
-@Repository
 public class ConfirmationDaoImpl extends AbstractDao<Confirmation> implements ConfirmationDao {
 
 	@Autowired
@@ -41,3 +37,4 @@ public class ConfirmationDaoImpl extends AbstractDao<Confirmation> implements Co
 	}
 
 }
+*/

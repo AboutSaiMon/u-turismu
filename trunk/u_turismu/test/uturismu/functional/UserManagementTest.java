@@ -169,6 +169,16 @@ public class UserManagementTest {
 		account.setType(AccountType.BOOKER);
 		return account;
 	}
+	
+	private static TourOperator createTourOperator(String vatNumber, String name, Account account) {
+		TourOperator tourOperator = new TourOperator();
+		tourOperator.setVatNumber(vatNumber);
+		tourOperator.setName(name);
+		tourOperator.setHolderName("Dr. Lemuel Gulliver");
+		tourOperator.setAccount(account);
+		account.setTourOperator(tourOperator);
+		return tourOperator;
+	}
 
 	private static Booker createBooker(String taxCode, Account account) {
 		Booker booker = new Booker();

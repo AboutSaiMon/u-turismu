@@ -6,7 +6,6 @@ public class TourOperatorBean extends AccountBean {
 	private String vatNumber;
 	private String name;
 	private String holderName;
-	private AddressBean headOffice;
 
 	public TourOperatorBean() {
 	}
@@ -33,14 +32,6 @@ public class TourOperatorBean extends AccountBean {
 
 	public void setHolderName(String holderName) {
 		this.holderName = holderName;
-	}
-
-	public AddressBean getHeadOffice() {
-		return headOffice;
-	}
-
-	public void setHeadOffice(AddressBean headOffice) {
-		this.headOffice = headOffice;
 	}
 
 }

@@ -3,19 +3,21 @@ package uturismu.controller;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import uturismu.dto.HolidayPackage;
 import uturismu.dto.Service;
 import uturismu.service.TourOperatorService;
 
-@RequestMapping("to")
+@Controller
+@RequestMapping("to/")
 public class TourOperatorController {
 
 	@Autowired
 	private TourOperatorService touroperatorService;
 
-	@RequestMapping("/home")
+	@RequestMapping("home")
 	public String showHomePage() {
 		return "home";
 	}

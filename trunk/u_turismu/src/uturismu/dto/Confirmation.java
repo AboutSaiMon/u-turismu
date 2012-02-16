@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*
 package uturismu.dto;
 
 import java.io.Serializable;
@@ -41,6 +42,7 @@ import org.hibernate.annotations.Type;
  * @author "LagrecaSpaccarotella" team.
  * 
  */
+/*
 @Entity(name = "CONFIRMATION")
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "id_booking", "id_customer" }))
 public class Confirmation implements Serializable {
@@ -149,3 +151,4 @@ public class Confirmation implements Serializable {
 	}
 
 }
+*/
