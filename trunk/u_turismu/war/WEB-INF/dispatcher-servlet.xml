@@ -63,7 +63,6 @@
 	<!-- Defines the local folder that contains static resources, such as images, 
 		html files, etc. -->
 	<mvc:resources location="/resources/" mapping="/resources/**" />
-<!-- 	<mvc:default-servlet-handler/> -->
 	
 	<!-- Defines the ViewResolver of the MVC pattern -->
 	<bean

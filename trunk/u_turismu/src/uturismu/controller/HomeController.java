@@ -57,6 +57,7 @@ public class HomeController {
 	public String showIndex(Model model) {
 		model.addAttribute("credential", new EmailPasswordBean());
 		model.addAttribute("signup", new EmailPasswordBean());
+		model.addAttribute("holidayList", userService.getHolidayPackages());
 		return "index";
 	}
 
@@ -71,10 +72,12 @@ public class HomeController {
 		try {
 			// effettua il login
 			Account account = userService.logIn(credential.getEmail(), credential.getPassword());
+			System.out.println(account.getType());
 			// dichiara il bean che verrà passato nella sessione
 			UTurismuBean bean = null;
 			// se è un tour operator
 			if (account.getType().equals(AccountType.TOUR_OPERATOR)) {
+				System.out.println("sono dentro tour operator");
 				// acquisisce il tour operator mediante il suo id
 				TourOperator tourOperator = userService.getTourOperatorById(account.getTourOperator().getId());
 				// codifica i due oggetti DTO in un bean
@@ -82,6 +85,9 @@ public class HomeController {
 				model.addAttribute("content", "touroperator/homeContent.jsp");
 				forwardPage.append("to/home");
 			} else if (account.getType().equals(AccountType.BOOKER)) {
+				System.out.println("sono dentro booker");
+				Booker b = account.getBooker();
+				b.getId();
 				// acquisisce il booker mediante il suo id
 				Booker booker = userService.getBookerById(account.getBooker().getId());
 				// codifica i due oggetti DTO in un bean
