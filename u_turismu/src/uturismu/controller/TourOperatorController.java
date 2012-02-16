@@ -15,7 +15,7 @@ import uturismu.dto.HolidayPackage;
 import uturismu.dto.Service;
 import uturismu.service.TourOperatorService;
 
-@Controller("/tourOperator")
+@Controller("/to")
 public class TourOperatorController {
 
 	@Autowired
