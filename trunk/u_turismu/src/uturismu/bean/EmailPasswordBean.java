@@ -9,7 +9,7 @@ public class EmailPasswordBean implements UTurismuBean {
 	@NotNull
 	private String email;
 	@NotNull
-	@Size(min = 6, max = 15)
+	@Size(min = 3, max = 15)
 	private String password;
 
 	public EmailPasswordBean() {

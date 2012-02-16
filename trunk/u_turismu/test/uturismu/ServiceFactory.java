@@ -25,6 +25,8 @@ package uturismu;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import uturismu.dto.Station;
+import uturismu.dto.Transport;
 import uturismu.service.TourOperatorService;
 import uturismu.service.UserService;
 import uturismu.service.backup.AccommodationService;
@@ -32,6 +34,7 @@ import uturismu.service.backup.CityService;
 import uturismu.service.backup.HolidayPackageService;
 import uturismu.service.backup.HolidayTagService;
 import uturismu.service.backup.OvernightStayService;
+import uturismu.service.backup.StationService;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -74,6 +77,12 @@ public class ServiceFactory {
 	public static OvernightStayService getOvernightStayService() {
 		return context.getBean(OvernightStayService.class);
 	}
+	
+	public static StationService getStationService(){
+		return context.getBean(StationService.class);
+	}
+	
+	
 
 	public static CityService getCityService() {
 		return context.getBean(CityService.class);
