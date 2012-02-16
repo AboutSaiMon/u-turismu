@@ -47,7 +47,7 @@ import uturismu.service.UserService;
  * 
  */
 @Controller
-@SessionAttributes({ "account", "content" })
+@SessionAttributes({ "account" })
 public class HomeController {
 
 	@Autowired
@@ -66,7 +66,7 @@ public class HomeController {
 		StringBuffer forwardPage = new StringBuffer("forward:");
 		// se ci sono errori nella compilazione dei campi
 		if (result.hasErrors()) {
-			// si ritorna alla pagina iniziale con errore
+			// restituisce il nome della pagina iniziale con errore
 			return "index";
 		}
 		try {
@@ -78,16 +78,14 @@ public class HomeController {
 			// se è un tour operator
 			if (account.getType().equals(AccountType.TOUR_OPERATOR)) {
 				System.out.println("sono dentro tour operator");
-				// acquisisce il tour operator mediante il suo id
-				TourOperator tourOperator = userService.getTourOperatorById(account.getTourOperator().getId());
+				TourOperator tourOperator = account.getTourOperator();
+				System.out.println("Tour Operator ID: " + tourOperator.getId());
 				// codifica i due oggetti DTO in un bean
 				bean = BeanMapping.encode(account, tourOperator);
 				model.addAttribute("content", "touroperator/homeContent.jsp");
 				forwardPage.append("to/home");
 			} else if (account.getType().equals(AccountType.BOOKER)) {
 				System.out.println("sono dentro booker");
-				Booker b = account.getBooker();
-				b.getId();
 				// acquisisce il booker mediante il suo id
 				Booker booker = userService.getBookerById(account.getBooker().getId());
 				// codifica i due oggetti DTO in un bean

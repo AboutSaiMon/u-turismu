@@ -42,6 +42,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cascade;
@@ -82,6 +83,11 @@ public class HolidayPackage implements Serializable {
 		counter = 0;
 	}
 
+	@Transient
+	public boolean isSoldOut() {
+		return counter >= availability;
+	}
+	
 	@Id
 	@GeneratedValue
 	public Long getId() {

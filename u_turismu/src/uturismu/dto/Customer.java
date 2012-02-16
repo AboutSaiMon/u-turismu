@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*
 package uturismu.dto;
 
 import java.io.Serializable;
@@ -52,6 +53,7 @@ import uturismu.dto.enumtype.IdType;
  * 
  * @author "LagrecaSpaccarotella" team. 
  */
+/*
 @Entity(name = "CUSTOMER")
 public class Customer implements Serializable {
 
@@ -306,3 +308,4 @@ public class Customer implements Serializable {
 	}
 
 }
+*/

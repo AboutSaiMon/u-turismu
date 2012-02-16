@@ -20,14 +20,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*
 package uturismu.dao;
 
 import uturismu.dto.Customer;
 
-/**
- * @author "LagrecaSpaccarotella" team.
- *
- */
 public interface CustomerDao extends GenericDao<Customer> {
 
 }
+*/

@@ -22,10 +22,49 @@
  */
 package uturismu.service;
 
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import uturismu.dao.BookingDao;
+import uturismu.dao.HolidayPackageDao;
+import uturismu.dto.Booker;
+import uturismu.dto.Booking;
+import uturismu.dto.HolidayPackage;
+import uturismu.dto.enumtype.Status;
+
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
  */
+@Service
+@Transactional
 public class BookerServiceImpl implements BookerService {
+
+	@Autowired
+	private BookingDao bookingDao;
+	@Autowired
+	private HolidayPackageDao holidayPackageDao;
+
+	@Override
+	public void book(Booker booker, HolidayPackage holidayPackage) {
+		if (!holidayPackage.isSoldOut()) {
+			Booking booking = new Booking();
+			booking.setBookingTimestamp(new Date());
+			booking.setBooker(booker);
+			booker.addBooking(booking);
+			booking.setHolidayPackage(holidayPackage);
+			holidayPackage.addBooking(booking);
+			
+			bookingDao.save(booking);
+			holidayPackage.incrementCounter();
+			if (holidayPackage.isSoldOut()) {
+				holidayPackage.setStatus(Status.EXPIRED);
+			}
+			holidayPackageDao.update(holidayPackage);
+		}
+	}
 
 }
