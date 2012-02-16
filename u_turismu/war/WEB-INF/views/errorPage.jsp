@@ -4,12 +4,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link type="text/css" rel="stylesheet" href="resources/css/home.css" media="screen">
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>Siamo Spiacenti si E vrificato un errore</h2>
-	<p>
-		<a href="/U_Turismu/">torna alla home</a>
-	</p>
+	<h2>Pagina di errore</h2>
+	Messaggio di Errore: <span class="error">${errorMessage}</span>
 </body>
 </html>

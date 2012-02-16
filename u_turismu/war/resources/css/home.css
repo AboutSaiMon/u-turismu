@@ -116,3 +116,7 @@ div{
 .button:HOVER {
 	background-color: #FFF8DC;
 }
+
+.error {
+	color: red;
+}
