@@ -28,7 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -48,7 +47,7 @@ import uturismu.service.UserService;
  * 
  */
 @Controller
-@SessionAttributes({"account" , "content"})
+@SessionAttributes({ "account", "content" })
 public class HomeController {
 
 	@Autowired
@@ -63,9 +62,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/home", method = RequestMethod.POST)
 	public String login(@Valid EmailPasswordBean credential, BindingResult result, Model model) {
-		
-		StringBuffer redirectPage =new StringBuffer("forward:"); 
-		
+		StringBuffer forwardPage = new StringBuffer("forward:");
 		// se ci sono errori nella compilazione dei campi
 		if (result.hasErrors()) {
 			// si ritorna alla pagina iniziale con errore
@@ -75,64 +72,34 @@ public class HomeController {
 			// effettua il login
 			Account account = userService.logIn(credential.getEmail(), credential.getPassword());
 			// dichiara il bean che verrà passato nella sessione
-			UTurismuBean bean=null;
+			UTurismuBean bean = null;
 			// se è un tour operator
 			if (account.getType().equals(AccountType.TOUR_OPERATOR)) {
 				// acquisisce il tour operator mediante il suo id
 				TourOperator tourOperator = userService.getTourOperatorById(account.getTourOperator().getId());
 				// codifica i due oggetti DTO in un bean
 				bean = BeanMapping.encode(account, tourOperator);
-				model.addAttribute("content","to/touroperatorContent.jsp");
-				redirectPage.append("to/home");
-				
-			} else if(account.getType().equals(AccountType.BOOKER)) {
+				model.addAttribute("content", "touroperator/homeContent.jsp");
+				forwardPage.append("to/home");
+			} else if (account.getType().equals(AccountType.BOOKER)) {
 				// acquisisce il booker mediante il suo id
 				Booker booker = userService.getBookerById(account.getBooker().getId());
 				// codifica i due oggetti DTO in un bean
 				bean = BeanMapping.encode(account, booker);
-				model.addAttribute("content","booker/bookerContent.jsp");
+				model.addAttribute("content", "booker/homeContent.jsp");
+				forwardPage.append("bo/home");
 			}
-			
 			model.addAttribute("account", bean);
-			
-			
 		} catch (AccountException e) {
 			model.addAttribute("message", e.getMessage());
 			return "errorPage";
 		}
-		return redirectPage.toString();
+		return forwardPage.toString();
 	}
 
 	@RequestMapping(value = "/home", params = "new", method = RequestMethod.POST)
 	public String signup(@Valid EmailPasswordBean signup, BindingResult result) {
 		return "index";
-	}
-
-
-	
-	
-	private String onSubmit(@ModelAttribute("credential") EmailPasswordBean credential, Model model) {
-		System.out.println("######### ciao ###########");
-		// System.out.println("---------"+ test + "---------" );
-		System.out.println(credential.getEmail() + " : " + credential.getPassword());
-
-		String redirectPage = "redirect:";
-		redirectPage = "";
-		try {
-			Account account = userService.logIn(credential.getEmail(), credential.getPassword());
-			System.out.println(account.getEmail() + " " + account.getSalt() + " "
-					+ account.getLastAccessTimestamp());
-			if (account.getType().equals(AccountType.TOUR_OPERATOR)) {
-				redirectPage += "tourOperator/home";
-			} else if (account.getType().equals(AccountType.BOOKER)) {
-				redirectPage += "booker/home";
-			}
-			model.addAttribute("account", account);
-		} catch (Exception e) {
-			redirectPage = "errorPage";
-		}
-		return redirectPage;
-
 	}
 
 }
