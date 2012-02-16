@@ -46,7 +46,7 @@ public class TourOperatorManagementTest {
 		String email = "tourop@gmail.com";
 		String password = "password";
 		String vatNumber = "11111111110";
-		Account account = createAccount(email, password);
+		Account account = createAccount(email, password, AccountType.TOUR_OPERATOR);
 		TourOperator tourOperator = createTourOperator(vatNumber, "UNO", account);
 		getUserService().createAccount(account, tourOperator);
 
@@ -61,7 +61,7 @@ public class TourOperatorManagementTest {
 		String email = "touroperatorException@gmail.com";
 		String password = "password";
 		String vatNumber = "12345678901";
-		Account account = createAccount(email, password);
+		Account account = createAccount(email, password, AccountType.TOUR_OPERATOR);
 		TourOperator tourOperator = createTourOperator(vatNumber, "UNO", account);
 		getUserService().createAccount(account, tourOperator);
 		password = "passwordSbagliata";
@@ -73,7 +73,7 @@ public class TourOperatorManagementTest {
 		String email = "touroperator@email.com";
 		String password = "password";
 		String vatNumber = "22222222220";
-		Account account1 = createAccount(email, password);
+		Account account1 = createAccount(email, password, AccountType.TOUR_OPERATOR);
 		TourOperator top1 = createTourOperator(vatNumber, "UNO", account1);
 		top1.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package1", top1));
 		top1.addHolidayPackage(createHolidayPackage(Status.EXPIRED, "Package2", top1));
@@ -84,7 +84,7 @@ public class TourOperatorManagementTest {
 		String email2 = "tourOperatorDUE@gmail.com";
 		String password2 = "passwordDUE";
 		String vatNumber2 = "01333333333";
-		Account account2 = createAccount(email2, password2);
+		Account account2 = createAccount(email2, password2, AccountType.TOUR_OPERATOR);
 		TourOperator top2 = createTourOperator(vatNumber2, "DUE", account2);
 		top2.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package2_1", top2));
 		top2.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "Package2_2", top2));
@@ -154,7 +154,7 @@ public class TourOperatorManagementTest {
 		String email = "TESTING_UPDATE@yahoo.com";
 		String password = "password";
 		String vatNumber = "98765432122";
-		Account account1 = createAccount(email, password);
+		Account account1 = createAccount(email, password, AccountType.TOUR_OPERATOR);
 		TourOperator tourOperator = createTourOperator(vatNumber, "UNO", account1);
 		tourOperator.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package1", tourOperator));
 		tourOperator.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package2", tourOperator));
@@ -211,7 +211,7 @@ public class TourOperatorManagementTest {
 		String email = "TESTING_DELETE@gmail.com";
 		String password = "password";
 		String vatNumber = "400567";
-		Account account1 = createAccount(email, password);
+		Account account1 = createAccount(email, password, AccountType.TOUR_OPERATOR);
 		TourOperator tourOperator = createTourOperator(vatNumber, "UNO", account1);
 		tourOperator.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package1", tourOperator));
 		tourOperator.addHolidayPackage(createHolidayPackage(Status.DRAFT, "Package2", tourOperator));
@@ -231,7 +231,7 @@ public class TourOperatorManagementTest {
 		String email = "TESTING_ADD@gmail.com";
 		String password = "password";
 		String vatNumber = "789";
-		Account account1 = createAccount(email, password);
+		Account account1 = createAccount(email, password, AccountType.TOUR_OPERATOR);
 		TourOperator tourOperator = createTourOperator(vatNumber, "UNO", account1);
 		getUserService().createAccount(account1, tourOperator);
 
@@ -246,7 +246,7 @@ public class TourOperatorManagementTest {
 		assertThat(hpToADD.getTourOperator().getId(), is(equalTo(tourOperator.getId())));
 	}
 
-	private static Account createAccount(String email, String password) {
+	private static Account createAccount(String email, String password, AccountType type) {
 		Account account = new Account();
 		account.setActive(true);
 		account.setEmail(email);
@@ -255,7 +255,7 @@ public class TourOperatorManagementTest {
 		account.setPassword(HashUtil.getHash(password, salt));
 		account.setLastAccessTimestamp(new Date());
 		account.setRegistrationTimestamp(new Date());
-		account.setType(AccountType.BOOKER);
+		account.setType(type);
 		return account;
 	}
 
