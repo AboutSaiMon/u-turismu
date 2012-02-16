@@ -135,4 +135,10 @@ public class UserServiceImpl implements UserService {
 		return tourOperatorDao.findById(id);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Booker getBookerById(Long id) {
+		return bookerDao.findById(id);
+	}
+
 }

@@ -133,11 +133,21 @@ public interface UserService {
 	public TourOperator getTourOperatorById(Long id);
 
 	/**
-	 * Restitusce un {@link HolidayPackage} dato il suo id
+	 * Restitusce un {@link HolidayPackage} dato il suo id.
 	 * 
-	 * @param idHolidayPackage
+	 * @param id
+	 *           l'id dell'holiday package
 	 * @return {@link HolidayPackage}
 	 */
-	public HolidayPackage getHolidayPackageByID(Long idHolidayPackage);
+	public HolidayPackage getHolidayPackageByID(Long id);
+
+	/**
+	 * Restituisce un {@link Booker} dato il suo id.
+	 * 
+	 * @param id
+	 *           l'id del Booker
+	 * @return {@link Booker}
+	 */
+	public Booker getBookerById(Long id);
 
 }

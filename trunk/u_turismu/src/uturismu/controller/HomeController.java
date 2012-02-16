@@ -22,15 +22,23 @@
  */
 package uturismu.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-import uturismu.bean.Credential;
+import uturismu.bean.EmailPasswordBean;
+import uturismu.bean.UTurismuBean;
+import uturismu.bean.util.BeanMapping;
 import uturismu.dto.Account;
+import uturismu.dto.Booker;
+import uturismu.dto.TourOperator;
 import uturismu.dto.enumtype.AccountType;
 import uturismu.exception.AccountException;
 import uturismu.service.UserService;
@@ -40,6 +48,7 @@ import uturismu.service.UserService;
  * 
  */
 @Controller
+@SessionAttributes("account")
 public class HomeController {
 
 	@Autowired
@@ -47,29 +56,50 @@ public class HomeController {
 
 	@RequestMapping("/")
 	public String showIndex(Model model) {
-		model.addAttribute("credential", new Credential());
+		model.addAttribute("credential", new EmailPasswordBean());
+		model.addAttribute("signup", new EmailPasswordBean());
 		return "index";
 	}
 
 	@RequestMapping(value = "/home", method = RequestMethod.POST)
-	public String login(Credential credential, Model model) {
-		Account account = null;
-		String redirectPage="redirect:";
+	public String login(@Valid EmailPasswordBean credential, BindingResult result, Model model) {
+		// se ci sono errori nella compilazione dei campi
+		if (result.hasErrors()) {
+			// si ritorna alla pagina iniziale con errore
+			return "index";
+		}
 		try {
-			account = userService.logIn(credential.getEmail(), credential.getPassword());
-			if(account.getType().equals(AccountType.TOUR_OPERATOR)){
-				redirectPage+="tourOperator/";
+			// effettua il login
+			Account account = userService.logIn(credential.getEmail(), credential.getPassword());
+			// dichiara il bean che verrà passato nella sessione
+			UTurismuBean bean;
+			// se è un tour operator
+			if (account.getType().equals(AccountType.TOUR_OPERATOR)) {
+				// acquisisce il tour operator mediante il suo id
+				TourOperator tourOperator = userService.getTourOperatorById(account.getTourOperator()
+						.getId());
+				// codifica i due oggetti DTO in un bean
+				bean = BeanMapping.encode(account, tourOperator);
+			} else {
+				// acquisisce il booker mediante il suo id
+				Booker booker = userService.getBookerById(account.getBooker().getId());
+				// codifica i due oggetti DTO in un bean
+				bean = BeanMapping.encode(account, booker);
 			}
-			
+			model.addAttribute("account", bean);
 		} catch (AccountException e) {
+			model.addAttribute("message", e.getMessage());
 			return "errorPage";
 		}
-		//model.addAttribute("page", "booker/bookerContent.jsp");
-		return redirectPage;
-		
+		return "redirect:";
 	}
 
-	private String onSubmit(@ModelAttribute("credential") Credential credential, Model model) {
+	@RequestMapping(value = "/home", params = "new", method = RequestMethod.POST)
+	public String signup(@Valid EmailPasswordBean signup, BindingResult result) {
+		return "index";
+	}
+
+	private String onSubmit(@ModelAttribute("credential") EmailPasswordBean credential, Model model) {
 		System.out.println("######### ciao ###########");
 		// System.out.println("---------"+ test + "---------" );
 		System.out.println(credential.getEmail() + " : " + credential.getPassword());
