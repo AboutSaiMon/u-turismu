@@ -2,6 +2,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 
+<h1>HOME CONTENT</h1>
 <div id="packagesList">
 	<c:forEach var="pack" items="${packs}">
 		<div id="${pack.id}"> <a class="block" href="#${pack.id}"> ${pack.name} | ${pack.description} | ${pack.prize} </a> </div>
