@@ -5,9 +5,11 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static uturismu.ServiceFactory.*;
+import static uturismu.ServiceFactory.getCityService;
+import static uturismu.ServiceFactory.getStationService;
+import static uturismu.ServiceFactory.getTourOperatorService;
+import static uturismu.ServiceFactory.getUserService;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -15,12 +17,10 @@ import java.util.Set;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
-
-
 import uturismu.HashUtil;
 import uturismu.ServiceFactory;
 import uturismu.dto.Account;
+import uturismu.dto.Address;
 import uturismu.dto.City;
 import uturismu.dto.HolidayPackage;
 import uturismu.dto.OvernightStay;
@@ -33,7 +33,6 @@ import uturismu.dto.enumtype.ServiceType;
 import uturismu.dto.enumtype.StationType;
 import uturismu.dto.enumtype.Status;
 import uturismu.exception.AccountException;
-import uturismu.dto.Address;
 
 public class TourOperatorManagementTest {
 
@@ -211,22 +210,19 @@ public class TourOperatorManagementTest {
 			System.out.println();
 		}
 	}
-	
-	
-	
+
 	@Test
-	public void addTourOperatorFull(){
-		
-		String email="top@gmail.com";
-		String password="111";
-		String vatNumber="1234567";
-		Account account=createAccount(email, password, AccountType.TOUR_OPERATOR);
+	public void addTourOperatorFull() {
+
+		String email = "top@gmail.com";
+		String password = "111";
+		String vatNumber = "1234567";
+		Account account = createAccount(email, password, AccountType.TOUR_OPERATOR);
 		TourOperator top = createTourOperator(vatNumber, "Giuseppe La Greca", account);
 		account.setTourOperator(top);
-		HolidayPackage pack1=createHolidayPackage(Status.DRAFT, "pack1", top);
-		
-		
-		OvernightStay service=new OvernightStay();
+		HolidayPackage pack1 = createHolidayPackage(Status.DRAFT, "pack1", top);
+
+		OvernightStay service = new OvernightStay();
 		service.setPrice(200D);
 		service.setArrivalDate(new Date());
 		service.setLeavingDate(new Date());
@@ -234,47 +230,43 @@ public class TourOperatorManagementTest {
 		service.setHolidayPackage(pack1);
 		service.setServiceType(ServiceType.FULL_SERVICE);
 		pack1.addService(service);
-		
-		Transport s2=new Transport();
+
+		Transport s2 = new Transport();
 		s2.setPrice(300d);
 		s2.setDescription("viaggio molto Lungo");
 		s2.setDepartureTimestamp(new Date());
 		s2.setHolidayPackage(pack1);
-		Station station=new Station();
+		Station station = new Station();
 		station.setType(StationType.AIRPORT);
 		station.setDescription("fiumicino");
 		getStationService().save(station);
-		
-		
-		Station station2=new Station();
+
+		Station station2 = new Station();
 		station2.setType(StationType.AIRPORT);
 		station2.setDescription("barcellona");
 		getStationService().save(station2);
-		
+
 		s2.setArrivalStation(station);
 		s2.setDepartureStation(station2);
-		
+
 		service.setHolidayPackage(pack1);
 		pack1.addService(s2);
-		
-		
+
 		top.addHolidayPackage(pack1);
 		top.addHolidayPackage(createHolidayPackage(Status.DRAFT, "pack2", top));
 		top.addHolidayPackage(createHolidayPackage(Status.DRAFT, "pack3", top));
 		top.addHolidayPackage(createHolidayPackage(Status.DRAFT, "pack4", top));
 		top.addHolidayPackage(createHolidayPackage(Status.EXPIRED, "pack5", top));
 		top.addHolidayPackage(createHolidayPackage(Status.EXPIRED, "pack6", top));
-		
+
 		top.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "pack7", top));
 		top.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "pack8", top));
 		top.addHolidayPackage(createHolidayPackage(Status.PUBLISHED, "pack9", top));
-		
-		getUserService().createAccount(account,top);
-		
+
+		getUserService().createAccount(account, top);
+
 	}
-	
-	
-	
+
 	@Test
 	public void deletePackage() {
 		String email = "TESTING_DELETE@gmail.com";
@@ -334,21 +326,22 @@ public class TourOperatorManagementTest {
 		tourOperator.setName("TourOperator " + name);
 		tourOperator.setHolderName("Dr. Lemuel Gulliver");
 		tourOperator.setAccount(account);
-		Address addreess=createAddress();
+		Address addreess = createAddress();
 		addreess.setCity(city);
 		tourOperator.setHeadOffice(addreess);
 		account.setTourOperator(tourOperator);
 		return tourOperator;
 	}
-	
-	private static Address createAddress(){
-		Address address=new Address();
+
+	private static Address createAddress() {
+		Address address = new Address();
 		address.setStreet("via cecco Angiolieri");
 		address.setZipCode("88100");
 		return address;
 	}
 
-	private static HolidayPackage createHolidayPackage(Status status, String name,TourOperator tourOperator) {
+	private static HolidayPackage createHolidayPackage(Status status, String name,
+			TourOperator tourOperator) {
 		HolidayPackage pack = new HolidayPackage();
 		pack.setName(name);
 		pack.setStatus(status);
