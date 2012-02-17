@@ -23,7 +23,7 @@
 package uturismu.controller;
 
 import java.util.List;
-import javax.servlet.http.HttpSession;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,8 +66,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/home", method = RequestMethod.POST)
 	public String login(@Valid Credential credential, BindingResult result, Model model) {
-		StringBuffer forwardPage = new StringBuffer("forward:");
-		
+		StringBuffer forwardPage = new StringBuffer("forward:");	
 		// se ci sono errori nella compilazione dei campi
 		if (result.hasErrors()) {
 			// restituisce il nome della pagina iniziale con errore
