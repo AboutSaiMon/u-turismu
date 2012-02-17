@@ -57,7 +57,7 @@ public class HomeController {
 	private UserService userService;
 
 	@RequestMapping("/")
-	public String showIndex(Model model) {
+	public String showIndex(  Model model) {
 		model.addAttribute("credential", new Credential());
 		List<HolidayPackageBean> list = BeanMapping.encode(userService.getHolidayPackages());
 		model.addAttribute("holidayList", list);

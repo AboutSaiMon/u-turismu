@@ -1,3 +1,4 @@
+<%@page import="uturismu.bean.AccountBean"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -15,10 +16,12 @@
 
 </head>
 <body>
+<% AccountBean account = (AccountBean) session.getAttribute("account"); %>
 
 <div id=mainPage>
 	<div id="topPage">
-		<div id="accountData"></div>
+		<div id="accountData"> <span class="marker"> Bentornato  </span> <%= account.getEmail()  %>  </div>
+		
 		<div id="accountFunction">
 			<a id="accountModify" class="button" href="#">Modifica Account</a> 
 			<a id="accountLogOut" class="button" href="#">Log Out</a>
