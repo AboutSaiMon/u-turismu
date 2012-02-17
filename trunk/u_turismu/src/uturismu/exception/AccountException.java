@@ -11,10 +11,7 @@ public class AccountException extends RuntimeException {
 
 	@Override
 	public String getMessage() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(message);
-		builder.append(super.getMessage());
-		return builder.toString();
+		return message;
 	}
 
 }
