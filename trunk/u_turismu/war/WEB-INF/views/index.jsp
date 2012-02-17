@@ -8,23 +8,19 @@
 <link type="text/css" rel="stylesheet" href="resources/css/home.css" />
 <script type="text/javascript" src="resources/js/jquery.cycle.all.js" ></script>
 <script type="text/javascript" src="resources/js/jquery.min.js" ></script>
-<!-- <script type="text/javascript" src="resources/js/jquery.js" ></script> -->
-
-
-
 <title>uTurismu | Home Page</title>
 </head>
 <body>
 	<div id="mainPage">
 		<div id="topPage">
 			<div id="login" class="login">
-				<sf:form id="loginForm" action="home" method="post" modelAttribute="credential">
-					<label id="emailLoginLabel" for="emailLogin">Email</label>
-					<sf:input id="emailLogin" cssClass="fieldIN" path="email" />
+				<sf:form id="loginForm" action="home" method="post" commandName="credential">
+					<label id="emailLabel" for="email">Email</label>
+					<sf:input id="email" cssClass="fieldIN" path="email" />
 					<sf:errors path="email" cssClass="fieldIN error" />
 				
-					<label id="passwordLoginLabel" for="passwordLogin">Password</label>
-					<sf:password id="passwordLogin" cssClass="fieldIN" path="password" />
+					<label id="passwordLabel" for="password">Password</label>
+					<sf:password id="password" cssClass="fieldIN" path="password" />
 					<sf:errors path="password" cssClass="fieldIN error" />
 				
 					<input type="submit" value="Log In" />
@@ -32,35 +28,11 @@
 			</div>
 		</div>
 		
-		
 		<div><jsp:include page="image.jsp" /></div>
 		
 		<div id="contentPage">
- 			<div id="signup" class="signup accordion"> 
-<%-- 				<sf:form id="signupForm" action="home" method="post" modelAttribute="signup"> --%>
-				
-<!-- 					<h2> Sign Up </h2> -->
-			
-<!-- 					<label id="emailSignupLabel" for="emailSignup">Email</label> -->
-<!-- 					<br> -->
-<%-- 					<sf:input id="emailSignup" cssClass="fieldIN" path="email" /> --%>
-<%-- 					<sf:errors path="email" cssClass=" fieldIN error" /> --%>
-<!-- 					<br> -->
-<!-- 					<br> -->
-<!-- 					<label id="passwordSignupLabel" for="passwordSignup">Password</label> -->
-<!-- 					<br> -->
-<%-- 					<sf:password id="passwordSignup" cssClass="fieldIN" path="password" /> --%>
-<%-- 					<sf:errors path="password" cssClass="fieldIN error" /> --%>
-<!-- 					<br> -->
-<!-- 					<br> -->
-<!-- 					<label id="bookerLabel" for="booker">Booker</label> -->
-<!-- 					<input id="booker" type="radio" name="type" value="booker" checked="checked" /> -->
-<!-- 					<label id="touroperatorLabel" for="touroperator"> TourOperator</label> -->
-<!-- 					<input id="touroperator" type="radio" name="type" value="touroperator" /> -->
-<!-- 					<br><br> -->
-<!-- 					<input type="submit" value="Sign Up" /> -->
-<%-- 				</sf:form> --%>
- 			</div> 
+			<div id="signup" class="signup accordion">
+			</div>
 			<div id="content" class="content">
 				<ul>
 					<c:forEach var="holiday" items="${holidayList}">
