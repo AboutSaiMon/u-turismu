@@ -22,6 +22,8 @@
  */
 package uturismu.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import uturismu.bean.EmailPasswordBean;
+import uturismu.bean.Credential;
+import uturismu.bean.HolidayPackageBean;
 import uturismu.bean.UTurismuBean;
 import uturismu.bean.util.BeanMapping;
 import uturismu.dto.Account;
@@ -55,14 +58,14 @@ public class HomeController {
 
 	@RequestMapping("/")
 	public String showIndex(Model model) {
-		model.addAttribute("credential", new EmailPasswordBean());
-		model.addAttribute("signup", new EmailPasswordBean());
-		model.addAttribute("holidayList", userService.getHolidayPackages());
+		model.addAttribute("credential", new Credential());
+		List<HolidayPackageBean> list = BeanMapping.encode(userService.getHolidayPackages());
+		model.addAttribute("holidayList", list);
 		return "index";
 	}
 
 	@RequestMapping(value = "/home", method = RequestMethod.POST)
-	public String login(@Valid EmailPasswordBean credential, BindingResult result, Model model) {
+	public String login(@Valid Credential credential, BindingResult result, Model model) {
 		StringBuffer forwardPage = new StringBuffer("forward:");
 		// se ci sono errori nella compilazione dei campi
 		if (result.hasErrors()) {
@@ -99,11 +102,6 @@ public class HomeController {
 			return "errorPage";
 		}
 		return forwardPage.toString();
-	}
-
-	@RequestMapping(value = "/home", params = "new", method = RequestMethod.POST)
-	public String signup(@Valid EmailPasswordBean signup, BindingResult result) {
-		return "index";
 	}
 
 }
