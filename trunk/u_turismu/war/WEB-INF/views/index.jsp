@@ -13,16 +13,14 @@
 <body>
 	<div id="mainPage">
 		<div id="topPage">
-			<div id="login" class="login">
+			<div id="login" class="login">	
 				<sf:form id="loginForm" action="home" method="post" commandName="credential">
-					<label id="emailLabel" for="email">Email</label>
+					<label id="emailLabel" for="email">Email</label><sf:errors path="email" cssClass="fieldIN error" />
 					<sf:input id="email" cssClass="fieldIN" path="email" />
-					<sf:errors path="email" cssClass="fieldIN error" />
 				
-					<label id="passwordLabel" for="password">Password</label>
+					<label id="passwordLabel" for="password">Password</label><sf:errors path="password" cssClass="fieldIN error" />
 					<sf:password id="password" cssClass="fieldIN" path="password" />
-					<sf:errors path="password" cssClass="fieldIN error" />
-				
+							
 					<input type="submit" value="Log In" />
 				</sf:form>
 			</div>
@@ -32,6 +30,15 @@
 		
 		<div id="contentPage">
 			<div id="signup" class="signup accordion">
+				<form action="">
+					<label>Username</label><br />
+					<input type="text" /><br />
+					<label>Password</label><br />
+					<input type="password" /><br />
+					<input type="radio" name="user" value="Booker" checked="checked" />
+					<input type="radio" name="user" value="Tour Operator" /><br />
+					<input type="submit" value="Sign Up" />
+				</form>
 			</div>
 			<div id="content" class="content">
 				<ul>
