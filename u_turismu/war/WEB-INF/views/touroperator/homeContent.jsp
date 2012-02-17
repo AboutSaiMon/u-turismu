@@ -10,7 +10,7 @@
 	<h1>HOME CONTENT</h1>
 
 	<c:forEach var="pack" items="${packs}">
-		<div id="${pack.id}"> <a class="block" href="#${pack.id}"> ${pack.name} | ${pack.description} | ${pack.prize} </a> </div>
+		<div id="${pack.id}"> <a class="block" href="${pack.id}"> ${pack.name} | ${pack.description} | ${pack.price} </a> </div>
 	</c:forEach>		
 </div>
 <div id="menu" class="accordion">

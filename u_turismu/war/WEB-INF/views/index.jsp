@@ -36,31 +36,31 @@
 		<div><jsp:include page="image.jsp" /></div>
 		
 		<div id="contentPage">
-			<div id="signup" class="signup accordion">
-				<sf:form id="signupForm" action="home" method="post" modelAttribute="signup">
+ 			<div id="signup" class="signup accordion"> 
+<%-- 				<sf:form id="signupForm" action="home" method="post" modelAttribute="signup"> --%>
 				
-					<h2> Sign Up </h2>
+<!-- 					<h2> Sign Up </h2> -->
 			
-					<label id="emailSignupLabel" for="emailSignup">Email</label>
-					<br>
-					<sf:input id="emailSignup" cssClass="fieldIN" path="email" />
-					<sf:errors path="email" cssClass=" fieldIN error" />
-					<br>
-					<br>
-					<label id="passwordSignupLabel" for="passwordSignup">Password</label>
-					<br>
-					<sf:password id="passwordSignup" cssClass="fieldIN" path="password" />
-					<sf:errors path="password" cssClass="fieldIN error" />
-					<br>
-					<br>
-					<label id="bookerLabel" for="booker">Booker</label>
-					<input id="booker" type="radio" name="type" value="booker" checked="checked" />
-					<label id="touroperatorLabel" for="touroperator"> TourOperator</label>
-					<input id="touroperator" type="radio" name="type" value="touroperator" />
-					<br><br>
-					<input type="submit" value="Sign Up" />
-				</sf:form>
-			</div>
+<!-- 					<label id="emailSignupLabel" for="emailSignup">Email</label> -->
+<!-- 					<br> -->
+<%-- 					<sf:input id="emailSignup" cssClass="fieldIN" path="email" /> --%>
+<%-- 					<sf:errors path="email" cssClass=" fieldIN error" /> --%>
+<!-- 					<br> -->
+<!-- 					<br> -->
+<!-- 					<label id="passwordSignupLabel" for="passwordSignup">Password</label> -->
+<!-- 					<br> -->
+<%-- 					<sf:password id="passwordSignup" cssClass="fieldIN" path="password" /> --%>
+<%-- 					<sf:errors path="password" cssClass="fieldIN error" /> --%>
+<!-- 					<br> -->
+<!-- 					<br> -->
+<!-- 					<label id="bookerLabel" for="booker">Booker</label> -->
+<!-- 					<input id="booker" type="radio" name="type" value="booker" checked="checked" /> -->
+<!-- 					<label id="touroperatorLabel" for="touroperator"> TourOperator</label> -->
+<!-- 					<input id="touroperator" type="radio" name="type" value="touroperator" /> -->
+<!-- 					<br><br> -->
+<!-- 					<input type="submit" value="Sign Up" /> -->
+<%-- 				</sf:form> --%>
+ 			</div> 
 			<div id="content" class="content">
 				<ul>
 					<c:forEach var="holiday" items="${holidayList}">
