@@ -9,24 +9,27 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link type="text/css" rel="stylesheet"
-	href="<c:url value="/resources/css/home.css"/>" />
-
+<link type="text/css" rel="stylesheet" href="<c:url value="/resources/css/home.css"/>" />
 
 <title>U_Turismu - TourOperator</title>
 
 </head>
 <body>
+
+<div id=mainPage>
 	<div id="topPage">
 		<div id="accountData"></div>
 		<div id="accountFunction">
-			<a id="accountModify" class="button" href="#">Modifica Account</a> <a
-				id="accountLogOut" class="button" href="#">Log Out</a>
+			<a id="accountModify" class="button" href="#">Modifica Account</a> 
+			<a id="accountLogOut" class="button" href="#">Log Out</a>
 		</div>
 	</div>
-
+	
+	<jsp:include page="image.jsp" />
+	
 	<div id="contentPage">
 		<jsp:include page="${content}" />
 	</div>
+</div>
 </body>
 </html>
