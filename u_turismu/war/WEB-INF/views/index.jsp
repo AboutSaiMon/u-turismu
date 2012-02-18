@@ -15,11 +15,13 @@
 		<div id="topPage">
 			<div id="login" class="login">	
 				<sf:form id="loginForm" action="home" method="post" commandName="credential">
-					<label id="emailLabel" for="email">Email</label><sf:errors path="email" cssClass="fieldIN error" />
+					<label id="emailLabel" for="email">Email</label>
 					<sf:input id="email" cssClass="fieldIN" path="email" />
+					<sf:errors path="email" cssClass="fieldIN error" />
 				
-					<label id="passwordLabel" for="password">Password</label><sf:errors path="password" cssClass="fieldIN error" />
+					<label id="passwordLabel" for="password">Password</label>
 					<sf:password id="password" cssClass="fieldIN" path="password" />
+					<sf:errors path="password" cssClass="fieldIN error" />
 							
 					<input type="submit" value="Log In" />
 				</sf:form>
@@ -30,13 +32,15 @@
 		
 		<div id="contentPage">
 			<div id="signup" class="signup accordion">
-				<form action="">
-					<label>Username</label><br />
-					<input type="text" /><br />
-					<label>Password</label><br />
-					<input type="password" /><br />
+				<form id="signupForm" action="">
+					<label class="label">Username</label><br />
+					<input type="text" class="fieldIN" /><br /><br />
+					<label class="label">Password</label><br />
+					<input type="password" class="fieldIN" /><br /><br />
+					<label class="label">Booker</label>
 					<input type="radio" name="user" value="Booker" checked="checked" />
-					<input type="radio" name="user" value="Tour Operator" /><br />
+					<label class="label">Tour Operator</label>
+					<input type="radio" name="user" value="Tour Operator" /><br /><br />
 					<input type="submit" value="Sign Up" />
 				</form>
 			</div>
