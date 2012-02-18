@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import uturismu.bean.AccountBean;
+import uturismu.bean.CityBean;
 import uturismu.bean.HolidayPackageBean;
 import uturismu.bean.Login;
 import uturismu.bean.Signup;
@@ -52,6 +53,7 @@ import uturismu.dto.Booker;
 import uturismu.dto.TourOperator;
 import uturismu.dto.enumtype.AccountType;
 import uturismu.exception.AccountException;
+import uturismu.service.AdministratorService;
 import uturismu.service.UserService;
 
 /**
@@ -64,6 +66,8 @@ public class HomeController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private AdministratorService adminService;
 
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public @ResponseBody
@@ -150,6 +154,8 @@ public class HomeController {
 			bean.setEmail(signup.getSignupEmail());
 			bean.setPassword(signup.getSignupPassword());
 			model.addAttribute("toSignup", bean);
+			List<CityBean> cities = BeanMapping.encode(adminService.getCities());
+			model.addAttribute("cities", cities);
 			return "touroperatorSignup";
 		}
 	}

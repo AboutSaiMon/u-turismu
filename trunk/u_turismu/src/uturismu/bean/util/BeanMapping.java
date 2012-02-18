@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Set;
 
 import uturismu.bean.BookerBean;
+import uturismu.bean.CityBean;
 import uturismu.bean.HolidayPackageBean;
 import uturismu.bean.TourOperatorBean;
 import uturismu.dto.Account;
 import uturismu.dto.Booker;
+import uturismu.dto.City;
 import uturismu.dto.HolidayPackage;
 import uturismu.dto.Service;
 import uturismu.dto.TourOperator;
@@ -19,7 +21,22 @@ public class BeanMapping {
 	private BeanMapping() {
 	}
 
-	public static List<HolidayPackageBean> encode(Collection<HolidayPackage> collection) {
+	public static List<CityBean> encode(Collection<City> collection) {
+		List<CityBean> cityList = new ArrayList<CityBean>(collection.size());
+		for (City c : collection) {
+			cityList.add(encode(c));
+		}
+		return cityList;
+	}
+	
+	public static CityBean encode(City city) {
+		CityBean bean = new CityBean();
+		bean.setId(city.getId());
+		bean.setName(city.getName());
+		return bean;
+	}
+	
+	public static List<HolidayPackageBean> encode(List<HolidayPackage> collection) {
 		List<HolidayPackageBean> holidayPackageList = new ArrayList<HolidayPackageBean>(
 				collection.size());
 		for (HolidayPackage h : collection) {

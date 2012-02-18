@@ -22,8 +22,14 @@
  */
 package uturismu.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import uturismu.dao.CityDao;
+import uturismu.dto.City;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -32,5 +38,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class AdministratorServiceImpl implements AdministratorService {
+
+	@Autowired
+	private CityDao cityDao;
+	
+	@Override
+	@Transactional(readOnly=true)
+	public List<City> getCities() {
+		return cityDao.findAll();
+	}
 
 }

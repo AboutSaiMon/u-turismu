@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -77,10 +78,10 @@ public class City implements Serializable {
 		return description;
 	}
 
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "CITY_CLASSIFICATION", joinColumns = @JoinColumn(name = "id_city"), inverseJoinColumns = @JoinColumn(name = "id_city_tag"))
 	@ForeignKey(name = "FK_CITYCLASSIFICATION_CITY", inverseName = "FK_CITYCLASSIFICATION_CITYTAG")
-	protected Set<CityTag> getCityTags() {
+	public Set<CityTag> getCityTags() {
 		return cityTags;
 	}
 
