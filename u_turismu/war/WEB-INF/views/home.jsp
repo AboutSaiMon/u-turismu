@@ -19,13 +19,7 @@
 <body>
 <% 
 	AccountBean account = (AccountBean) session.getAttribute("account");
-	if (account == null) {
 %>
-	<jsp:forward page="/" />
-<%
-	}
-%>
-
 <div id=mainPage>
 	<div id="topPage">
 		<div id="accountData"> <span class="marker"> Bentornato  </span> <%= account.getEmail()  %>  </div>
