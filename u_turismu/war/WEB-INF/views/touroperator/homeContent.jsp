@@ -8,6 +8,8 @@
 	<h1>HOME CONTENT</h1>
 	<h1>HOME CONTENT</h1>
 	<h1>HOME CONTENT</h1>
+	<jsp:include page="${content}}"></jsp:include>
+	<jsp:include page="${menu}"></jsp:include>
 
 	<c:forEach var="pack" items="${packs}">
 		<div id="${pack.id}"> <a class="block" href="${pack.id}"> ${pack.name} | ${pack.description} | ${pack.price} </a> </div>
