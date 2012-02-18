@@ -22,10 +22,19 @@
  */
 package uturismu.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import uturismu.dao.CityDao;
+import uturismu.dto.City;
+
 /**
  * @author "LagrecaSpaccarotella" team.
  *
  */
-public interface AdministratorService {
-
+public interface AdministratorService {	
+	
+	public List<City> getCities();
+	
 }

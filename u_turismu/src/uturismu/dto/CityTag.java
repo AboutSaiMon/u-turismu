@@ -28,6 +28,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -66,8 +67,8 @@ public class CityTag implements Serializable {
 		return description;
 	}
 
-	@ManyToMany(mappedBy = "cityTags")
-	protected Set<City> getCities() {
+	@ManyToMany(mappedBy = "cityTags", fetch=FetchType.EAGER)
+	public Set<City> getCities() {
 		return cities;
 	}
 
