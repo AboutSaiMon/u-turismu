@@ -1,3 +1,4 @@
+<%@page import="uturismu.dto.enumtype.AccountType"%>
 <%@page import="uturismu.bean.AccountBean"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -16,7 +17,14 @@
 
 </head>
 <body>
-<% AccountBean account = (AccountBean) session.getAttribute("account"); %>
+<% 
+	AccountBean account = (AccountBean) session.getAttribute("account");
+	if (account == null) {
+%>
+	<jsp:forward page="/" />
+<%
+	}
+%>
 
 <div id=mainPage>
 	<div id="topPage">
@@ -31,7 +39,17 @@
 	<jsp:include page="image.jsp" />
 	
 	<div id="contentPage">
-		<jsp:include page="${content}" />
+		<%
+			if (account.getType().equals(AccountType.TOUR_OPERATOR)) {
+		%>
+			<jsp:include page="touroperator/homeContent.jsp" />
+		<%
+			} else if (account.getType().equals(AccountType.BOOKER)) {
+		%>
+			<jsp:include page="booker/homeContent.jsp" />
+		<%
+			}
+		%>
 	</div>
 </div>
 </body>

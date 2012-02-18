@@ -23,6 +23,7 @@
 package uturismu.controller;
 
 import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -33,7 +34,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -54,37 +54,38 @@ import uturismu.service.UserService;
  * 
  */
 @Controller
-@SessionAttributes({ "account" })
 public class HomeController {
 
 	@Autowired
 	private UserService userService;
 
-	public HomeController(){
-		
+	public HomeController() {
+
 	}
 	
-	@RequestMapping("/")
-	public String showIndex(HttpSession session,  Model model) {
-		System.out.println("SHOW INDEX");
-		
-		AccountBean account=null;
-		account=(AccountBean) session.getAttribute("account");
-		if(account != null){
-			System.out.println(account.getEmail() +"><"+account.getType());
-			return "forward:/logged";
-		}
-		
+	private String index(Model model) {
 		model.addAttribute("credential", new Credential());
 		List<HolidayPackageBean> list = BeanMapping.encode(userService.getHolidayPackages());
 		model.addAttribute("holidayList", list);
 		return "index";
 	}
 
-	@RequestMapping(value = "/home", method = RequestMethod.POST)
-	public String login(@Valid Credential credential, BindingResult result, Model model) {
+	@RequestMapping("/")
+	public String showIndex(HttpSession session, Model model) {
+		/*
+		 * if (session.getAttribute("account") != null) {
+		 * model.addAttribute("credential", new Credential());
+		 * List<HolidayPackageBean> list =
+		 * BeanMapping.encode(userService.getHolidayPackages());
+		 * model.addAttribute("holidayList", list); return "index"; } else {
+		 * return "forward:home"; }
+		 */
+		return index(model);
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@Valid Credential credential, BindingResult result, Model model, HttpSession session) {
 		StringBuffer forwardPage = new StringBuffer("forward:");
-		
 		// se ci sono errori nella compilazione dei campi
 		if (result.hasErrors()) {
 			// restituisce il nome della pagina iniziale con errore
@@ -93,53 +94,50 @@ public class HomeController {
 		try {
 			// effettua il login
 			Account account = userService.logIn(credential.getEmail(), credential.getPassword());
-			System.out.println(account.getType());
 			// dichiara il bean che verrà passato nella sessione
 			UTurismuBean bean = null;
 			// se è un tour operator
 			if (account.getType().equals(AccountType.TOUR_OPERATOR)) {
-				System.out.println("sono dentro tour operator");
+				// recupera il tour operator dell'account
 				TourOperator tourOperator = account.getTourOperator();
-				System.out.println("Tour Operator ID: " + tourOperator.getId());
 				// codifica i due oggetti DTO in un bean
 				bean = BeanMapping.encode(account, tourOperator);
-				model.addAttribute("content", "touroperator/homeContent.jsp");
+				// model.addAttribute("content", "touroperator/homeContent.jsp");
 				forwardPage.append("to/home");
 			} else if (account.getType().equals(AccountType.BOOKER)) {
-				System.out.println("sono dentro booker");
 				// acquisisce il booker mediante il suo id
 				Booker booker = userService.getBookerById(account.getBooker().getId());
 				// codifica i due oggetti DTO in un bean
 				bean = BeanMapping.encode(account, booker);
-				model.addAttribute("content", "booker/homeContent.jsp");
 				forwardPage.append("bo/home");
 			}
-			model.addAttribute("account", bean);
+			session.setAttribute("account", bean);
 		} catch (AccountException e) {
 			model.addAttribute("message", e.getMessage());
 			return "errorPage";
 		}
 		return forwardPage.toString();
-	}	
-	
-	
-	
-	@RequestMapping(value="logout")
-	public String logOut(HttpSession session,SessionStatus status,ModelMap model){
-		System.out.println("##  LOGGIN OUT   ##");
-		AccountBean account=null;
-		session.removeAttribute("account");
-		session.setAttribute("account", account);
-		model.remove("account");
+	}
+
+	@RequestMapping(value = "logout")
+	public String logOut(HttpSession session) {
 		session.invalidate();
-		status.isComplete();
 		return "redirect:/";
 	}
-	
-	@RequestMapping(value={"/logged","/home"},method=RequestMethod.GET)
-	public String isLogged(Model model){
-		model.addAttribute("content", "touroperator/homeContent.jsp");
-		return "home";
-		
+
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public String isLogged(HttpSession session, Model model) {
+		StringBuffer forwardPage = new StringBuffer("forward:");
+		AccountBean account = (AccountBean) session.getAttribute("account");
+		if (account == null) {
+			return index(model);
+		}
+		if (account.getType().equals(AccountType.TOUR_OPERATOR)) {
+			forwardPage.append("to/home");
+		} else if (account.getType().equals(AccountType.BOOKER)) {
+			forwardPage.append("bo/home");
+		}
+		return forwardPage.toString();
 	}
+
 }
