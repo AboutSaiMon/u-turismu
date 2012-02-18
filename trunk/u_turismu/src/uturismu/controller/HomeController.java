@@ -23,17 +23,21 @@
 package uturismu.controller;
 
 import java.util.List;
-
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
+import uturismu.bean.AccountBean;
 import uturismu.bean.Credential;
 import uturismu.bean.HolidayPackageBean;
 import uturismu.bean.UTurismuBean;
@@ -56,8 +60,21 @@ public class HomeController {
 	@Autowired
 	private UserService userService;
 
+	public HomeController(){
+		
+	}
+	
 	@RequestMapping("/")
-	public String showIndex(  Model model) {
+	public String showIndex(HttpSession session,  Model model) {
+		System.out.println("SHOW INDEX");
+		
+		AccountBean account=null;
+		account=(AccountBean) session.getAttribute("account");
+		if(account != null){
+			System.out.println(account.getEmail() +"><"+account.getType());
+			return "forward:/logged";
+		}
+		
 		model.addAttribute("credential", new Credential());
 		List<HolidayPackageBean> list = BeanMapping.encode(userService.getHolidayPackages());
 		model.addAttribute("holidayList", list);
@@ -66,7 +83,8 @@ public class HomeController {
 
 	@RequestMapping(value = "/home", method = RequestMethod.POST)
 	public String login(@Valid Credential credential, BindingResult result, Model model) {
-		StringBuffer forwardPage = new StringBuffer("forward:");	
+		StringBuffer forwardPage = new StringBuffer("forward:");
+		
 		// se ci sono errori nella compilazione dei campi
 		if (result.hasErrors()) {
 			// restituisce il nome della pagina iniziale con errore
@@ -102,32 +120,26 @@ public class HomeController {
 			return "errorPage";
 		}
 		return forwardPage.toString();
+	}	
+	
+	
+	
+	@RequestMapping(value="logout")
+	public String logOut(HttpSession session,SessionStatus status,ModelMap model){
+		System.out.println("##  LOGGIN OUT   ##");
+		AccountBean account=null;
+		session.removeAttribute("account");
+		session.setAttribute("account", account);
+		model.remove("account");
+		session.invalidate();
+		status.isComplete();
+		return "redirect:/";
 	}
-
 	
-	
-//	@RequestMapping(value = "/home", params = "new", method = RequestMethod.POST)
-//	public String signup(@Valid EmailPasswordBean signup, BindingResult result) {
-//		return "index";
-//	}
-
-//	@RequestMapping(value="/", method=RequestMethod.POST)
-//	public String indexWithSessionGET(@ModelAttribute AccountBean account){
-//		if(account.getType().equals(AccountType.TOUR_OPERATOR)){
-//			return "redirect:to/home";
-//		}
-//		return "index";
-//	}
-//	
-//	@RequestMapping(value="/", method=RequestMethod.GET)
-//	public String indexWithSessionPOST(@ModelAttribute TourOperatorBean account){
-//		if(account.getType().equals(AccountType.TOUR_OPERATOR)){
-//			return "redirect:to/home";
-//		}else if(account.getType().equals(AccountType.TOUR_OPERATOR)){
-//			return "redirect:bo/home";
-//		}else {
-//			return "index";
-//		}
-//	}
-//	
+	@RequestMapping(value={"/logged","/home"},method=RequestMethod.GET)
+	public String isLogged(Model model){
+		model.addAttribute("content", "touroperator/homeContent.jsp");
+		return "home";
+		
+	}
 }

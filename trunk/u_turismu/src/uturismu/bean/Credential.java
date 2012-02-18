@@ -7,10 +7,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Credential {
 
 	@NotEmpty
-	@Size(min = 1, max = 10)
+	@Size(min = 1, max = 20)
 	private String email;
 	@NotEmpty
-	@Size(min = 3, max = 10)
+	@Size(min = 3, max = 12)
 	private String password;
 	
 	public Credential() {

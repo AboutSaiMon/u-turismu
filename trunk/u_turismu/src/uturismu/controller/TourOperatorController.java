@@ -57,6 +57,7 @@ public class TourOperatorController {
 		return "home";
 	}
 
+	
 	/*
 	 * @RequestMapping("/home") public String showHomePage(@RequestParam("id")
 	 * Long id,Model model){
