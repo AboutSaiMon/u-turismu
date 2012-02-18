@@ -24,7 +24,7 @@
 		
 		<div id="accountFunction">
 			<a id="accountModify" class="button" href="#">Modifica Account</a> 
-			<a id="accountLogOut" class="button" href="#">Log Out</a>
+			<a id="accountLogOut" class="button" href="logout">Log Out</a>
 		</div>
 	</div>
 	
