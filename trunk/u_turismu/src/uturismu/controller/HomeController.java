@@ -44,9 +44,11 @@ import uturismu.bean.UTurismuBean;
 import uturismu.bean.util.BeanMapping;
 import uturismu.dto.Account;
 import uturismu.dto.Booker;
+import uturismu.dto.HolidayPackage;
 import uturismu.dto.TourOperator;
 import uturismu.dto.enumtype.AccountType;
 import uturismu.exception.AccountException;
+import uturismu.service.TourOperatorService;
 import uturismu.service.UserService;
 
 /**
@@ -57,10 +59,12 @@ import uturismu.service.UserService;
 @SessionAttributes({ "account" })
 public class HomeController {
 
+		@Autowired
+		private TourOperatorService touroperatorService;
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/", "/home"}, method = RequestMethod.GET)
 	public String showIndex(HttpSession session, Model model) {
 		AccountBean account = null;
 		account = (AccountBean) session.getAttribute("account");
