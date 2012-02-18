@@ -32,8 +32,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -64,11 +67,24 @@ public class HomeController {
 	@Autowired
 	private UserService userService;
 
+	@RequestMapping(value="/test",method=RequestMethod.GET)
+	public @ResponseBody String testJQUERY(@RequestParam("id") String id){
+		System.out.println(" HELLO JQUERY");
+		String result=new String(" HELLO JQUERY");
+		return result;
+	}
+	
+	
 	@RequestMapping(value = { "/", "/home"}, method = RequestMethod.GET)
 	public String showIndex(HttpSession session, Model model) {
 		AccountBean account = null;
 		account = (AccountBean) session.getAttribute("account");
 		if (account != null) {
+			if(account.getType().equals(AccountType.TOUR_OPERATOR)){
+				return "forward:to/home";
+			}else if(account.getType().equals(AccountType.BOOKER)){
+				return "forward:bo/home";
+			}
 			return "home";
 		}
 		model.addAttribute("credential", new Credential());
@@ -76,6 +92,8 @@ public class HomeController {
 		model.addAttribute("holidayList", list);
 		return "index";
 	}
+	
+	
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@Valid Credential credential, BindingResult result, Model model) {
@@ -122,4 +140,12 @@ public class HomeController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
+	@RequestMapping(value="/showPack", method=RequestMethod.GET)
+	public @ResponseBody String testGet(@RequestBody String packId , HttpSession session){
+		System.out.println(" ciao jquery  ");
+	
+		return "APPENDIMi";
+	}
+	
 }
