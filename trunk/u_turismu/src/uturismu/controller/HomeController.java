@@ -23,6 +23,7 @@
 package uturismu.controller;
 
 import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -31,10 +32,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -61,20 +60,11 @@ public class HomeController {
 	@Autowired
 	private UserService userService;
 
-	public HomeController(){
-		
-	}
-	
-	@RequestMapping(value={"/","/home"},method=RequestMethod.GET)
-	public String showIndex(HttpSession session,  Model model) {
-		System.out.println("SHOW INDEX");
-		AccountBean account=null;
-		account=(AccountBean) session.getAttribute("account");
-		
-		if(account != null){
-			System.out.println(account.getEmail() +"><"+account.getType());
-			model.addAttribute("content", "touroperator/homeContent.jsp");
-//			return "forward:/home";
+	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
+	public String showIndex(HttpSession session, Model model) {
+		AccountBean account = null;
+		account = (AccountBean) session.getAttribute("account");
+		if (account != null) {
 			return "home";
 		}
 		model.addAttribute("credential", new Credential());
@@ -86,7 +76,6 @@ public class HomeController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@Valid Credential credential, BindingResult result, Model model) {
 		StringBuffer forwardPage = new StringBuffer("forward:");
-		
 		// se ci sono errori nella compilazione dei campi
 		if (result.hasErrors()) {
 			// restituisce il nome della pagina iniziale con errore
@@ -105,7 +94,6 @@ public class HomeController {
 				System.out.println("Tour Operator ID: " + tourOperator.getId());
 				// codifica i due oggetti DTO in un bean
 				bean = BeanMapping.encode(account, tourOperator);
-				model.addAttribute("content", "touroperator/homeContent.jsp");
 				forwardPage.append("to/home");
 			} else if (account.getType().equals(AccountType.BOOKER)) {
 				System.out.println("sono dentro booker");
@@ -113,7 +101,6 @@ public class HomeController {
 				Booker booker = userService.getBookerById(account.getBooker().getId());
 				// codifica i due oggetti DTO in un bean
 				bean = BeanMapping.encode(account, booker);
-				model.addAttribute("content", "booker/homeContent.jsp");
 				forwardPage.append("bo/home");
 			}
 			model.addAttribute("account", bean);
@@ -122,13 +109,10 @@ public class HomeController {
 			return "errorPage";
 		}
 		return forwardPage.toString();
-	}	
-	
-	
-	
-	@RequestMapping(value="logout")
-	public String logOut(HttpSession session,SessionStatus status,ModelMap model){
-		System.out.println("##  LOGGIN OUT   ##");
+	}
+
+	@RequestMapping(value = "logout")
+	public String logOut(HttpSession session, SessionStatus status, ModelMap model) {
 		model.remove("account");
 		status.setComplete();
 		session.invalidate();
