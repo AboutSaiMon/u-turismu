@@ -14,7 +14,7 @@
 		<div id="topPage"></div>
 		<div><jsp:include page="../image.jsp" /></div>
 		<div id="contentPage">
-			<div id="signup" class="signup content">
+			<div id="content" class="signup content">
 				<sf:form id="signupForm" action="signup?newTo" method="post" commandName="signup">
 					<table>
 						<tr>
@@ -43,7 +43,7 @@
 							<td><sf:errors path="holderName" cssClass="fieldIN error" /></td>
 						</tr>
 						<tr>
-							<td><label class="label">Via</label></td>
+							<td><label class="label">Indirizzo</label></td>
 							<td><sf:input path="street" class="fieldIN" /></td>
 							<td><sf:errors path="street" cssClass="fieldIN error" /></td>
 						</tr>
