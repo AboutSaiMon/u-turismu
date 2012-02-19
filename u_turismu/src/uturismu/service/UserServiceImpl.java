@@ -156,4 +156,9 @@ public class UserServiceImpl implements UserService {
 		return bookerDao.findById(id);
 	}
 
+	@Override
+	public Account getAccountByEmail(String email) {
+		return accountDao.findByEmail(email);
+	}
+
 }
