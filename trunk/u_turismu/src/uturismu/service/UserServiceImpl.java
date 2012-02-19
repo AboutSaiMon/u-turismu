@@ -92,6 +92,7 @@ public class UserServiceImpl implements UserService {
 		// setta il sale e la password
 		account.setSalt(salt);
 		account.setPassword(password);
+
 	}
 
 	@Override
@@ -170,5 +171,18 @@ public class UserServiceImpl implements UserService {
 	public Account getAccountByEmail(String email) {
 		return accountDao.findByEmail(email);
 	}
+
+	@Override
+	public void update(Account account, TourOperator tourOperator) {
+		accountDao.update(account);
+		tourOperatorDao.update(tourOperator);
+	}
+	
+	@Override
+	public void update(Account account, Booker booker) {
+		accountDao.update(account);
+		bookerDao.update(booker);
+	}
+	
 
 }

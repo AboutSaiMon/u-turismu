@@ -160,4 +160,17 @@ public interface UserService {
 	 */
 	public Account getAccountByEmail(String email);
 
+	/**
+	 * Aggiorna un tour operator ed il suo account
+	 * @param account
+	 * @param tourOperator
+	 */
+	public void update(Account account,TourOperator tourOperator);
+	
+	/**
+	 * Aggiorna un booker ed il suo account
+	 * @param account
+	 * @param booker
+	 */
+	public void update(Account account, Booker booker) ;
 }
