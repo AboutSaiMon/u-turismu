@@ -25,7 +25,7 @@
 		<div id="accountData"> <span class="marker"> Bentornato  </span> <%= account.getEmail()  %>  </div>
 		
 		<div id="accountFunction">
-			<a id="accountModify" class="button" href="#">Modifica Account</a> 
+			<a id="accountModify" class="button" href="updateTo">Modifica Account</a> 
 			<a id="accountLogOut" class="button" href="logout">Log Out</a>
 		</div>
 	</div>

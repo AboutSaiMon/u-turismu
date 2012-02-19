@@ -21,7 +21,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package uturismu.controller;
-
 import static uturismu.controller.util.SessionCheck.isActiveSession;
 
 import java.util.List;
@@ -34,9 +33,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -57,7 +59,7 @@ import uturismu.dto.enumtype.AccountType;
 import uturismu.exception.AccountException;
 import uturismu.service.AdministratorService;
 import uturismu.service.UserService;
-
+import static uturismu.controller.util.SessionCheck.isActiveSession;
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
@@ -70,6 +72,7 @@ public class HomeController {
 	private UserService userService;
 	@Autowired
 	private AdministratorService adminService;
+
 
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public String showIndex(HttpSession session, Model model) {
@@ -131,7 +134,7 @@ public class HomeController {
 		session.invalidate();
 		return "redirect:/";
 	}
-
+	
 	@RequestMapping(value = "signup", params = "newTo", method = RequestMethod.POST)
 	public String signup(@Valid TourOperatorSignup signup, BindingResult result, Model model,
 			HttpSession session) {
@@ -170,6 +173,7 @@ public class HomeController {
 			return "index";
 		}
 		if (user.equals("Booker")) {
+			
 
 			return "";
 		} else {
@@ -180,7 +184,7 @@ public class HomeController {
 			session.setAttribute("signup", bean);
 			List<CityBean> cities = BeanMapping.encode(adminService.getCities());
 			model.addAttribute("cities", cities);
-			return "touroperator/signup";
+			return "touroperatorSignup";
 		}
 	}
 
@@ -188,20 +192,33 @@ public class HomeController {
 	public String getPackages(@RequestParam(value = "type", required = true) String type,
 			HttpSession session, Model model) {
 		if (!isActiveSession(session)) {
-			return "forward:";
+			return "forward:/";
 		}
-
-		StringBuffer page = new StringBuffer("forward:");
-		AccountBean account = (AccountBean) session.getAttribute("account");
-		if (account.getType().equals(AccountType.TOUR_OPERATOR)) {
+		
+		StringBuffer page=new StringBuffer("forward:");
+		AccountBean account=(AccountBean) session.getAttribute("account");
+		if(account.getType().equals(AccountType.TOUR_OPERATOR)){
 			page.append("to/packages");
-		} else if (account.getType().equals(AccountType.BOOKER)) {
+		}else if(account.getType().equals(AccountType.BOOKER)){
 			page.append("bo/packages");
-		} else {
+		}else{
 			page.append("/");
 		}
-
+		
 		return page.toString();
+	} 
+	
+	@RequestMapping(value="/test",method=RequestMethod.GET)
+	public @ResponseBody String jQuery(@ModelAttribute("id") String id,BindingResult result){
+		System.out.println("JQUERY controller");
+		String res=new String();
+		 if(!result.hasErrors()){
+			  res="SUCCESS";
+		 }else{
+		      res="FAILS";
+		 }
+		return res;
 	}
-
+	
+	
 }
