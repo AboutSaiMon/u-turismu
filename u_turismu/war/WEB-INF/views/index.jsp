@@ -7,8 +7,50 @@
 <meta charset="UTF-8">
 <link type="text/css" rel="stylesheet" href="resources/css/home.css" />
 <script type="text/javascript" src="resources/js/jquery.cycle.all.js"></script>
-<script type="text/javascript" src="resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="resources/js/jquery.js"></script>
 <title>uTurismu | Home Page</title>
+
+<script type="text/javascript">
+			function success(){
+				$("#test").append("CALLBACK CHIAMATA");
+			}
+			function error(e){
+				JSON.parse
+				$("#test").append(e+ "CALLBACK ERRORE");
+			}
+			
+			
+			function testFunction2(){
+				$("#test").append( "client click 2222" );
+			
+				
+				$.ajax({
+					url: "test",
+					processData:false,
+					dataType:"json",
+					data:{"id" : "1"},
+					success:function(){ success(); },
+					error:function(e){ error(e); }
+				});
+			}
+			
+				function testFunction(){
+					$("#test").append( "client click" );
+					$.getJSON( "test",
+							{"id" : "1"},
+							function(data){
+								success();
+								$("#test").append( "ciccioq" );
+							}
+					);
+				}
+				
+				
+			
+
+			</script>
+
+
 </head>
 <body>
 	<div id="mainPage">
@@ -60,6 +102,14 @@
 					</c:forEach>
 				</ul>
 			</div>
+			
+<div id="test">
+			
+				<button id="testbutton" class="button" onclick="testFunction2()" > Clicca </button>
+				
+				
+</div>
+			
 		</div>
 	</div>
 </body>

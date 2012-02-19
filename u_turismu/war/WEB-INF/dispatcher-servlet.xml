@@ -66,5 +66,19 @@
 		<property name="suffix" value=".jsp" />
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
 	</bean>
+	
+	<!--  Converte l'oggetto restituito in un oggetto JSON  -->
+	<bean id="jacksonMessageConverter"
+    	class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+    </bean>
+    <bean
+        class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="jacksonMessageConverter" />
+            </list>
+        </property>
+    </bean> 
+	
 
 </beans>

@@ -10,6 +10,7 @@ import uturismu.bean.CityBean;
 import uturismu.bean.HolidayPackageBean;
 import uturismu.bean.TourOperatorBean;
 import uturismu.bean.TourOperatorSignup;
+import uturismu.bean.TourOperatorUpdate;
 import uturismu.dto.Account;
 import uturismu.dto.Address;
 import uturismu.dto.Booker;
@@ -45,6 +46,7 @@ public class BeanMapping {
 		return account;
 	}
 
+	
 	public static List<CityBean> encode(Collection<City> collection) {
 		List<CityBean> cityList = new ArrayList<CityBean>(collection.size());
 		for (City c : collection) {
@@ -52,14 +54,14 @@ public class BeanMapping {
 		}
 		return cityList;
 	}
-
+	
 	public static CityBean encode(City city) {
 		CityBean bean = new CityBean();
 		bean.setId(city.getId());
-		bean.setName(city.getName());
+		bean.setName(city.getName()); 
 		return bean;
 	}
-
+	
 	public static List<HolidayPackageBean> encode(List<HolidayPackage> collection) {
 		List<HolidayPackageBean> holidayPackageList = new ArrayList<HolidayPackageBean>(
 				collection.size());
@@ -106,5 +108,20 @@ public class BeanMapping {
 		bean.setHolderName(tourOperator.getHolderName());
 		return bean;
 	}
+	
+	public static TourOperatorUpdate encodeTourOperatorUpdate(Account account , TourOperator tourOperator){
+		TourOperatorUpdate bean = new TourOperatorUpdate();
+		bean.setCity(tourOperator.getHeadOffice().getCity().getId());
+		bean.setEmail(account.getEmail());
+		bean.setHolderName(tourOperator.getHolderName());
+		bean.setName(tourOperator.getName());
+//		bean.setPassword(account.getPassword());
+		bean.setStreet(tourOperator.getHeadOffice().getStreet());
+		bean.setVatNumber(tourOperator.getVatNumber());
+		bean.setZipCode(tourOperator.getHeadOffice().getZipCode());
+		return bean;
+		
+	}
+	
 
 }
