@@ -22,12 +22,17 @@
 %>
 <div id=mainPage>
 	<div id="topPage">
-		<div id="accountData"> <span class="marker"> Bentornato  </span> <%= account.getEmail()  %>  </div>
-		
-		<div id="accountFunction">
-			<a id="accountModify" class="button" href="updateTo">Modifica Account</a> 
-			<a id="accountLogOut" class="button" href="logout">Log Out</a>
-		</div>
+		<%
+			if (account.getType().equals(AccountType.TOUR_OPERATOR)) {
+		%>
+			<jsp:include page="touroperator/topPage.jsp" />
+		<%
+			} else if (account.getType().equals(AccountType.BOOKER)) {
+		%>
+			<jsp:include page="booker/topPage.jsp" />
+		<%
+			}
+		%>
 	</div>
 	
 	<jsp:include page="image.jsp" />
