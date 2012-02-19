@@ -15,18 +15,16 @@
 		<div><jsp:include page="image.jsp" /></div>
 		<div id="contentPage">
 			<div id="signup" class="signup content">
-				<sf:form id="signupForm" action="signup?newTo" method="post" commandName="toSignup">
+				<sf:form id="signupForm" action="signup?newTo" method="post" commandName="signup">
 					<table>
 						<tr>
 							<td><label class="label">Email</label></td>
-							<td><sf:input disabled="true" path="email"
-									value="${toSignup.email}" class="fieldIN" /></td>
+							<td><sf:input disabled="true" path="email" value="${signup.email}" class="fieldIN" /></td>
 							<td><sf:errors path="email" cssClass="fieldIN error" /></td>
 						</tr>
 						<tr>
 							<td><label class="label">Password</label></td>
-							<td><sf:password disabled="true" path="password"
-									value="${toSignup.password}" class="fieldIN" /></td>
+							<td><sf:password disabled="true" path="password" value="${signup.password}" class="fieldIN" /></td>
 							<td><sf:errors path="password" cssClass="fieldIN error" /></td>
 						</tr>
 						<tr>

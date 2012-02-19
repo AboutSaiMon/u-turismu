@@ -22,6 +22,7 @@
  */
 package uturismu.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,20 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void createAccount(Account account, TourOperator tourOperator) {
+		// setta il timestamp di registrazione e ultimo accesso
+		account.setRegistrationTimestamp(new Date());
+		account.setLastAccessTimestamp(account.getRegistrationTimestamp());
+		// genera il salt
+		String salt = HashUtil.generateSalt();
+		// recupera la password in chiaro ed effettua l'hashing
+		String password = HashUtil.getHash(account.getPassword(), salt);
+		// setta il sale e la password
+		account.setSalt(salt);
+		account.setPassword(password);
+		// effettua i collegamenti incrociati tra i due oggetti
+		tourOperator.setAccount(account);
+		account.setTourOperator(tourOperator);
+		// li rende persistenti
 		accountDao.save(account);
 		tourOperatorDao.save(tourOperator);
 	}

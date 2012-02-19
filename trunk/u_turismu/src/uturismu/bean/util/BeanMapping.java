@@ -9,16 +9,40 @@ import uturismu.bean.BookerBean;
 import uturismu.bean.CityBean;
 import uturismu.bean.HolidayPackageBean;
 import uturismu.bean.TourOperatorBean;
+import uturismu.bean.TourOperatorSignup;
 import uturismu.dto.Account;
+import uturismu.dto.Address;
 import uturismu.dto.Booker;
 import uturismu.dto.City;
 import uturismu.dto.HolidayPackage;
 import uturismu.dto.Service;
 import uturismu.dto.TourOperator;
+import uturismu.dto.enumtype.AccountType;
 
 public class BeanMapping {
 
 	private BeanMapping() {
+	}
+
+	public static TourOperator getTourOperator(TourOperatorSignup bean, City city) {
+		TourOperator dto = new TourOperator();
+		dto.setName(bean.getName());
+		dto.setVatNumber(bean.getVatNumber());
+		dto.setHolderName(bean.getHolderName());
+		Address address = new Address();
+		address.setStreet(bean.getStreet());
+		address.setZipCode(bean.getZipCode());
+		address.setCity(city);
+		dto.setHeadOffice(address);
+		return dto;
+	}
+
+	public static Account getAccount(TourOperatorSignup bean) {
+		Account account = new Account();
+		account.setEmail(bean.getEmail());
+		account.setPassword(bean.getPassword());
+		account.setType(AccountType.TOUR_OPERATOR);
+		return account;
 	}
 
 	public static List<CityBean> encode(Collection<City> collection) {
@@ -28,14 +52,14 @@ public class BeanMapping {
 		}
 		return cityList;
 	}
-	
+
 	public static CityBean encode(City city) {
 		CityBean bean = new CityBean();
 		bean.setId(city.getId());
 		bean.setName(city.getName());
 		return bean;
 	}
-	
+
 	public static List<HolidayPackageBean> encode(List<HolidayPackage> collection) {
 		List<HolidayPackageBean> holidayPackageList = new ArrayList<HolidayPackageBean>(
 				collection.size());

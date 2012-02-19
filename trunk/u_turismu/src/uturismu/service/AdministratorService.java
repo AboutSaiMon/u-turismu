@@ -37,4 +37,6 @@ public interface AdministratorService {
 	
 	public List<City> getCities();
 	
+	public City getCityById(Long id);
+	
 }

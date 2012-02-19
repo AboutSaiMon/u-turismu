@@ -2,18 +2,25 @@ package uturismu.bean;
 
 import java.io.Serializable;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class TourOperatorSignup implements Serializable {
 
 	private static final long serialVersionUID = -148746248426846536L;
+
 	private String email;
 	private String password;
 
+	@NotEmpty
 	private String vatNumber;
+	@NotEmpty
 	private String name;
+	@NotEmpty
 	private String holderName;
 
 	private String street;
 	private String zipCode;
+
 	private Long city;
 
 	public TourOperatorSignup() {

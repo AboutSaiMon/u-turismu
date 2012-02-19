@@ -32,11 +32,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -45,17 +42,19 @@ import uturismu.bean.CityBean;
 import uturismu.bean.HolidayPackageBean;
 import uturismu.bean.Login;
 import uturismu.bean.Signup;
+import uturismu.bean.TourOperatorBean;
 import uturismu.bean.TourOperatorSignup;
 import uturismu.bean.UTurismuBean;
 import uturismu.bean.util.BeanMapping;
 import uturismu.dto.Account;
 import uturismu.dto.Booker;
+import uturismu.dto.City;
 import uturismu.dto.TourOperator;
 import uturismu.dto.enumtype.AccountType;
 import uturismu.exception.AccountException;
 import uturismu.service.AdministratorService;
 import uturismu.service.UserService;
-import static uturismu.controller.util.SessionCheck.isActiveSession;
+
 /**
  * @author "LagrecaSpaccarotella" team.
  * 
@@ -69,7 +68,6 @@ public class HomeController {
 	@Autowired
 	private AdministratorService adminService;
 
-
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public String showIndex(HttpSession session, Model model) {
 		AccountBean account = null;
@@ -80,7 +78,6 @@ public class HomeController {
 			} else if (account.getType().equals(AccountType.BOOKER)) {
 				return "forward:bo/home";
 			}
-			return "home";
 		}
 		model.addAttribute("login", new Login());
 		model.addAttribute("signup", new Signup());
@@ -131,19 +128,37 @@ public class HomeController {
 		session.invalidate();
 		return "redirect:/";
 	}
-	
+
 	@RequestMapping(value = "signup", params = "newTo", method = RequestMethod.POST)
-	public String signup(@Valid TourOperatorSignup toSignup, BindingResult result) {
-		if (result.hasErrors()) {
+	public String signup(@Valid TourOperatorSignup signup, BindingResult result, Model model, HttpSession session) {
+		// se ci sono errori nella validazione o la città non è stata selezionata
+		if (result.hasErrors() || signup.getCity() == 0) {
+			List<CityBean> cities = BeanMapping.encode(adminService.getCities());
+			model.addAttribute("cities", cities);
+			
+			TourOperatorSignup bean = (TourOperatorSignup) session.getAttribute("signup");
+			model.addAttribute("signup", bean);
+			
 			return "touroperatorSignup";
 		}
-		// TODO: DEVI SCRIVERE IL CODICE PER INVIARE L'UTENTE NELLA SUA HOMEPAGE
-		return "index";	// TODO: va eliminato il return e messo quello giusto
+		// altrimenti recupera l'oggetto City in base all'id specificato nel bean
+		// "signup"
+		City city = adminService.getCityById(signup.getCity());
+		// recupera un oggetto "TourOperator" mediante il bean "signup"
+		TourOperator tourOperator = BeanMapping.getTourOperator(signup, city);
+		// recupera l'oggetto account
+		Account account = BeanMapping.getAccount((TourOperatorSignup) session.getAttribute("signup"));
+		// rende l'account persistente
+		userService.createAccount(account, tourOperator);
+		// crea il bean da settare nella sessione
+		TourOperatorBean accountBean = BeanMapping.encode(account, tourOperator);
+		model.addAttribute("account", accountBean);
+		return "redirect:home";
 	}
 
-
 	@RequestMapping(value = "signup", method = RequestMethod.POST)
-	public String tryToSignup(@Valid Signup signup, BindingResult result, String user, Model model) {
+	public String tryToSignup(@Valid Signup signup, BindingResult result, String user, Model model,
+			HttpSession session) {
 		// se ci sono errori nella compilazione dei campi
 		if (result.hasErrors()) {
 			model.addAttribute("login", new Login());
@@ -151,18 +166,20 @@ public class HomeController {
 			return "index";
 		}
 		if (user.equals("Booker")) {
+
 			return "";
 		} else {
 			TourOperatorSignup bean = new TourOperatorSignup();
 			bean.setEmail(signup.getSignupEmail());
 			bean.setPassword(signup.getSignupPassword());
-			model.addAttribute("toSignup", bean);
+			model.addAttribute("signup", bean);
+			session.setAttribute("signup", bean);
 			List<CityBean> cities = BeanMapping.encode(adminService.getCities());
 			model.addAttribute("cities", cities);
-			return "touroperatorSignup";
+			return "touroperator/signup";
 		}
 	}
-
+	
 	@RequestMapping(value="/showPackage",method=RequestMethod.GET)
 	public String getPackages(@RequestParam(value="type", required=true) String type,HttpSession session,Model model) {
 		if(!isActiveSession(session)){
@@ -181,7 +198,5 @@ public class HomeController {
 		
 		return page.toString();
 	} 
-	
-	
-	
+
 }

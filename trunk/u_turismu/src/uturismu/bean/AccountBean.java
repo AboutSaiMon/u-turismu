@@ -1,11 +1,14 @@
 package uturismu.bean;
 
+import org.hibernate.validator.constraints.Email;
+
 import uturismu.dto.enumtype.AccountType;
 
 public abstract class AccountBean implements UTurismuBean {
 
 	private static final long serialVersionUID = 4056061660770229368L;
 	private Long userId;
+	@Email
 	private String email;
 	private AccountType type;
 
