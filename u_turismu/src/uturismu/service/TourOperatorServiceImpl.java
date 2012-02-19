@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import uturismu.dao.HolidayPackageDao;
+import uturismu.dao.TourOperatorDao;
 import uturismu.dto.HolidayPackage;
 
 @Service
@@ -54,4 +55,5 @@ public class TourOperatorServiceImpl implements TourOperatorService {
 	public Long createHolidayPackage(HolidayPackage holidayPackage) {
 		return holidayPackageDao.save(holidayPackage);
 	}
+
 }

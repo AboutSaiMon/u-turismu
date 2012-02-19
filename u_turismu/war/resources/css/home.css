@@ -65,7 +65,8 @@ div{
 	background-color: rgba(99,99,99,.5);
 	border-radius: 10px;
 	padding-left:10px;
-	padding-top: 5px;	
+	padding-top: 5px;
+		
 }
 
 #contentPage{
@@ -209,6 +210,7 @@ div.box{
 	margin-top: 5px;
 	padding-top: 10px;
 	padding-left: 20px;
+	padding-right: 20px;
 }
 
 #accountFunction{
@@ -250,3 +252,23 @@ div.box{
 #signupForm .error {
 	color: blue;
 }
+
+.marker{
+	font-weight:bold;
+	font-size: medium;
+	color: blue;
+}
+
+.right{
+	float:right;
+}
+	
+.center{
+	position: absolute;
+	left: 20%;
+}
+
+.left{
+	float: :left;
+}
+

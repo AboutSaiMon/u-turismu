@@ -54,6 +54,7 @@ public interface TourOperatorService {
 	 * @param holidayPackage
 	 *           l'oggetto di tipo {@link HolidayPackage} da aggiornare
 	 */
+	
 	public void updateHolidayPackage(HolidayPackage holidayPackage);
 
 	public void deleteHolidayPackage(HolidayPackage holidayPackage);
