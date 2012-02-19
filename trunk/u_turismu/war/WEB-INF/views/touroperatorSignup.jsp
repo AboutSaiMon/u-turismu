@@ -15,8 +15,7 @@
 		<div><jsp:include page="image.jsp" /></div>
 		<div id="contentPage">
 			<div id="signup" class="signup content">
-				<sf:form id="signupForm" action="signup?new=touroperator"
-					method="post" commandName="toSignup">
+				<sf:form id="signupForm" action="signup?newTo" method="post" commandName="toSignup">
 					<table>
 						<tr>
 							<td><label class="label">Email</label></td>

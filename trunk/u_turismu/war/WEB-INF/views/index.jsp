@@ -17,11 +17,11 @@
 				<sf:form id="loginForm" action="login" method="post" commandName="login">
 					<label class="label">Email</label>
 					<sf:input path="loginEmail" cssClass="fieldIN" />
-					<sf:errors path="loginEmail" cssClass="fieldIN error" />
+					<sf:errors path="loginEmail" cssClass="error" />
 
 					<label class="label">Password</label>
 					<sf:password path="loginPassword" cssClass="fieldIN" />
-					<sf:errors path="loginPassword" cssClass="fieldIN error" />
+					<sf:errors path="loginPassword" cssClass="error" />
 
 					<input type="submit" value="Log In" />
 				</sf:form>
@@ -36,11 +36,11 @@
 				<sf:form id="signupForm" action="signup" method="post" commandName="signup">
 					<label>Email</label><br>
 					<sf:input path="signupEmail" cssClass="fieldIN" /><br />
-					<sf:errors path="signupEmail" cssClass="fieldIN error" /><br />
+					<sf:errors path="signupEmail" cssClass="error" /><br />
 
 					<label>Password</label><br />
 					<sf:password path="signupPassword" cssClass="fieldIN" /><br />
-					<sf:errors path="signupPassword" cssClass="fieldIN error" /><br />
+					<sf:errors path="signupPassword" cssClass="error" /><br />
 
 					<label class="label">Booker</label>
 					<input type="radio" name="user" value="Booker" checked="checked" />
