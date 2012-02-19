@@ -12,7 +12,7 @@
 <body>
 	<div id="mainPage">
 		<div id="topPage"></div>
-		<div><jsp:include page="image.jsp" /></div>
+		<div><jsp:include page="../image.jsp" /></div>
 		<div id="contentPage">
 			<div id="signup" class="signup content">
 				<sf:form id="signupForm" action="signup?newTo" method="post" commandName="signup">

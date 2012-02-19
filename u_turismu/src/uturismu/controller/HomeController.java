@@ -22,6 +22,8 @@
  */
 package uturismu.controller;
 
+import static uturismu.controller.util.SessionCheck.isActiveSession;
+
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -34,6 +36,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -130,15 +133,16 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "signup", params = "newTo", method = RequestMethod.POST)
-	public String signup(@Valid TourOperatorSignup signup, BindingResult result, Model model, HttpSession session) {
+	public String signup(@Valid TourOperatorSignup signup, BindingResult result, Model model,
+			HttpSession session) {
 		// se ci sono errori nella validazione o la città non è stata selezionata
 		if (result.hasErrors() || signup.getCity() == 0) {
 			List<CityBean> cities = BeanMapping.encode(adminService.getCities());
 			model.addAttribute("cities", cities);
-			
+
 			TourOperatorSignup bean = (TourOperatorSignup) session.getAttribute("signup");
 			model.addAttribute("signup", bean);
-			
+
 			return "touroperatorSignup";
 		}
 		// altrimenti recupera l'oggetto City in base all'id specificato nel bean
@@ -179,24 +183,25 @@ public class HomeController {
 			return "touroperator/signup";
 		}
 	}
-	
-	@RequestMapping(value="/showPackage",method=RequestMethod.GET)
-	public String getPackages(@RequestParam(value="type", required=true) String type,HttpSession session,Model model) {
-		if(!isActiveSession(session)){
+
+	@RequestMapping(value = "/showPackage", method = RequestMethod.GET)
+	public String getPackages(@RequestParam(value = "type", required = true) String type,
+			HttpSession session, Model model) {
+		if (!isActiveSession(session)) {
 			return "forward:";
 		}
-		
-		StringBuffer page=new StringBuffer("forward:");
-		AccountBean account=(AccountBean) session.getAttribute("account");
-		if(account.getType().equals(AccountType.TOUR_OPERATOR)){
+
+		StringBuffer page = new StringBuffer("forward:");
+		AccountBean account = (AccountBean) session.getAttribute("account");
+		if (account.getType().equals(AccountType.TOUR_OPERATOR)) {
 			page.append("to/packages");
-		}else if(account.getType().equals(AccountType.BOOKER)){
+		} else if (account.getType().equals(AccountType.BOOKER)) {
 			page.append("bo/packages");
-		}else{
+		} else {
 			page.append("/");
 		}
-		
+
 		return page.toString();
-	} 
+	}
 
 }
