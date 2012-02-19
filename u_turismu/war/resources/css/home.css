@@ -91,12 +91,34 @@ div{
     /*border: 1px solid #ccc;*/
 }
 
+/* .box{ */
+/* 	padding: 1px 0; */
+/* } */
+/* .box-inner{ */
+/* 	height:350px; */
+/* 	margin:25px 24px 0; */
+/* 	padding-right: 2px;	 */
+/* } */
+
+div.box{
+	width:690px !important;
+	width /**/:690px;
+    height:200px !important;
+    height /**/: 200px;
+    overflow:auto;
+    padding: 4px;
+    border:1px solid #EEE;
+    border-right:0 solid;
+    background:url(gradient.png) repeat-x fixed top left
+}
+
 #content{
 	padding-left:10px;
 	float:left;
 	width:690px;
 	min-height:400px;
-	height:auto;
+/* 	height:auto; */
+	height:400px;
 	background-color:#E0E0E0;
     background-color: rgba(255,250,255,.6); 
 }
@@ -106,7 +128,7 @@ div{
 	float:right;
 	min-width: 290px;
 	max-width: 300px;
-	min-height:400px;
+	min-height:409px;
 	height:auto;
 	
 	background: rgba(215,69,24,.6);
@@ -221,13 +243,10 @@ div{
 }
 
 .error {
-/* 	position:fixed; */
-/*	top:-20px;*/
 	color: red;
 	font-size: 14px;
 	background-color: rgba(255,250,255,.6);
 }
-
 #signupForm .error {
 	color: blue;
 }
