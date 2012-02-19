@@ -1,23 +1,15 @@
 package uturismu.bean;
 
-import java.util.Date;
-
-import org.hibernate.validator.constraints.Email;
-
-import uturismu.dto.enumtype.Gender;
-import uturismu.dto.enumtype.IdType;
-
-public class BookerSignup implements UTurismuBean {
+public class BookerSignup extends UserSignup {
 
 	private static final long serialVersionUID = 4702479286477388263L;
-	@Email
-	private String email;
-	private String password;
 	private String taxCode;
 	private String firstName;
 	private String lastName;
-	private Gender gender;
-	private Date birthDate;
+	private String gender;
+	private Integer birthDay;
+	private Integer birthMonth;
+	private Integer birthYear;
 	private Long birthPlace;
 
 	private String street;
@@ -25,26 +17,10 @@ public class BookerSignup implements UTurismuBean {
 	private Long city;
 
 	private String identificationDocumentNumber;
-	private IdType identificationDocumentType;
+	private String identificationDocumentType;
 	private String issuingAuthority;
 
 	public BookerSignup() {
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getTaxCode() {
@@ -71,20 +47,36 @@ public class BookerSignup implements UTurismuBean {
 		this.lastName = lastName;
 	}
 
-	public Gender getGender() {
+	public String getGender() {
 		return gender;
 	}
 
-	public void setGender(Gender gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 
-	public Date getBirthDate() {
-		return birthDate;
+	public Integer getBirthDay() {
+		return birthDay;
 	}
 
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
+	public void setBirthDay(Integer birthDay) {
+		this.birthDay = birthDay;
+	}
+
+	public Integer getBirthMonth() {
+		return birthMonth;
+	}
+
+	public void setBirthMonth(Integer birthMonth) {
+		this.birthMonth = birthMonth;
+	}
+
+	public Integer getBirthYear() {
+		return birthYear;
+	}
+
+	public void setBirthYear(Integer birthYear) {
+		this.birthYear = birthYear;
 	}
 
 	public Long getBirthPlace() {
@@ -127,11 +119,11 @@ public class BookerSignup implements UTurismuBean {
 		this.identificationDocumentNumber = identificationDocumentNumber;
 	}
 
-	public IdType getIdentificationDocumentType() {
+	public String getIdentificationDocumentType() {
 		return identificationDocumentType;
 	}
 
-	public void setIdentificationDocumentType(IdType identificationDocumentType) {
+	public void setIdentificationDocumentType(String identificationDocumentType) {
 		this.identificationDocumentType = identificationDocumentType;
 	}
 

@@ -43,6 +43,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import uturismu.bean.AccountBean;
+import uturismu.bean.BookerBean;
+import uturismu.bean.BookerSignup;
 import uturismu.bean.CityBean;
 import uturismu.bean.HolidayPackageBean;
 import uturismu.bean.Login;
@@ -50,7 +52,9 @@ import uturismu.bean.Signup;
 import uturismu.bean.TourOperatorBean;
 import uturismu.bean.TourOperatorSignup;
 import uturismu.bean.UTurismuBean;
+import uturismu.bean.UserSignup;
 import uturismu.bean.util.BeanMapping;
+import uturismu.bean.util.DateGenerator;
 import uturismu.dto.Account;
 import uturismu.dto.Booker;
 import uturismu.dto.City;
@@ -75,9 +79,11 @@ public class HomeController {
 
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public String showIndex(HttpSession session, Model model) {
+		System.out.println("showIndex");
 		AccountBean account = null;
 		account = (AccountBean) session.getAttribute("account");
 		if (account != null) {
+			System.out.println(account.getType());
 			if (account.getType().equals(AccountType.TOUR_OPERATOR)) {
 				return "forward:to/home";
 			} else if (account.getType().equals(AccountType.BOOKER)) {
@@ -143,9 +149,11 @@ public class HomeController {
 			model.addAttribute("cities", cities);
 
 			TourOperatorSignup bean = (TourOperatorSignup) session.getAttribute("signup");
-			model.addAttribute("signup", bean);
+			signup.setEmail(bean.getEmail());
+			signup.setPassword(bean.getPassword());
+			model.addAttribute("signup", signup);
 
-			return "touroperatorSignup";
+			return "touroperator/signup";
 		}
 		// altrimenti recupera l'oggetto City in base all'id specificato nel bean
 		// "signup"
@@ -153,11 +161,61 @@ public class HomeController {
 		// recupera un oggetto "TourOperator" mediante il bean "signup"
 		TourOperator tourOperator = BeanMapping.getTourOperator(signup, city);
 		// recupera l'oggetto account
-		Account account = BeanMapping.getAccount((TourOperatorSignup) session.getAttribute("signup"));
+		Account account = BeanMapping.getAccount((UserSignup) session.getAttribute("signup"));
 		// rende l'account persistente
 		userService.createAccount(account, tourOperator);
-		// crea il bean da settare nella sessione
-		TourOperatorBean accountBean = BeanMapping.encode(account, tourOperator);
+		// crea il bean da settare nella sessione (mediante il modello)
+		TourOperatorBean accountBean = BeanMapping.encode(account, tourOperator);	// TODO
+		model.addAttribute("account", accountBean);
+		return "redirect:home";
+	}
+/*	
+	@RequestMapping(value = "signup", params = "newBo", method = RequestMethod.POST)
+	public String signup(Model model) {
+		model.addAttribute("login", new Login());
+		model.addAttribute("signup", new Signup());
+		List<HolidayPackageBean> list = BeanMapping.encode(userService.getHolidayPackages());
+		model.addAttribute("holidayList", list);
+		return "redirect:/";
+	}
+*/	
+
+	@RequestMapping(value = "signup", params = "newBo", method = RequestMethod.POST)
+	public String signup(@Valid BookerSignup signup, BindingResult result, Model model,
+			HttpSession session) {
+		// se ci sono errori nella validazione
+		if (result.hasErrors()) {
+			// setta il bean per il form
+			BookerSignup bean = (BookerSignup) session.getAttribute("signup");
+			signup.setEmail(bean.getEmail());
+			signup.setPassword(bean.getPassword());
+			model.addAttribute("signup", signup);
+			// setta le città
+			List<CityBean> cities = BeanMapping.encode(adminService.getCities());
+			model.addAttribute("cities", cities);
+			// setta i campi data
+			model.addAttribute("days", DateGenerator.getDays());
+			model.addAttribute("months", DateGenerator.getMonths());
+			model.addAttribute("years", DateGenerator.getYears());
+			return "booker/signup";
+		}
+		Long birthPlaceId = signup.getBirthPlace();
+		Long residenceCityId = signup.getCity();
+		Booker booker = null;
+		if (birthPlaceId == residenceCityId) {
+			City city = adminService.getCityById(birthPlaceId);
+			booker = BeanMapping.getBooker(signup, city, city);
+		} else {
+			City birthPlace = adminService.getCityById(birthPlaceId);
+			City residenceCity = adminService.getCityById(residenceCityId);
+			booker = BeanMapping.getBooker(signup, birthPlace, residenceCity);
+		}
+		// recupera l'oggetto account
+		Account account = BeanMapping.getAccount((UserSignup) session.getAttribute("signup"));
+		// rende l'account persistente
+		userService.createAccount(account, booker);
+		// crea il bean da settare nella sessione (mediante il modello)
+		BookerBean accountBean = BeanMapping.encode(account, booker);
 		model.addAttribute("account", accountBean);
 		return "redirect:home";
 	}
@@ -168,13 +226,28 @@ public class HomeController {
 		Account account = userService.getAccountByEmail(signup.getSignupEmail());
 		// se ci sono errori nella compilazione dei campi
 		if (result.hasErrors() || account != null) {
+			// setta il bean per il form login nella index
 			model.addAttribute("login", new Login());
+			// setta la lista dei pacchetti da visualizzare nella index
+			List<HolidayPackageBean> list = BeanMapping.encode(userService.getHolidayPackages());
+			model.addAttribute("holidayList", list);
 			// restituisce il nome della pagina iniziale con errore
 			return "index";
 		}
 		if (user.equals("Booker")) {
-
-			return "";
+			BookerSignup bean = new BookerSignup();
+			bean.setEmail(signup.getSignupEmail());
+			bean.setPassword(signup.getSignupPassword());
+			model.addAttribute("signup", bean);
+			session.setAttribute("signup", bean);
+			// setta le città
+			List<CityBean> cities = BeanMapping.encode(adminService.getCities());
+			model.addAttribute("cities", cities);
+			// setta i campi data
+			model.addAttribute("days", DateGenerator.getDays());
+			model.addAttribute("months", DateGenerator.getMonths());
+			model.addAttribute("years", DateGenerator.getYears());
+			return "booker/signup";
 		} else {
 			TourOperatorSignup bean = new TourOperatorSignup();
 			bean.setEmail(signup.getSignupEmail());
@@ -183,7 +256,7 @@ public class HomeController {
 			session.setAttribute("signup", bean);
 			List<CityBean> cities = BeanMapping.encode(adminService.getCities());
 			model.addAttribute("cities", cities);
-			return "touroperatorSignup";
+			return "touroperator/signup";
 		}
 	}
 

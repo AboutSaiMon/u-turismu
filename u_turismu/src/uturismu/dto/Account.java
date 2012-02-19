@@ -151,10 +151,12 @@ public class Account implements Serializable {
 
 	public void setTourOperator(TourOperator tourOperator) {
 		this.tourOperator = tourOperator;
+		type = AccountType.TOUR_OPERATOR;
 	}
 
 	public void setBooker(Booker booker) {
 		this.booker = booker;
+		type = AccountType.BOOKER;
 	}
 
 	@Override

@@ -61,12 +61,27 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void createAccount(Account account, Booker booker) {
+		doJob(account);
+		// effettua i collegamenti incrociati tra i due oggetti
+		booker.setAccount(account);
+		account.setBooker(booker);
+		// li rende persistenti
 		accountDao.save(account);
 		bookerDao.save(booker);
 	}
 
 	@Override
 	public void createAccount(Account account, TourOperator tourOperator) {
+		doJob(account);
+		// effettua i collegamenti incrociati tra i due oggetti
+		tourOperator.setAccount(account);
+		account.setTourOperator(tourOperator);
+		// li rende persistenti
+		accountDao.save(account);
+		tourOperatorDao.save(tourOperator);
+	}
+
+	private void doJob(Account account) {
 		// setta il timestamp di registrazione e ultimo accesso
 		account.setRegistrationTimestamp(new Date());
 		account.setLastAccessTimestamp(account.getRegistrationTimestamp());
@@ -77,16 +92,9 @@ public class UserServiceImpl implements UserService {
 		// setta il sale e la password
 		account.setSalt(salt);
 		account.setPassword(password);
-		// effettua i collegamenti incrociati tra i due oggetti
-		tourOperator.setAccount(account);
-		account.setTourOperator(tourOperator);
-		// li rende persistenti
-		accountDao.save(account);
-		tourOperatorDao.save(tourOperator);
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public Account logIn(String email, String password) {
 		Account account = accountDao.findByEmail(email);
 		if (account == null) {
@@ -99,6 +107,8 @@ public class UserServiceImpl implements UserService {
 		if (!HashUtil.getHash(password, salt).equals(account.getPassword())) {
 			throw new AccountException(ExceptionMessages.INCORRECT_CREDENTIAL);
 		}
+		account.setLastAccessTimestamp(new Date());
+		accountDao.update(account);
 		return account;
 	}
 
