@@ -32,11 +32,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -68,14 +65,6 @@ public class HomeController {
 	private UserService userService;
 	@Autowired
 	private AdministratorService adminService;
-
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public @ResponseBody
-	String testJQUERY(@RequestParam("id") String id) {
-		System.out.println(" HELLO JQUERY");
-		String result = new String(" HELLO JQUERY");
-		return result;
-	}
 
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public String showIndex(HttpSession session, Model model) {
@@ -139,6 +128,15 @@ public class HomeController {
 		return "redirect:/";
 	}
 
+	@RequestMapping(value = "signup", params = "newTo", method = RequestMethod.POST)
+	public String signup(@Valid TourOperatorSignup toSignup, BindingResult result) {
+		if (result.hasErrors()) {
+			return "touroperatorSignup";
+		}
+		// TODO: DEVI SCRIVERE IL CODICE PER INVIARE L'UTENTE NELLA SUA HOMEPAGE
+		return "index";	// TODO: va eliminato il return e messo quello giusto
+	}
+
 	@RequestMapping(value = "signup", method = RequestMethod.POST)
 	public String tryToSignup(@Valid Signup signup, BindingResult result, String user, Model model) {
 		// se ci sono errori nella compilazione dei campi
@@ -158,14 +156,6 @@ public class HomeController {
 			model.addAttribute("cities", cities);
 			return "touroperatorSignup";
 		}
-	}
-
-	@RequestMapping(value = "/showPack", method = RequestMethod.GET)
-	public @ResponseBody
-	String testGet(@RequestBody String packId, HttpSession session) {
-		System.out.println(" ciao jquery  ");
-
-		return "APPENDIMi";
 	}
 
 }
