@@ -41,11 +41,17 @@ public class AdministratorServiceImpl implements AdministratorService {
 
 	@Autowired
 	private CityDao cityDao;
-	
+
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public List<City> getCities() {
 		return cityDao.findAll();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public City getCityById(Long id) {
+		return cityDao.findById(id);
 	}
 
 }

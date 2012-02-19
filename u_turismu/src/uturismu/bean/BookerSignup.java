@@ -2,12 +2,15 @@ package uturismu.bean;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.Email;
+
 import uturismu.dto.enumtype.Gender;
 import uturismu.dto.enumtype.IdType;
 
 public class BookerSignup implements UTurismuBean {
 
 	private static final long serialVersionUID = 4702479286477388263L;
+	@Email
 	private String email;
 	private String password;
 	private String taxCode;
