@@ -150,4 +150,14 @@ public interface UserService {
 	 */
 	public Booker getBookerById(Long id);
 
+	/**
+	 * Restituisce un {@link Account} con una determinata email. Se l'email non
+	 * esiste, restituisce <code>null</code>
+	 * 
+	 * @param email
+	 *           l'email da ricercare
+	 * @return {@link Account}
+	 */
+	public Account getAccountByEmail(String email);
+
 }
