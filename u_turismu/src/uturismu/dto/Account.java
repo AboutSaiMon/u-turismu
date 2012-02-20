@@ -27,18 +27,15 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
-
-import uturismu.dto.enumtype.AccountType;
 
 /**
  * @author "LagrecaSpaccarotella" team.
@@ -55,7 +52,6 @@ public class Account implements Serializable {
 	private Date registrationTimestamp;
 	private Date lastAccessTimestamp;
 	private Boolean active;
-	private AccountType type;
 	private TourOperator tourOperator;
 	private Booker booker;
 
@@ -69,8 +65,7 @@ public class Account implements Serializable {
 		return id;
 	}
 
-	
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	public String getEmail() {
 		return email;
 	}
@@ -102,11 +97,6 @@ public class Account implements Serializable {
 		return active;
 	}
 
-	@Enumerated(EnumType.STRING)
-	public AccountType getType() {
-		return type;
-	}
-
 	@OneToOne(mappedBy = "account")
 	public TourOperator getTourOperator() {
 		return tourOperator;
@@ -115,6 +105,16 @@ public class Account implements Serializable {
 	@OneToOne(mappedBy = "account")
 	public Booker getBooker() {
 		return booker;
+	}
+
+	@Transient
+	public boolean isBooker() {
+		return booker != null && tourOperator == null;
+	}
+
+	@Transient
+	public boolean isTourOperator() {
+		return tourOperator != null && booker == null;
 	}
 
 	public void setId(Long id) {
@@ -145,18 +145,12 @@ public class Account implements Serializable {
 		this.active = active;
 	}
 
-	public void setType(AccountType type) {
-		this.type = type;
-	}
-
 	public void setTourOperator(TourOperator tourOperator) {
 		this.tourOperator = tourOperator;
-		type = AccountType.TOUR_OPERATOR;
 	}
 
 	public void setBooker(Booker booker) {
 		this.booker = booker;
-		type = AccountType.BOOKER;
 	}
 
 	@Override
@@ -171,7 +165,6 @@ public class Account implements Serializable {
 		result = prime * result
 				+ ((registrationTimestamp == null) ? 0 : registrationTimestamp.hashCode());
 		result = prime * result + ((salt == null) ? 0 : salt.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
 
@@ -213,8 +206,6 @@ public class Account implements Serializable {
 			if (other.salt != null)
 				return false;
 		} else if (!salt.equals(other.salt))
-			return false;
-		if (type != other.type)
 			return false;
 		return true;
 	}

@@ -100,6 +100,7 @@ public class UserServiceImpl implements UserService {
 		Account account = accountDao.findByEmail(email);
 		if (account == null) {
 			throw new AccountException(ExceptionMessages.INCORRECT_CREDENTIAL);
+
 		}
 		if (!account.isActive()) {
 			throw new AccountException(ExceptionMessages.ACCOUNT_DISABLED);
@@ -177,12 +178,11 @@ public class UserServiceImpl implements UserService {
 		accountDao.update(account);
 		tourOperatorDao.update(tourOperator);
 	}
-	
+
 	@Override
 	public void update(Account account, Booker booker) {
 		accountDao.update(account);
 		bookerDao.update(booker);
 	}
-	
 
 }

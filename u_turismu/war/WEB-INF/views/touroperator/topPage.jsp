@@ -1,18 +1,15 @@
-
-
 <%@page import="uturismu.bean.TourOperatorBean"%>
 <%@page import="uturismu.bean.AccountBean"%>
 
 <% 
 	TourOperatorBean account = (TourOperatorBean) session.getAttribute("account");
 %>
-
 <div id="accountData">
 	<span class="marker">
-		<%=account.getName()%> 
+		Tour Operator: <%=account.getName()%> 
 	</span>
 	<span class="marker right">
-		<%=account.getEmail()%> 
+		(<%=account.getEmail()%>) 
 	</span>
 </div>
 

@@ -72,6 +72,7 @@ public class BeanMapping {
 			dto.setIdentificationDocumentType(IdType.VISA);
 		}
 		dto.setIdentificationDocumentNumber(bean.getIdentificationDocumentNumber());
+		dto.setIssuingAuthority(bean.getIssuingAuthority());
 		return dto;
 	}
 
@@ -137,7 +138,7 @@ public class BeanMapping {
 		BookerBean bean = new BookerBean();
 		bean.setUserId(booker.getId());
 		bean.setEmail(account.getEmail());
-		bean.setType(account.getType());
+		bean.setType(AccountType.BOOKER);
 
 		bean.setTaxCode(booker.getTaxCode());
 		bean.setFirstName(booker.getFirstName());
@@ -150,7 +151,7 @@ public class BeanMapping {
 		Long id = tourOperator.getId();
 		bean.setUserId(id);
 		bean.setEmail(account.getEmail());
-		bean.setType(account.getType());
+		bean.setType(AccountType.TOUR_OPERATOR);
 
 		bean.setVatNumber(tourOperator.getVatNumber());
 		bean.setName(tourOperator.getName());

@@ -316,7 +316,6 @@ public class TourOperatorManagementTest {
 		account.setPassword(HashUtil.getHash(password, salt));
 		account.setLastAccessTimestamp(new Date());
 		account.setRegistrationTimestamp(new Date());
-		account.setType(type);
 		return account;
 	}
 
