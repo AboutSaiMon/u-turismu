@@ -22,6 +22,9 @@
  */
 package uturismu;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -33,11 +36,21 @@ import org.hibernate.Transaction;
 public class HibernateTest {
 
 	public static void main(String[] args) {
-		Session session = HibernateUtil.getSession();
-		Transaction transaction = session.beginTransaction();
 		
-		transaction.commit();
-		session.close();
+		Date data = new Date();
+		Calendar calendar=Calendar.getInstance();
+		
+		
+		
+		System.out.println(calendar.get(Calendar.DAY_OF_MONTH));
+		System.out.println(calendar.get(Calendar.MONTH)+1);
+		System.out.println(calendar.get(Calendar.YEAR));
+		
+//		Session session = HibernateUtil.getSession();
+//		Transaction transaction = session.beginTransaction();
+//		
+//		transaction.commit();
+//		session.close();
 	}
 
 }
