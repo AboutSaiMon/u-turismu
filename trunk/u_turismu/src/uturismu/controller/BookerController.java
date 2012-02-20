@@ -45,7 +45,7 @@ public class BookerController {
 		return "home";
 	}
 	
-	@RequestMapping(value="/updateBo")
+	@RequestMapping(value="/updateBo",method=RequestMethod.GET)
 	public String prepareUpdate(HttpSession session,Model model){
 		if(!isBooker(session)){
 			return "redirect:/";
