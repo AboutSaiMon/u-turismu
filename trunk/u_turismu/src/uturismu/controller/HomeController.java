@@ -51,17 +51,18 @@ import uturismu.bean.Login;
 import uturismu.bean.Signup;
 import uturismu.bean.TourOperatorBean;
 import uturismu.bean.TourOperatorSignup;
-import uturismu.bean.UTurismuBean;
 import uturismu.bean.UserSignup;
 import uturismu.bean.util.BeanMapping;
 import uturismu.bean.util.DateGenerator;
 import uturismu.dto.Account;
 import uturismu.dto.Booker;
 import uturismu.dto.City;
+import uturismu.dto.HolidayPackage;
 import uturismu.dto.TourOperator;
 import uturismu.dto.enumtype.AccountType;
 import uturismu.exception.AccountException;
 import uturismu.service.AdministratorService;
+import uturismu.service.TourOperatorService;
 import uturismu.service.UserService;
 
 /**
@@ -73,22 +74,28 @@ import uturismu.service.UserService;
 public class HomeController {
 
 	@Autowired
+	private TourOperatorService touroperatorService;
+	@Autowired
 	private UserService userService;
 	@Autowired
 	private AdministratorService adminService;
 
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public String showIndex(HttpSession session, Model model) {
-		System.out.println("showIndex");
 		AccountBean account = null;
 		account = (AccountBean) session.getAttribute("account");
 		if (account != null) {
-			System.out.println(account.getType());
+			List<HolidayPackage> holidayResult = null;
 			if (account.getType().equals(AccountType.TOUR_OPERATOR)) {
-				return "forward:to/home";
+				holidayResult = touroperatorService.getAllHolidayPackages(account.getUserId());
 			} else if (account.getType().equals(AccountType.BOOKER)) {
-				return "forward:bo/home";
+				holidayResult = userService.getHolidayPackages();
 			}
+			List<HolidayPackageBean> packs = BeanMapping.encode(holidayResult);
+			model.addAttribute("menu", "defaultMenu.jsp");
+			model.addAttribute("content", "content.jsp");
+			model.addAttribute("packs", packs);
+			return "home";
 		}
 		model.addAttribute("login", new Login());
 		model.addAttribute("signup", new Signup());
@@ -99,7 +106,6 @@ public class HomeController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@Valid Login login, BindingResult result, Model model) {
-		StringBuffer forwardPage = new StringBuffer("forward:");
 		// se ci sono errori nella compilazione dei campi
 		if (result.hasErrors()) {
 			model.addAttribute("signup", new Signup());
@@ -109,27 +115,27 @@ public class HomeController {
 		try {
 			// effettua il login
 			Account account = userService.logIn(login.getLoginEmail(), login.getLoginPassword());
-			// dichiara il bean che verrà passato nella sessione
-			UTurismuBean bean = null;
-			// se è un tour operator
-			if (account.getType().equals(AccountType.TOUR_OPERATOR)) {
+			// dichiara l'account che verrà settato nella sessione
+			AccountBean bean = null;
+			// verifica se è un TourOperator o un Booker
+			if (account.isTourOperator()) {
+				// acquisisce il TourOperator
 				TourOperator tourOperator = account.getTourOperator();
 				// codifica i due oggetti DTO in un bean
 				bean = BeanMapping.encode(account, tourOperator);
-				forwardPage.append("to/home");
-			} else if (account.getType().equals(AccountType.BOOKER)) {
-				// acquisisce il booker mediante il suo id
-				Booker booker = userService.getBookerById(account.getBooker().getId());
+			} else if (account.isBooker()) {
+				// acquisisce il booker
+				Booker booker = account.getBooker();
 				// codifica i due oggetti DTO in un bean
 				bean = BeanMapping.encode(account, booker);
-				forwardPage.append("bo/home");
 			}
 			model.addAttribute("account", bean);
 		} catch (AccountException e) {
-			model.addAttribute("message", e.getMessage());
-			return "errorPage";
+			model.addAttribute("loginMessage", "L'account non esiste");
+			model.addAttribute("signup", new Signup());
+			return "index";
 		}
-		return forwardPage.toString();
+		return "redirect:home";
 	}
 
 	@RequestMapping(value = "logout")
@@ -165,20 +171,10 @@ public class HomeController {
 		// rende l'account persistente
 		userService.createAccount(account, tourOperator);
 		// crea il bean da settare nella sessione (mediante il modello)
-		TourOperatorBean accountBean = BeanMapping.encode(account, tourOperator);	// TODO
+		TourOperatorBean accountBean = BeanMapping.encode(account, tourOperator);
 		model.addAttribute("account", accountBean);
 		return "redirect:home";
 	}
-/*	
-	@RequestMapping(value = "signup", params = "newBo", method = RequestMethod.POST)
-	public String signup(Model model) {
-		model.addAttribute("login", new Login());
-		model.addAttribute("signup", new Signup());
-		List<HolidayPackageBean> list = BeanMapping.encode(userService.getHolidayPackages());
-		model.addAttribute("holidayList", list);
-		return "redirect:/";
-	}
-*/	
 
 	@RequestMapping(value = "signup", params = "newBo", method = RequestMethod.POST)
 	public String signup(@Valid BookerSignup signup, BindingResult result, Model model,
@@ -225,7 +221,19 @@ public class HomeController {
 			HttpSession session) {
 		Account account = userService.getAccountByEmail(signup.getSignupEmail());
 		// se ci sono errori nella compilazione dei campi
-		if (result.hasErrors() || account != null) {
+		if (result.hasErrors()) {
+			// setta il bean per il form login nella index
+			model.addAttribute("login", new Login());
+			// setta la lista dei pacchetti da visualizzare nella index
+			List<HolidayPackageBean> list = BeanMapping.encode(userService.getHolidayPackages());
+			model.addAttribute("holidayList", list);
+			// restituisce il nome della pagina iniziale con errore
+			return "index";
+		}
+		// se l'account esiste già
+		if (account != null) {
+			// setta il messaggio di errore
+			model.addAttribute("signupMessage", "Scegli una mail diversa");
 			// setta il bean per il form login nella index
 			model.addAttribute("login", new Login());
 			// setta la lista dei pacchetti da visualizzare nella index

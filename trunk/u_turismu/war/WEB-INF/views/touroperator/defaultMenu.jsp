@@ -1,7 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
-
 <ul>
 		<a id="addPackage" href="newPackage?add=new"><li>Add Holiday Package</li></a>
 		<hr>

@@ -11,9 +11,7 @@ import uturismu.bean.AccountBean;
 @Controller
 public class BookerController {
 
-	
-	
-	@RequestMapping(value="bo/home", method=RequestMethod.POST)
+	@RequestMapping(value = "bo/home", method = RequestMethod.POST)
 	public String showHomePage(HttpSession webSession) {
 		AccountBean account = (AccountBean) webSession.getAttribute("account");
 		if (account == null) {

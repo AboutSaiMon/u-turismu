@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -15,16 +14,20 @@
 		<div><jsp:include page="../image.jsp" /></div>
 		<div id="contentPage">
 			<div id="content" class="signup content">
-				<sf:form id="signupForm" action="signup?newTo" method="post" commandName="signup">
+				<a href="home" class="button right">Home</a>
+				<sf:form id="signupForm" action="signup?newTo" method="post"
+					commandName="signup">
 					<table>
 						<tr>
 							<td><label class="label">Email</label></td>
-							<td><sf:input disabled="true" path="email" value="${signup.email}" class="fieldIN" /></td>
+							<td><sf:input disabled="true" path="email"
+									value="${signup.email}" class="fieldIN" /></td>
 							<td><sf:errors path="email" cssClass="fieldIN error" /></td>
 						</tr>
 						<tr>
 							<td><label class="label">Password</label></td>
-							<td><sf:password disabled="true" path="password" value="${signup.password}" class="fieldIN" /></td>
+							<td><sf:password disabled="true" path="password"
+									value="${signup.password}" class="fieldIN" /></td>
 							<td><sf:errors path="password" cssClass="fieldIN error" /></td>
 						</tr>
 						<tr>
@@ -54,12 +57,10 @@
 						</tr>
 						<tr>
 							<td><label class="label">Città</label></td>
-							<td>
-								<sf:select path="city">
+							<td><sf:select path="city">
 									<sf:option value="0" label="--Seleziona la città" />
 									<sf:options items="${cities}" itemValue="id" itemLabel="name" />
-								</sf:select>
-							</td>
+								</sf:select></td>
 						</tr>
 					</table>
 					<input type="submit" value="Sign Up" />

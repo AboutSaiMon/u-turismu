@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link type="text/css" rel="stylesheet" href="resources/css/home.css" />
-<title>Sign Up</title>
+<title>Booker Sign Up</title>
 </head>
 <body>
 	<div id="mainPage">
@@ -14,7 +14,7 @@
 		<div><jsp:include page="../image.jsp" /></div>
 		<div id="contentPage">
 			<div id="content" class="signup content box">
-			
+				<a href="home" class="button right">Home</a>
 				<sf:form id="signupForm" action="signup?newBo" method="post" commandName="signup">
 					<table>
 						<tr>
