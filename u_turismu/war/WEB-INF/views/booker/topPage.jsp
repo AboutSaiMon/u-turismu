@@ -11,6 +11,6 @@
 	 </span>
 </div>
 <div id="accountFunction">
-	<a id="accountModify" class="button" href="updateTo">Modifica Account</a>
+	<a id="accountModify" class="button" href="updateBo">Modifica Account</a>
 	<a id="accountLogOut" class="button" href="logout">Log Out</a>
 </div>
