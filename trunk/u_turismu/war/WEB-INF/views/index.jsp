@@ -65,7 +65,7 @@
 			<div id="content" class="content">
 				<ul>
 					<c:forEach var="holiday" items="${holidayList}">
-						<li>${holiday.name} (${holiday.description})</li>
+						<li>${holiday.name} (${holiday.description}) </li>
 					</c:forEach>
 				</ul>
 			</div>
